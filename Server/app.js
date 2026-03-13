@@ -1,11 +1,12 @@
 import express from 'express'
 import { errorHandler } from './Middlewares/errorHandler.js'
-import AppError from './Utilities/AppError.js' 
+import authRouter from './Routes/auth.router.js'
 const app=express()
 
 //json middleware
 app.use(express.json())
-
+//authentication endpoint
+app.use('/api/v1/auth',authRouter)
 //centralized error handler
 app.use(errorHandler)
 //initial route 
