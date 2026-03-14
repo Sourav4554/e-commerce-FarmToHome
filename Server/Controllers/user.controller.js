@@ -1,4 +1,4 @@
-import { currentUserService } from "../Services/user.service.js"
+import { currentUserService,updateProfileService } from "../Services/user.service.js"
 
 //find user controller
 const currentUserController=async(req,res,next)=>{
@@ -14,6 +14,20 @@ try {
 }
 }
 
+//update user profile
+const updateProfileController=async(req,res,next)=>{
+try {
+    const updatedProfile=await updateProfileService(req.body,req.user)
+    return res.status(201).json({
+    message:'profile updated',
+    data:updatedProfile,
+    success:true
+    })
+} catch (error) {
+    next(error)
+}
+}
 export {
-currentUserController
+currentUserController,
+updateProfileController
 }

@@ -1,6 +1,6 @@
 import express from 'express'
 import { authMiddleware } from '../Middlewares/auth.middleware.js'
-import { currentUserController } from '../Controllers/user.controller.js'
+import { currentUserController ,updateProfileController} from '../Controllers/user.controller.js'
 
 const userRouter=express.Router()
 
@@ -10,4 +10,11 @@ authMiddleware,
 currentUserController
 )
 
+//router for update profile
+userRouter.patch(
+    '/update',
+    authMiddleware,
+updateProfileController
+    
+    )
 export default userRouter

@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
     district: {
       type: String,
     },
-    panchayath: {
+    panchayth: {
       type: String,
     },
     ward: {

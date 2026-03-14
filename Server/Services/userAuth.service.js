@@ -16,7 +16,6 @@ export const userRegisterService = async (body) => {
     panchayth,
     ward,
   } = body;
-
   const user = await usermodel.findOne({ email });
   if (user) {
     throw new AppError("user Already Exist", 409);
