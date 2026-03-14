@@ -51,6 +51,9 @@ const userSchema = new mongoose.Schema(
     },
     isapproved: {
       type: Boolean,
+      default:function(){
+      return this.role==='vendor'?false:true
+      }
     },
   },
   { timestamps: true }
