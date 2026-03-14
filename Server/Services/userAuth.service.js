@@ -41,7 +41,8 @@ export const userRegisterService = async (body) => {
 
 //user Login Service
 export const userLoginService = async (email, password) => {
-  const user = await usermodel.findOne({ email });
+  const user = await usermodel.findOne({ email }).select("password email role");
+  console.log(user);
   if (!user) {
     throw new AppError("user doesnt exist pleas register", 401);
   }
