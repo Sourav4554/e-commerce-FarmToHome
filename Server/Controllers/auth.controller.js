@@ -91,6 +91,7 @@ const completeProfileController = async (req, res, next) => {
   }
 };
 
+//logout controller
 const logoutController=(_,res)=>{
 res.clearCookie('token',cookieOptions)
 return res.status(200).json({
