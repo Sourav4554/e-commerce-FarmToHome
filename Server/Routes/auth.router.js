@@ -5,6 +5,7 @@ import {
   userRegistration,
   userLogin,
   completeProfileController,
+  logoutController
 } from "../Controllers/auth.controller.js";
 import { authvalidationResult } from "../Middlewares/Validators/auth.validater.js";
 import { validationErrors } from "../Middlewares/Validators/validationerror.js";
@@ -38,4 +39,7 @@ authRouter.get(
 
 //profile completion after googleauth
 authRouter.patch("/completeprofile", authMiddleware, completeProfileController);
+
+//logout 
+authRouter.post('/logout',logoutController)
 export default authRouter;

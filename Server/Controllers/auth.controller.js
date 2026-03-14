@@ -90,9 +90,18 @@ const completeProfileController = async (req, res, next) => {
     next(error);
   }
 };
+
+const logoutController=(_,res)=>{
+res.clearCookie('token',cookieOptions)
+return res.status(200).json({
+message:'sucessfully logout',
+success:true
+})
+}
 export {
   userRegistration,
   userLogin,
   googleAuthController,
   completeProfileController,
+  logoutController
 };
