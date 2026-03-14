@@ -38,7 +38,7 @@ body('district')
 .trim()
 .withMessage('District is required'),
 
-body('panchayath')
+body('panchayth')
 .notEmpty()
 .trim()
 .withMessage('panchayath is required'),
