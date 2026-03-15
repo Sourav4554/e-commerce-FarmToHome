@@ -4,12 +4,15 @@ import authRouter from './Routes/auth.router.js'
 import cookieParser from 'cookie-parser'
 import userRouter from './Routes/user.router.js'
 import vendorRouter from './Routes/vendor.router.js'
+import adminRouter from './Routes/admin.router.js'
 const app=express()
 
 //json middleware
 app.use(express.json())
 //cookie parser middlewaer
 app.use(cookieParser())
+//admin endpoint
+app.use('/api/v1/admin',adminRouter)
 //vendor endpoint
 app.use('/api/v1/vendor',vendorRouter)
 //user endpoint
