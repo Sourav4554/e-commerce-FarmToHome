@@ -1,6 +1,6 @@
 import express from 'express'
 import { authMiddleware } from '../Middlewares/auth.middleware.js'
-import { currentUserController ,updateProfileController} from '../Controllers/user.controller.js'
+import { currentUserController ,updateProfileController,deleteProfileController} from '../Controllers/user.controller.js'
 
 const userRouter=express.Router()
 
@@ -16,5 +16,11 @@ userRouter.patch(
     authMiddleware,
 updateProfileController
     
+    )
+ //delete user account
+ userRouter.delete(
+    '/delete',
+    authMiddleware,
+    deleteProfileController
     )
 export default userRouter

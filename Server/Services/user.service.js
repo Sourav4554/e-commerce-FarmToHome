@@ -37,3 +37,15 @@ export const updateProfileService=async(body,user)=>{
     const updatedUser=await newUser.save()
     return updatedUser.toObject()
 }
+
+//service for delete user
+export const deleteProfileService=async(user)=>{
+if(!user){
+throw new AppError('user not found',404)
+}
+const result=await usermodel.findByIdAndDelete(user._id)
+if(!result){
+throw new AppError('Account cant delete',401)
+}
+return true;
+}
