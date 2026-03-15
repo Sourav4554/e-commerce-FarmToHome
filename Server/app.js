@@ -3,12 +3,15 @@ import { errorHandler } from './Middlewares/errorHandler.js'
 import authRouter from './Routes/auth.router.js'
 import cookieParser from 'cookie-parser'
 import userRouter from './Routes/user.router.js'
+import vendorRouter from './Routes/vendor.router.js'
 const app=express()
 
 //json middleware
 app.use(express.json())
 //cookie parser middlewaer
 app.use(cookieParser())
+//vendor endpoint
+app.use('/api/v1/vendor',vendorRouter)
 //user endpoint
 app.use('/api/v1/user',userRouter)
 //authentication endpoint
