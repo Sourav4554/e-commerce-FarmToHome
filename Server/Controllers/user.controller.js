@@ -2,7 +2,9 @@ import {
   currentUserService,
   updateProfileService,
   deleteProfileService,
+  fetchCustomerService
 } from "../Services/user.service.js";
+import AppError from "../Utilities/AppError.js";
 
 //find user controller
 const currentUserController = async (req, res, next) => {
@@ -46,8 +48,25 @@ const deleteProfileController = async (req, res, next) => {
     next(error);
   }
 };
+
+//controller for fetch all customers for admin
+const fetchCustomerController=async(req,res,next)=>{
+try {
+    const customers=await fetchCustomerService();
+    if(customers.length===0){
+    throw new AppError('No customers registered',400)
+    }
+    return res.status(200).json({
+    data:customers,
+    success:true
+    })
+} catch (error) {
+    next(error)
+}
+}
 export {
   currentUserController,
   updateProfileController,
   deleteProfileController,
+  fetchCustomerController
 };

@@ -49,3 +49,9 @@ throw new AppError('Account cant delete',401)
 }
 return true;
 }
+
+//service for fetch customers for admin
+export const fetchCustomerService=async()=>{
+ const customers=await usermodel.find({role:'customer'})
+ return customers;
+}
