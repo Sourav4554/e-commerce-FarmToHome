@@ -4,7 +4,8 @@ import usermodel from "../Models/usermodel.js";
 
 //service for fetch vendor
 export const fetchvendorService=async()=>{
-    const vendors=await usermodel.find({role:'vendor'}).select("-password")
+    const vendors=await usermodel.find({role:'vendor',
+    isapproved:true}).select("-password")
     return vendors;
 }
 
@@ -13,7 +14,8 @@ export const fetchvendorService=async()=>{
 export const filterService=async(query)=>{
 const {district,panchayth,ward,search}=query
 const filter={
-role:'vendor'
+role:'vendor',
+isapproved:true
 }
 if(district) filter.district=district
 if(panchayth) filter.panchayth=panchayth
