@@ -1,7 +1,7 @@
 import express from 'express'
 import { authMiddleware } from '../Middlewares/auth.middleware.js'
 import { adminroleMiddleware } from '../Middlewares/adminrole.middleware.js'
-import { fetchPendingRequestController, approvePendingVendorController, disableVendorAccount } from '../Controllers/admin.controller.js'
+import { fetchPendingRequestController, approvePendingVendorController, disableVendorAccount,  blockCustomerController } from '../Controllers/admin.controller.js'
 const adminRouter=express.Router()
 
 //fetch pending request for admin
@@ -24,5 +24,11 @@ adminRouter.patch(
     authMiddleware,
     adminroleMiddleware,
     disableVendorAccount
+    )
+adminRouter.patch(
+    '/block-customer/:id',
+    authMiddleware,
+    adminroleMiddleware,
+    blockCustomerController
     )
 export default adminRouter

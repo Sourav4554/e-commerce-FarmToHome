@@ -1,4 +1,4 @@
-import { fetchPendingRequestService,approvePendingVendorService,disableVendorAccountService } from "../Services/admin.service.js"
+import { fetchPendingRequestService,approvePendingVendorService,disableVendorAccountService,blockCustomerService } from "../Services/admin.service.js"
 import AppError from "../Utilities/AppError.js"
 
 
@@ -21,7 +21,7 @@ try {
     const approve=await approvePendingVendorService(req.params)
     if(approve){
     res.status(200).json({
-    message:'vendore request approved',
+    message:'vendor request approved',
     data:approve,
     success:true
     })
@@ -50,8 +50,26 @@ const disableVendorAccount=async(req,res,next)=>{
         next(error)
     }
     }
+//controller for block customer
+const   blockCustomerController=async(req,res,next)=>{
+try {
+    const blockCustomer=await blockCustomerService(req.params)
+    if(blockCustomer){
+        res.status(200).json({
+        message:'customer account disabled',
+        data:blockCustomer,
+        success:true
+        })
+        }else{
+        throw new AppError('not disabled something wrong',401)
+        }
+} catch (error) {
+    next(error)
+}
+}
 export {
     fetchPendingRequestController,
     approvePendingVendorController,
-    disableVendorAccount
+    disableVendorAccount,
+    blockCustomerController
 }

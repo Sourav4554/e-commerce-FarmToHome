@@ -37,3 +37,15 @@ export const disableVendorAccountService=async(params)=>{
       );
       return approve.toObject()
 }
+
+export const blockCustomerService=async(params)=>{
+  if (!params) {
+    throw new AppError("Please pass id", 400);
+  }
+  const approve = await usermodel.findByIdAndUpdate(
+    { _id: params.id },
+    {  blockByAdmin: true },
+    { returnDocument: "after" }
+  );
+  return approve.toObject()
+}

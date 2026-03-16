@@ -40,11 +40,17 @@ export const userRegisterService = async (body) => {
 
 //user Login Service
 export const userLoginService = async (email, password) => {
-  const user = await usermodel.findOne({ email }).select("password email role provider");
+  const user = await usermodel
+    .findOne({ email })
+    .select("password email role provider blockByAdmin");
   if (!user) {
     throw new AppError("user doesnt exist pleas register", 401);
   }
-  if(user.provider==='google'){
+
+  if (user.blockByAdmin && user.role === "customer") {
+    throw new AppError("cant login your account is blocked by admin", 401);
+  }
+  if (user.provider === "google") {
     throw new AppError("Please Login with google", 401);
   }
   const comparePassword = await bcrypt.compare(password, user.password);
@@ -67,53 +73,44 @@ export const googleAuthentication = async (
     if (user) {
       return done(null, user);
     }
-    user=await usermodel.findOne({email:profile.emails[0].value})
-    if(user){
-    user.providedid=profile.id
-    user.provider=google
-    await user.save()
-    return done(null,user)
+    user = await usermodel.findOne({ email: profile.emails[0].value });
+    if (user) {
+      user.providedid = profile.id;
+      user.provider = google;
+      await user.save();
+      return done(null, user);
     }
-    const newUser=await usermodel.create({
-    name:profile.displayName,
-    email:profile.emails[0].value,
-    providedid:profile.id,
-    provider:'google',
-    profilecomplete:false
-    })
-    return done(null,newUser)
+    const newUser = await usermodel.create({
+      name: profile.displayName,
+      email: profile.emails[0].value,
+      providedid: profile.id,
+      provider: "google",
+      profilecomplete: false,
+    });
+    return done(null, newUser);
   } catch (error) {
-    done(error)
-    
+    done(error);
   }
-  
 };
 
 //service for profile completion after google authentication
-export const completeProfileService=async(body,olduser)=>{
-    const {
-    phone,
-    whatsapp,
-    role,
-    district,
-    panchayth,
-    ward,
-  } = body;
-if(!phone || !whatsapp || !role || !district || !panchayth || !ward){
- throw new AppError('Fill all fields',400)
-}
- const user=await usermodel.findById(olduser._id)
- if(!user){
-   throw new AppError("user doesnt exist pleas register", 401)
- }
- user.phone=phone
- user.whatsapp=whatsapp
- user.role=role
- user.district=district
- user.panchayth=panchayth
- user.ward=ward
- user.profilecomplete=true
- user.isapproved=role==='customer'?true:false
- const newUser=await user.save()
- return newUser.toObject()
-}
+export const completeProfileService = async (body, olduser) => {
+  const { phone, whatsapp, role, district, panchayth, ward } = body;
+  if (!phone || !whatsapp || !role || !district || !panchayth || !ward) {
+    throw new AppError("Fill all fields", 400);
+  }
+  const user = await usermodel.findById(olduser._id);
+  if (!user) {
+    throw new AppError("user doesnt exist pleas register", 401);
+  }
+  user.phone = phone;
+  user.whatsapp = whatsapp;
+  user.role = role;
+  user.district = district;
+  user.panchayth = panchayth;
+  user.ward = ward;
+  user.profilecomplete = true;
+  user.isapproved = role === "customer" ? true : false;
+  const newUser = await user.save();
+  return newUser.toObject();
+};

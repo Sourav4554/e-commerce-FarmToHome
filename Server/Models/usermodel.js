@@ -54,7 +54,12 @@ const userSchema = new mongoose.Schema(
       return this.role==='vendor'?false:true
       }
     },
-  },
+     
+    blockByAdmin: {
+      type: Boolean,
+      default: false
+    }
+    },
   { timestamps: true }
 );
 
