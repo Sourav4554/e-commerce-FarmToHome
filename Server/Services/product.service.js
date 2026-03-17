@@ -25,7 +25,7 @@ unit,
 stock,
 category,
 image,
-vendorId:user._id
+VendorId:user._id
 })
 return product.toObject();
 }

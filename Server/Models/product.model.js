@@ -30,7 +30,7 @@ const ProductSchema = new mongoose.Schema(
     image: {
       type: String,
     },
-    VendoreId: {
+    VendorId: {
       type: Schema.Types.ObjectId,
       ref: "user",
     },
