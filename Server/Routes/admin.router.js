@@ -17,7 +17,7 @@ adminRouter.get(
   adminroleMiddleware,
   fetchPendingRequestController
 );
-//approve pending request of customer
+//approve pending request of vendor
 adminRouter.patch(
   "/approve-request/:id",
   authMiddleware,
