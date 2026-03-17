@@ -11,7 +11,7 @@ price,
 unit,
 stock,
 category,
-image
+image,
 }=body
 const checkApproval=await usermodel.findById(user._id).select('isapproved -_id')
 if(!checkApproval.isapproved){
@@ -24,10 +24,8 @@ price,
 unit,
 stock,
 category,
-image
+image,
+vendorId:user._id
 })
-if(!product){
-throw new AppError('product not adedd',400)
-}
-return product.toObject()
+return product.toObject();
 }
