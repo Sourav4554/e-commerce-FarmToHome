@@ -27,9 +27,6 @@ export const approvePendingVendorService = async (params) => {
 
 //service for disable vendor account
 export const disableVendorAccountService=async(params)=>{
-    if (!params) {
-        throw new AppError("Please pass id", 400);
-      }
       const approve = await usermodel.findByIdAndUpdate(
         { _id: params.id },
         { isapproved: false },
@@ -39,12 +36,19 @@ export const disableVendorAccountService=async(params)=>{
 }
 
 export const blockCustomerService=async(params)=>{
-  if (!params) {
-    throw new AppError("Please pass id", 400);
-  }
   const approve = await usermodel.findByIdAndUpdate(
     { _id: params.id },
     {  blockByAdmin: true },
+    { returnDocument: "after" }
+  );
+  return approve.toObject()
+}
+
+//unblock customer service
+export const unblockCustomerService=async(params)=>{
+  const approve = await usermodel.findByIdAndUpdate(
+    { _id: params.id },
+    {  blockByAdmin: false },
     { returnDocument: "after" }
   );
   return approve.toObject()
