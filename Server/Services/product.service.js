@@ -1,5 +1,4 @@
 import { productModel } from "../Models/product.model.js"
-import usermodel from "../Models/usermodel.js"
 import AppError from "../Utilities/AppError.js"
 
 //service for add product 
@@ -13,10 +12,6 @@ stock,
 category,
 image,
 }=body
-const checkApproval=await usermodel.findById(user._id).select('isapproved -_id')
-if(!checkApproval.isapproved){
-throw new AppError('Admin not yet accept your request',400)
-}
 const product=await productModel.create({
 name,
 description,
@@ -28,4 +23,14 @@ image,
 VendorId:user._id
 })
 return product.toObject();
+}
+
+//service for fetch Product
+export const fetchProductService=async(user)=>{
+const product=await productModel.find({VendorId:user._id}).lean()
+if(!product.length){
+throw new AppError('No products available',404)
+}
+
+return product
 }

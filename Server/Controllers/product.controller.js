@@ -1,4 +1,4 @@
-import { addProductService } from "../Services/product.service.js";
+import { addProductService,fetchProductService } from "../Services/product.service.js";
 
 
 
@@ -15,7 +15,19 @@ try {
     next(error)
 }
 }
-
+//control for fetch product
+const fetchProductController=async(req,res,next)=>{
+try {
+    const products=await fetchProductService(req.user)
+    res.status(200).json({
+    data:products,
+    success:true
+    })
+} catch (error) {
+    next(error)
+}
+}
 export {
-    addProductController
+    addProductController,
+    fetchProductController
 }
