@@ -1,4 +1,4 @@
-import { addProductService,fetchProductService } from "../Services/product.service.js";
+import { addProductService,deleteProductService,fetchProductService } from "../Services/product.service.js";
 
 
 
@@ -27,7 +27,22 @@ try {
     next(error)
 }
 }
+
+//controller for delete Product
+const deleteProductController=async(req,res,next)=>{
+try {
+    const deletedProduct=await deleteProductService(req.user,req.params)
+    res.status(200).json({
+    message:'product deleted',
+    data:deletedProduct,
+    success:true
+    })
+} catch (error) {
+    next(error)
+}
+}
 export {
     addProductController,
-    fetchProductController
+    fetchProductController,
+    deleteProductController
 }
