@@ -38,12 +38,23 @@ return product
 //service for delete product
 export const deleteProductService=async(user,params)=>{
 const product=await productModel.findById({_id:params.id})
-console.log(user._id.toString())
-console.log(product.VendorId.toString())
 if(product.VendorId.toString()!==user._id.toString()){
 throw new AppError('access denied',403)
 }
 product.isDelete=true
 const updatedProduct= await product.save()
 return updatedProduct
+}
+
+//service for update product
+export const updateProductService=async(body,user,params)=>{
+    const product=await productModel.findById({_id:params.id})
+    if(product.VendorId.toString()!==user._id.toString()){
+    throw new AppError('access denied',403)
+    }
+    const updatedProduct=await productModel.findByIdAndUpdate(params.id,body,{returnDocument:'after'})
+    if (!updatedProduct) {
+        throw new AppError('Update failed', 400);
+      }
+    return updatedProduct.toObject()
 }

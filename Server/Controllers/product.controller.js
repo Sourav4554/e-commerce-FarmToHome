@@ -1,4 +1,4 @@
-import { addProductService,deleteProductService,fetchProductService } from "../Services/product.service.js";
+import { addProductService,deleteProductService,fetchProductService,updateProductService } from "../Services/product.service.js";
 
 
 
@@ -41,8 +41,22 @@ try {
     next(error)
 }
 }
+//controller for update product
+const updateProductController=async(req,res,next)=>{
+try {
+    const updatedProduct=await updateProductService(req.body,req.user,req.params)
+    res.status(200).json({
+    message:'product updated',
+    data:updatedProduct,
+    success:true
+    })
+} catch (error) {
+    next(error)
+}
+}
 export {
     addProductController,
     fetchProductController,
-    deleteProductController
+    deleteProductController,
+    updateProductController
 }

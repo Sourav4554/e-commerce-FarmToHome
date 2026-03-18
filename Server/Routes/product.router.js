@@ -1,7 +1,7 @@
 import express from "express";
 import { authMiddleware } from "../Middlewares/auth.middleware.js";
 import { vendorRoleMiddleware } from "../Middlewares/vendorrole.middleware.js";
-import { addProductController, deleteProductController, fetchProductController } from "../Controllers/product.controller.js";
+import { addProductController, deleteProductController, fetchProductController,updateProductController } from "../Controllers/product.controller.js";
 import { productValidation } from "../Middlewares/Validators/product.validator.js";
 import { validationErrors } from "../Middlewares/Validators/validationerror.js";
 import { vendorApproveMiddleware } from "../Middlewares/vendorApprove.middleware.js";
@@ -35,5 +35,15 @@ productRouter.patch(
     vendorApproveMiddleware,
     deleteProductController
     )
+//update product route
+productRouter.patch(
+  '/update-product/:id',
+  productValidation,
+  validationErrors,
+  authMiddleware,
+  vendorRoleMiddleware,
+  vendorApproveMiddleware,
+  updateProductController
+  )
 
 export default productRouter;
