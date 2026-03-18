@@ -58,3 +58,17 @@ export const updateProductService=async(body,user,params)=>{
       }
     return updatedProduct.toObject()
 }
+
+//service for search product
+export const searchProductService= async(query,params)=>{
+    const filter={}
+  if(query.name){
+     filter.name={$regex:query.name,$options:'i'}
+     filter.VendorId=params.id
+  }
+  if(Object.values(filter).length===0){
+    return []
+  }
+  const searchProduct=await productModel.find(filter).lean()
+   return searchProduct
+}

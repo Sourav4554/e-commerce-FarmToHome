@@ -1,4 +1,4 @@
-import { addProductService,deleteProductService,fetchProductService,updateProductService } from "../Services/product.service.js";
+import { addProductService,deleteProductService,fetchProductService,updateProductService , searchProductService} from "../Services/product.service.js";
 
 
 
@@ -54,9 +54,22 @@ try {
     next(error)
 }
 }
+//controller for search product
+const searchProductController=async(req,res,next)=>{
+try {
+    const searchResult=await searchProductService(req.query,req.params)
+    res.status(200).json({
+        data:searchResult,
+        success:true
+        })
+} catch (error) {
+    next(error)
+}
+}
 export {
     addProductController,
     fetchProductController,
     deleteProductController,
-    updateProductController
+    updateProductController,
+    searchProductController
 }
