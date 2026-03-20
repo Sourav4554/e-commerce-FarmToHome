@@ -1,7 +1,7 @@
 import express from 'express'
 import { authMiddleware } from '../Middlewares/auth.middleware.js';
 import { customerroleMiddleware } from '../Middlewares/customerrole.middleware.js';
-import { addToCartController ,removeFromCartController} from '../Controllers/cart.controller.js';
+import { addToCartController ,removeFromCartController,fetchCartController} from '../Controllers/cart.controller.js';
 
 const cartRouter=express.Router();
 
@@ -9,4 +9,6 @@ const cartRouter=express.Router();
 cartRouter.post('/addcart',authMiddleware,customerroleMiddleware,addToCartController)
 //route for remove from cart
 cartRouter.post('/removecart',authMiddleware,customerroleMiddleware,removeFromCartController)
+//fetch cartdata
+cartRouter.get('/fetch',authMiddleware,customerroleMiddleware,fetchCartController)
 export default cartRouter

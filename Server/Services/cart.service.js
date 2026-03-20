@@ -104,8 +104,18 @@ export const removeFromCartService = async (user, body) => {
       }
     );
   }
- return cartModel.findOne({
-  customerId:user._id
- }).lean()
+  return cartModel
+    .findOne({
+      customerId: user._id,
+    })
+    .lean();
 };
 
+//service for fetch cart data
+export const fetchCartService = async (user) => {
+  const result = await cartModel.findOne({ customerId: user._id }).lean();
+  if (!result) {
+    throw new AppError("No cartdata available", 404);
+  }
+  return result;
+};
