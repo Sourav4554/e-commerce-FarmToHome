@@ -119,3 +119,14 @@ export const fetchCartService = async (user) => {
   }
   return result;
 };
+
+//service for clear cartData
+export const clearCartService = async (user) => {
+ const result= await cartModel.updateOne(
+    {
+      customerId: user._id,
+    },
+    { $set: { items: [] } }
+  );
+ 
+};

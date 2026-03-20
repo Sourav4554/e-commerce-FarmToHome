@@ -1,4 +1,4 @@
-import { addToCartService ,removeFromCartService,fetchCartService} from "../Services/cart.service.js"
+import { addToCartService ,removeFromCartService,fetchCartService,clearCartService} from "../Services/cart.service.js"
 //controller for add to cart
 const addToCartController=async(req,res,next)=>{
 try {
@@ -37,10 +37,23 @@ try {
 } catch (error) {
     next(error)
 }
+}
 
+//controll for clear cart data
+const clearCartController=async(req,res,next)=>{
+try {
+    await clearCartService(req.user);
+    res.status(200).json({
+    message:'Cart cleared',
+    success:true
+    })
+} catch (error) {
+    next(error)
+}
 }
 export {
 addToCartController,
 removeFromCartController,
-fetchCartController
+fetchCartController,
+clearCartController
 }
