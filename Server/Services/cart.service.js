@@ -2,6 +2,7 @@ import { cartModel } from "../Models/cart.Model.js";
 import { productModel } from "../Models/product.model.js";
 import AppError from "../Utilities/AppError.js";
 
+//service for add to Cart
 export const addToCartService = async (user, body) => {
   const { productId } = body;
   if (!productId) {
@@ -16,7 +17,7 @@ export const addToCartService = async (user, body) => {
     throw new AppError("Product not found", 404);
   }
 
-  //fetch cart
+  //fetch cart for stock checking
   const cart = await cartModel.findOne({
     customerId: user._id,
     "items.productId": productId,
@@ -68,3 +69,43 @@ export const addToCartService = async (user, body) => {
 
   return updatedCart;
 };
+
+//service for remove from cart
+export const removeFromCartService = async (user, body) => {
+  const { productId } = body;
+  if (!productId) {
+    throw new AppError("product id not found", 400);
+  }
+
+  const result = await cartModel.updateOne(
+    {
+      customerId: user._id,
+      "items.productId": productId,
+      "items.quantity": { $gt: 1 },
+    },
+    {
+      $inc: { "items.$.quantity": -1 },
+    }
+  );
+  if (result.modifiedCount === 0) {
+    const exist = await cartModel.exists({
+      customerId: user._id,
+      "items.productId": productId,
+    });
+    if (!exist) {
+      throw new AppError("Cart item not found", 404);
+    }
+    await cartModel.updateOne(
+      {
+        customerId: user._id,
+      },
+      {
+        $pull: { items: { productId: productId } },
+      }
+    );
+  }
+ return cartModel.findOne({
+  customerId:user._id
+ }).lean()
+};
+
