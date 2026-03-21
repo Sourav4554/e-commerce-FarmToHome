@@ -1,3 +1,5 @@
+import {body} from 'express-validator'
+
 export const validateOrder = [
     // 📦 address validations
     body("address.name")

@@ -58,3 +58,13 @@ export const codOrderService = async (user, body) => {
   await cartModel.updateOne({ customerId: user._id }, { $set: { items: [] } });
   return createOrder;
 };
+
+//service for fetch customer orders
+
+export const fetchCustomerOrdersService=async(user)=>{
+ const customerOrders=await orderModel.find({customerId:user._id}).lean()
+ if(customerOrders.length===0){
+  throw new AppError('orders didnt available',404)
+ }
+ return customerOrders
+}

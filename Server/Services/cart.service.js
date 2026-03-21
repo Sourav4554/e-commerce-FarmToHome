@@ -95,6 +95,7 @@ export const removeFromCartService = async (user, body) => {
     if (!exist) {
       throw new AppError("Cart item not found", 404);
     }
+    //remove item from cart 
     await cartModel.updateOne(
       {
         customerId: user._id,

@@ -1,4 +1,4 @@
-import { codOrderService } from "../Services/order.service.js"
+import { codOrderService,fetchCustomerOrdersService } from "../Services/order.service.js"
 
 
 //controller for cash on delivery
@@ -15,7 +15,20 @@ try {
 }
 }
 
+//controller for fetch customer orders
+const fetchCustomerOrdersController=async(req,res,next)=>{
+try {
+    const customerOrders=await fetchCustomerOrdersService(req.user)
+    res.status(200).json({
+    data:customerOrders,
+    success:true
+    })
+} catch (error) {
+    next(error)
+}
+}
 
 export {
-    codOrderController
+    codOrderController,
+    fetchCustomerOrdersController
 }
