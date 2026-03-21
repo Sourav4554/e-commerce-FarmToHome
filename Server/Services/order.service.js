@@ -1,0 +1,60 @@
+import mongoose from "mongoose";
+import { cartModel } from "../Models/cart.Model.js";
+import { productModel } from "../Models/product.model.js";
+import { orderModel } from "../Models/order.model.js";
+import AppError from "../Utilities/AppError.js";
+
+//service for cash on delivery
+export const codOrderService = async (user, body) => {
+  const { address } = body;
+  //find cartdata
+  const cartItems = await cartModel.findOne({ customerId: user._id });
+  if (!cartItems || cartItems.items.length === 0) {
+    throw new AppError("cart is empty", 400);
+  }
+
+  const productIdes = cartItems.items.map(
+    (product) => new mongoose.Types.ObjectId(product.productId)
+  );
+
+  //fetch all products in cart
+  const products = await productModel
+    .find({ _id: { $in: productIdes } })
+    .lean();
+
+  const productMap = new Map();
+
+  products.forEach((p) => {
+    productMap.set(p._id.toString(), p);
+  });
+
+  let totalAmount = 0;
+  const orders = cartItems.items.map((item) => {
+    const product = productMap.get(item.productId);
+    if (!product) {
+      throw new AppError("product not found", 404);
+    }
+    if (product.stock < item.quantity) {
+      throw new AppError(`${product.name} out of stock`);
+    }
+    totalAmount += product.price * item.quantity;
+    return {
+      _id: product._id.toString(),
+      name: product.name,
+      price: product.price,
+      category: product.category,
+      vendorId: product.VendorId,
+      quantity: item.quantity,
+    };
+  });
+
+  const createOrder = await orderModel.create({
+    customerId: user._id,
+    items: orders,
+    totalAmount: totalAmount,
+    paymentMethod: "COD",
+    address: address,
+  });
+  await cartModel.updateOne({ customerId: user._id }, { $set: { items: [] } });
+  return createOrder;
+};
