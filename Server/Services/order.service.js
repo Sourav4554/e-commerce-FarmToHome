@@ -60,11 +60,42 @@ export const codOrderService = async (user, body) => {
 };
 
 //service for fetch customer orders
+export const fetchCustomerOrdersService = async (user) => {
+  const customerOrders = await orderModel.find({ customerId: user._id }).lean();
+  if (customerOrders.length === 0) {
+    throw new AppError("orders didnt available", 404);
+  }
+  return customerOrders;
+};
 
-export const fetchCustomerOrdersService=async(user)=>{
- const customerOrders=await orderModel.find({customerId:user._id}).lean()
- if(customerOrders.length===0){
-  throw new AppError('orders didnt available',404)
- }
- return customerOrders
-}
+//service for fetch customer orders
+export const fetchVendorOrderService = async (user) => {
+  const vendorOrders = await orderModel.aggregate([
+    {
+      $match: {
+        "items.vendorId": user._id,
+      },
+    },
+    {
+      $project: {
+        customerId: 1,
+        totalAmount: 1,
+        orderStatus: 1,
+        paymentMethod: 1,
+        paymentStatus: 1,
+        address: 1,
+
+        items: {
+          $filter: {
+            input: "$items",
+            as: "item",
+            cond: {
+              $eq: ["$$item.vendorId", user._id],
+            },
+          },
+        },
+      },
+    },
+  ]);
+  return vendorOrders
+};
