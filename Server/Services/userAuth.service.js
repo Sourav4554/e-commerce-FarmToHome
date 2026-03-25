@@ -42,9 +42,9 @@ export const userRegisterService = async (body) => {
 export const userLoginService = async (email, password) => {
   const user = await usermodel
     .findOne({ email })
-    .select("password email role provider blockByAdmin");
+   // .select("password email role provider blockByAdmin name");
   if (!user) {
-    throw new AppError("user doesnt exist pleas register", 401);
+    throw new AppError("user doesnt exist please register", 401);
   }
 
   if (user.blockByAdmin && user.role === "customer") {
@@ -55,10 +55,10 @@ export const userLoginService = async (email, password) => {
   }
   const comparePassword = await bcrypt.compare(password, user.password);
   if (!comparePassword) {
-    throw new AppError("The password is wrong", 401);
+    throw new AppError(" password is wrong", 401);
   }
   const token = generateToken(user);
-  return token;
+  return {token,user};
 };
 
 //service for passport google authentication
@@ -101,7 +101,7 @@ export const completeProfileService = async (body, olduser) => {
   }
   const user = await usermodel.findById(olduser._id);
   if (!user) {
-    throw new AppError("user doesnt exist pleas register", 401);
+    throw new AppError("user doesnt exist please register", 401);
   }
   user.phone = phone;
   user.whatsapp = whatsapp;

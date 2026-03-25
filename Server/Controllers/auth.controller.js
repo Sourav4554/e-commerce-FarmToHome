@@ -34,21 +34,23 @@ const userRegistration = async (req, res, next) => {
 
 //user login controller
 const userLogin = async (req, res, next) => {
+
   const { email, password } = req.body;
   if (!email || !password) {
     return next(new AppError("Please fill both field", 400));
   }
   try {
-    const token = await userLoginService(email, password);
+    const {token,details} = await userLoginService(email, password);
     res.cookie("token", token, {
       ...cookieOptions,
       maxAge: 24 * 60 * 60 * 1000,
     });
     return res
       .status(200)
-      .json({ message: "sucessfully Login", success: true });
+      .json({ message: "sucessfully Login",userdata:details, success: true });
   } catch (error) {
     next(error);
+    console.log(error)
   }
 };
 

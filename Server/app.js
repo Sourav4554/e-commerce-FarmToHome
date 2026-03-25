@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import { errorHandler } from './Middlewares/errorHandler.js'
 import authRouter from './Routes/auth.router.js'
 import cookieParser from 'cookie-parser'
@@ -14,6 +15,11 @@ const app=express()
 app.use(express.json())
 //cookie parser middlewaer
 app.use(cookieParser())
+//cors
+app.use(cors({
+origin:'http://localhost:5173',
+credentials: true
+}))
 //order endpoint
 app.use('/api/v1/order',orderRouter)
 //cart endpoint
