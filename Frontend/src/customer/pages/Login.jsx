@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import useLogin from "../../hooks/authHook/useAuth";
 import toast from "react-hot-toast";
 import LoaderButton from "../../components/LoaderButton";
 const Login = () => {
-  const { login ,loading,error} = useLogin();
+  const { login, register, loading, error } = useLogin();
   const [loginHandle, setLogin] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -12,7 +12,7 @@ const Login = () => {
     phone: "",
     whatsapp: "",
     district: "",
-    panchayath: "",
+    panchayth: "",
     ward: "",
     role: "",
   });
@@ -30,16 +30,24 @@ const Login = () => {
   //method for handling form submition
   const submitHandler = async (e) => {
     e.preventDefault();
-   try {
     if (loginHandle) {
-    const response=await login(formData);
-    toast.success(response.message)
-  } else {
-     
-  }
-   } catch (err) {
-      toast.error(err.message)
-   }
+      const response = await login({
+        email: formData.email,
+        password: formData.password,
+      });
+      if (!response) {
+        toast.error(error);
+        return;
+      }
+      toast.success(response.message);
+    } else {
+      const response = await register(formData);
+      if (!response) {
+        toast.error(error);
+        return;
+      }
+      toast.success(response.message);
+    }
   };
   return (
     <section className="flex flex-col md:flex-row p-2 mx-auto w-full max-w-5xl min-h-1/2 h-auto shadow">
@@ -99,7 +107,7 @@ const Login = () => {
 
           {/* Email */}
           <input
-           required
+            required
             type="email"
             name="email"
             value={formData.email}
@@ -109,7 +117,7 @@ const Login = () => {
           />
           {/* Password */}
           <input
-           required
+            required
             type="password"
             placeholder="Password"
             name="password"
@@ -123,7 +131,7 @@ const Login = () => {
             <>
               <div className="flex gap-3">
                 <input
-                 required
+                  required
                   type="tel"
                   name="phone"
                   value={formData.phone}
@@ -132,7 +140,7 @@ const Login = () => {
                   className="w-full border border-green-400 rounded-lg px-4 py-3 text-gray-600 outline-none focus:ring-2 focus:ring-green-300"
                 />
                 <input
-                 required
+                  required
                   type="tel"
                   placeholder="WhatsApp"
                   name="whatsapp"
@@ -154,16 +162,16 @@ const Login = () => {
               {/* Panchayat + Ward */}
               <div className="flex gap-3">
                 <input
-                 required
+                  required
                   type="text"
-                  placeholder="Panchayat"
-                  name="panchayath"
-                  value={formData.panchayath}
+                  placeholder="Panchayth"
+                  name="panchayth"
+                  value={formData.panchayth}
                   onChange={inputHandler}
                   className="w-full border border-green-400 text-gray-600 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-green-300"
                 />
                 <input
-                 required
+                  required
                   type="text"
                   placeholder="Ward"
                   name="ward"
@@ -176,7 +184,7 @@ const Login = () => {
               <div className="flex justify-center gap-6 font-medium">
                 <label className="flex items-center gap-2 text-gray-600  cursor-pointer">
                   <input
-                   required
+                    required
                     type="radio"
                     name="role"
                     value="customer"
@@ -187,7 +195,7 @@ const Login = () => {
 
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
-                   required
+                    required
                     type="radio"
                     name="role"
                     value="vendor"
@@ -201,18 +209,16 @@ const Login = () => {
           )}
 
           {/* Submit Button */}
-          {!loading?
-          (
-          <button
-            type="submit"
-            className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-300"
-          >
-            {!loginHandle ? "Create Account" : "Sign in"}
-          </button>
-          ):(
-            <LoaderButton/>
-            )
-          }
+          {!loading ? (
+            <button
+              type="submit"
+              className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-300"
+            >
+              {!loginHandle ? "Create Account" : "Sign in"}
+            </button>
+          ) : (
+            <LoaderButton />
+          )}
           {loginHandle && (
             <p className="flex gap-3">
               <span>Do you forgotten Password:</span>
