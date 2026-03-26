@@ -30,20 +30,23 @@ const Login = () => {
   //method for handling form submition
   const submitHandler = async (e) => {
     e.preventDefault();
+    //user login method
     if (loginHandle) {
       const response = await login({
         email: formData.email,
         password: formData.password,
       });
-      if (!response) {
-        toast.error(error);
+      if (!response.success) {
+        toast.error(response.message);
         return;
       }
       toast.success(response.message);
     } else {
+
+      //user registration method
       const response = await register(formData);
-      if (!response) {
-        toast.error(error);
+      if (!response.success) {
+        toast.error(response.message);
         return;
       }
       toast.success(response.message);

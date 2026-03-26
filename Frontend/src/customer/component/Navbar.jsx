@@ -15,7 +15,7 @@ const Navbar = () => {
     { id: 2, text: "Farmers", path: "/farmers" },
     { id: 3, text: "Products", path: "/products" },
     { id: 4, text: "Cart", path: "/cart" },
-    { id: 5, text: "Register", path: "/register",varient:'button'},
+    { id: 5, text: "Register", path: "register",varient:'button'},
   ];
   //helper function for handling color in navbar
   const handleColor=({isActive},varient)=>{

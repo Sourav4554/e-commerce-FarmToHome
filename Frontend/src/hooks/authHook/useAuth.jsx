@@ -11,15 +11,16 @@ const useLogin = () => {
       const { data } = await loginUser(formdata);
       if (!data.success) {
         setError(data.message);
-        return null;
+        return { success: data.success, message: data.message };
       }
       return data;
-    } catch (error) {
+    } catch (err) {
       const message =
-        error?.response?.data?.message ||
-        "Something went wrong,try again later";
-      setError(message);
-      return null;
+        err?.response?.data?.message || "Something went wrong,try again later";
+  
+       setError(message);
+      console.log('error from interceptor',err)
+      return { success: false, message: message };
     } finally {
       setLoading(false);
     }
@@ -33,15 +34,14 @@ const useLogin = () => {
       const { data } = await registration(formdata);
       if (!data.success) {
         setError(data.message);
-        return null;
+        return { success: data.success, message: data.message };
       }
       return data;
-    } catch (error) {
+    } catch (err) {
       const message =
-        error?.response?.data?.message || "Something wromg try again later";
-      console.log(message);
+        err?.response?.data?.message || "Something wromg try again later";
       setError(message);
-      return null;
+      return { success: false, message: message };
     } finally {
       setLoading(false);
     }
