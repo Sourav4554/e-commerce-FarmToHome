@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useLogin from "../../hooks/authHook/useAuth";
 import toast from "react-hot-toast";
 import LoaderButton from "../../components/LoaderButton";
+import { AuthContextProvide } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+  const { setUserInfo, userInfo, fetchUserInfo } =
+    useContext(AuthContextProvide);
   const { login, register, loading, error } = useLogin();
   const [loginHandle, setLogin] = useState(false);
   const [formData, setFormData] = useState({
@@ -16,6 +20,27 @@ const Login = () => {
     ward: "",
     role: "",
   });
+  const navigate = useNavigate();
+  //handling navigation
+  useEffect(() => {
+    if (userInfo) {
+      switch (userInfo.role) {
+        case "customer":
+          console.log("navbar akathulla switch kerii");
+          navigate("/");
+          break;
+        case "admin":
+          navigate("/admin");
+          break;
+        case "vendor":
+          navigate("/vendor");
+          break;
+        default:
+          navigate("/register");
+          break;
+      }
+    }
+  }, [userInfo]);
 
   //method for handling registration ui
   const handleRegistrationUi = () => {
@@ -41,8 +66,9 @@ const Login = () => {
         return;
       }
       toast.success(response.message);
+      setUserInfo(response.data);
+      fetchUserInfo();
     } else {
-
       //user registration method
       const response = await register(formData);
       if (!response.success) {

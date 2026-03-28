@@ -1,24 +1,26 @@
-import React from 'react'
-import CustomerDashboard from './Dashboards/CustomerDashboard'
-import { Navigate, Route,Routes } from 'react-router-dom'
-import Login from './customer/pages/Login'
-import ToastProvide from './components/ToastProvide'
+import React from "react";
+// import CustomerDashboard from "./Dashboards/CustomerDashboard";
+import {  Route, Routes } from "react-router-dom";
+import ToastProvide from "./components/ToastProvide";
+import AuthContext from "./context/AuthContext";
+import CustomerRoutes from "./routes/CustomerRoutes";
+import AdminRoutes from "./routes/AdminRoutes";
+import VendorRoutes from "./routes/VendorRoutes";
 
 const App = () => {
   return (
-    <>
-    <div className='w-full md:max-w-\[1300px] md:px-7 m-auto'>
-     
-      <ToastProvide/>
-      <Routes>
-        <Route path='/' element={<Navigate to='/customer'/>}/>
-        <Route path='/customer/*' element={<CustomerDashboard/>}/>
-      </Routes>
-     
-    </div>
-    
-    </>
-  )
-}
+    <AuthContext>
+        <ToastProvide />
+        <Routes>
+          <Route path="/*" element={<CustomerRoutes/>} />
+          <Route path='/admin/*' element={<AdminRoutes/>}/>
+           <Route path="/vendor/*" element={<VendorRoutes/>}/>
+          {/* <Route path="/register" element={<Login />} /> */}
 
-export default App
+          {/* <Route path="/customer/*" element={<CustomerDashboard />} /> */}
+        </Routes>
+    </AuthContext>
+  );
+};
+
+export default App;

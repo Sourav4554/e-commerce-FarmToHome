@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
+import { AuthContextProvide } from "../../context/AuthContext";
 
 const Navbar = () => {
+  const { userInfo } = useContext(AuthContextProvide);
   const [nav, setNav] = useState(false);
 
+  console.log(userInfo);
   // Toggle function to handle the navbar's display
   const handleNav = () => {
     setNav(!nav);
@@ -15,16 +18,26 @@ const Navbar = () => {
     { id: 2, text: "Farmers", path: "/farmers" },
     { id: 3, text: "Products", path: "/products" },
     { id: 4, text: "Cart", path: "/cart" },
-    { id: 5, text: "Register", path: "register",varient:'button'},
+    {
+      id: 5,
+      text: `${
+        userInfo && userInfo.role === "customer" ? "Profile" : "Register"
+      }`,
+      path: `${
+        userInfo && userInfo.role === "customer" ? "/profile" : "/register"
+      }`,
+      varient: "button",
+    },
   ];
+
   //helper function for handling color in navbar
-  const handleColor=({isActive},varient)=>{
-  const base=`  py-3 px-6 rounded-xl m-2 cursor-pointer hover:text-primary duration-300 `
-  if(varient==='button'){
-    return `m-2 py-3 px-6 bg-primary text-white rounded-xl`
-   }
-   return `${base} ${isActive?"text-primary":"text-gray-600"}`
-  }
+  const handleColor = ({ isActive }, varient) => {
+    const base = `  py-3 px-6 rounded-xl m-2 cursor-pointer hover:text-primary duration-300 `;
+    if (varient === "button") {
+      return `m-2 py-3 px-6 bg-primary text-white rounded-xl`;
+    }
+    return `${base} ${isActive ? "text-primary" : "text-gray-600"}`;
+  };
   return (
     <nav className="flex justify-between items-center p-4 md:py-0 ">
       {/* Logo */}
@@ -36,7 +49,7 @@ const Navbar = () => {
           <NavLink
             key={item.id}
             to={item.path}
-            className={(props)=>handleColor(props,item.varient)}
+            className={(props) => handleColor(props, item.varient)}
           >
             {item.text}
           </NavLink>
@@ -61,9 +74,9 @@ const Navbar = () => {
           <NavLink
             key={item.id}
             to={item.path}
-            className={({ isActive,}) =>
+            className={({ isActive }) =>
               `p-4 duration-300 hover:text-primary cursor-pointer block ${
-                isActive? "text-primary " : "text-gray-600"
+                isActive ? "text-primary " : "text-gray-600"
               }`
             }
           >
