@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { loginUser, registration } from "../../services/authService";
+import {
+  loginUser,
+  registration,
+  userLogOut,
+} from "../../services/authService";
 const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -17,9 +21,8 @@ const useLogin = () => {
     } catch (err) {
       const message =
         err?.response?.data?.message || "Something went wrong,try again later";
-  
-       setError(message);
-      console.log('error from interceptor',err)
+
+      setError(message);
       return { success: false, message: message };
     } finally {
       setLoading(false);
@@ -46,7 +49,24 @@ const useLogin = () => {
       setLoading(false);
     }
   };
-  return { login, register, loading, error };
+
+  //custom hook for user Logout
+  const logOut = async () => {
+    try {
+      setError(null);
+      setLoading(error);
+      const { data } = await userLogOut();
+      return {success:data.success,message:data.message}
+    } catch (err) {
+      const message =
+        err?.response?.data?.message || "Something wromg try again later";
+      setError(message);
+      return { success: false, message: message };
+    } finally {
+      setLoading(false);
+    }
+  };
+  return { login, register, logOut, loading, error };
 };
 
 export default useLogin;

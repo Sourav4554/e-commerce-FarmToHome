@@ -8,3 +8,9 @@ return api.post("/auth/login",data)
 export const registration=(data)=>{
 return api.post("/auth/register",data)
 }
+
+//user logout
+
+export const userLogOut=()=>{
+return api.post('/auth/logout')
+}

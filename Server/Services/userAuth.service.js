@@ -18,7 +18,7 @@ export const userRegisterService = async (body) => {
   } = body;
   const user = await usermodel.findOne({ email });
   if (user) {
-    throw new AppError("user Already Exist", 409);
+    throw new AppError("user Already Exist Please Login !", 409);
   }
   const hashedPassword = await bcrypt.hash(password, 6);
   const newUser = await usermodel.create({
