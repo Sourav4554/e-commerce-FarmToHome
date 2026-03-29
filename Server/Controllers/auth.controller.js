@@ -8,6 +8,7 @@ import { generateToken } from "../Utilities/jsonToken.js";
 
 //cookie option
 const isProduction = process.env.NODE_ENV === "production";
+const FrontendUrl=process.env.FRONTENDURL
 const cookieOptions = {
   httpOnly: true,
   secure: isProduction,
@@ -68,9 +69,10 @@ const googleAuthController = async (req, res, next) => {
       ...cookieOptions,
       maxAge: 24 * 60 * 60 * 1000,
     });
-    return res
-      .status(200)
-      .json({ message: "sucessfully Login complete the form", success: true });
+    if(!user.profilecomplete){
+     return  res.redirect(`${FrontendUrl}/complete-profile`)
+    }
+    return res.redirect(`${FrontendUrl}/vendor`)
   } catch (error) {
     next(error);
   }
@@ -78,6 +80,7 @@ const googleAuthController = async (req, res, next) => {
 
 //complete profile after authentication
 const completeProfileController = async (req, res, next) => {
+  console.log('hitting controller')
   try {
    const updatedUser = await completeProfileService(req.body,req.user);
     if(updatedUser.role==='vendor'){
@@ -88,7 +91,7 @@ const completeProfileController = async (req, res, next) => {
       maxAge: 24 * 60 * 60 * 1000,
     });
     }
-    return res.status(200).json({message:'welcome to dashboard',success:true})
+    return res.status(200).json({success:true,data:updatedUser})
   } catch (error) {
     next(error);
   }

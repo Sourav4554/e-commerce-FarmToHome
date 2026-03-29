@@ -1,15 +1,16 @@
 import React, { useContext } from "react";
 import { AuthContextProvide } from "../../context/AuthContext";
 import Logout from "../../components/Logout";
+import Loader from "../../components/Loader";
 
 const ProfilePage = () => {
   const { userInfo, loading } = useContext(AuthContextProvide);
-  let user = {};
-  if (!loading) {
-    user = { ...userInfo };
+  if (loading) {
+    return <Loader />; 
   }
- 
   return (
+    <>
+    
     <div className="min-h-screen bg-linear-to-br from-green-50 via-white to-green-100 p-4 md:p-8">
       <div className="max-w-4xl mx-auto bg-white/80 backdrop-blur-md rounded-3xl shadow-lg border border-green-100 p-6 md:p-8">
         {/* Header */}
@@ -41,15 +42,15 @@ const ProfilePage = () => {
 
           {/* Info */}
           <div className="text-center md:text-left">
-            <h2 className="text-lg font-semibold text-gray-800">{user.name}</h2>
+            <h2 className="text-lg font-semibold text-gray-800">{userInfo.info}</h2>
 
             {/* Role Badge */}
             <span className="inline-block mt-1 px-3 py-0.5 text-xs bg-green-100 text-green-700 rounded-full capitalize">
-              {user.role}
+              {userInfo.role}
             </span>
 
             <p className="text-xs text-gray-500 mt-1">
-              📍 {user.district}, {user.panchayth}
+               {userInfo.district}, {userInfo.panchayth}
             </p>
           </div>
         </div>
@@ -57,13 +58,13 @@ const ProfilePage = () => {
         {/* Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
           {[
-            { label: "Full Name", value: user.name },
-            { label: "Email", value: user.email },
-            { label: "Phone", value: user.phone },
-            { label: "WhatsApp", value: user.whatsapp },
-            { label: "District", value: user.district },
-            { label: "Panchayath", value: user.panchayth },
-            { label: "Ward", value: user.ward },
+            { label: "Full Name", value: userInfo.name },
+            { label: "Email", value: userInfo.email },
+            { label: "Phone", value: userInfo.phone },
+            { label: "WhatsApp", value: userInfo.whatsapp },
+            { label: "District", value: userInfo.district },
+            { label: "Panchayath", value: userInfo.panchayth },
+            { label: "Ward", value: userInfo.ward },
           ].map((item, i) => (
             <div
               key={i}
@@ -81,6 +82,7 @@ const ProfilePage = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

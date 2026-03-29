@@ -5,15 +5,14 @@ import Loader from "../components/Loader";
 
 const ProtectedRoutes = ({ role }) => {
   const { userInfo, loading } = useContext(AuthContextProvide);
-
   if (loading) {
     return <Loader/>;
   }
   if (!userInfo) {
-    return <Navigate to="/" />;
+    return <Navigate to="" replace/>;
   }
   if (userInfo.role !== role) {
-    return <Navigate to="/register" />;
+    return <Navigate to="/register" replace/>;
   }
 
   return <Outlet />;

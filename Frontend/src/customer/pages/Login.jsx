@@ -26,7 +26,6 @@ const Login = () => {
     if (userInfo) {
       switch (userInfo.role) {
         case "customer":
-          console.log("navbar akathulla switch kerii");
           navigate("/");
           break;
         case "admin":
@@ -78,6 +77,11 @@ const Login = () => {
       toast.success(response.message);
     }
   };
+
+  //method for handling google Authentication
+  const handleGoogleAuth=()=>{
+  window.location.href=`http://localhost:3000/api/v1/auth/google`
+  }
   return (
     <section className="flex flex-col md:flex-row p-2 mx-auto w-full max-w-5xl min-h-1/2 h-auto shadow">
       <div className="w-full md:w-5/12 bg-linear-to-br from-green-100 to-green-300 flex items-center justify-center p-6">
@@ -111,7 +115,9 @@ const Login = () => {
           {/*continue with google */}
 
           {/* Google Icon */}
-          <button className=" mx-auto block p-2 rouded-full shadow">
+          <button className=" mx-auto block p-2 rouded-full shadow cursor-pointer duration-200 transition-all hover:scale-105"
+          onClick={handleGoogleAuth}
+          >
             <img
               src="https://www.svgrepo.com/show/475656/google-color.svg"
               alt="google"

@@ -3,6 +3,7 @@ import {
   loginUser,
   registration,
   userLogOut,
+  profileCompletion
 } from "../../services/authService";
 const useLogin = () => {
   const [loading, setLoading] = useState(false);
@@ -56,8 +57,9 @@ const useLogin = () => {
       setError(null);
       setLoading(error);
       const { data } = await userLogOut();
-      return {success:data.success,message:data.message}
+      return { success: data.success, message: data.message };
     } catch (err) {
+      
       const message =
         err?.response?.data?.message || "Something wromg try again later";
       setError(message);
@@ -66,7 +68,30 @@ const useLogin = () => {
       setLoading(false);
     }
   };
-  return { login, register, logOut, loading, error };
+
+  //custom hook for handling profile completion
+  const completeProfile = async (formData) => {
+    try {
+      setError(null);
+      setLoading(true);
+      const { data } = await profileCompletion(formData);
+      console.log(data)
+      return {
+        success: data.success,
+        message: data.message,
+        profile: data.data,
+      };
+    } catch (err) {
+      console.log(err)
+      const message =
+        err?.response?.data?.message || "Something wromg try again later";
+      setError(message);
+      return { success: false, message: message };
+    } finally {
+      setLoading(false);
+    }
+  };
+  return { login, register, logOut, completeProfile, loading, error };
 };
 
 export default useLogin;
