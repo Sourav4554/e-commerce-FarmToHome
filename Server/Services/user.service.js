@@ -57,7 +57,7 @@ export const fetchCustomerService=async()=>{
 }
 
 //service for fetch nearby vendors for customer
-export const fetchNearbyVendorService=async(user)=>{
+export const fetchNearbyVendorService=async (user)=>{
    //fetch customer details
    const customer=await usermodel.findById(user._id)
    if(!customer){
@@ -68,10 +68,9 @@ export const fetchNearbyVendorService=async(user)=>{
        panchayth:customer.panchayth,
        role:'vendor',
        isapproved:true,
-     })
+     }).limit(6).select("name panchayth district ward createdAt")
   if(vendors.length===0){
       throw new AppError('no near by vendors',404)
     }
-
   return vendors
 }
