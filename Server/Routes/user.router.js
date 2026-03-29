@@ -6,6 +6,7 @@ import {
   updateProfileController,
   deleteProfileController,
   fetchCustomerController,
+  fetchNearbyVendorController
 } from "../Controllers/user.controller.js";
 
 const userRouter = express.Router();
@@ -24,4 +25,7 @@ userRouter.get(
   adminroleMiddleware,
   fetchCustomerController
 );
+
+//fetch nearby vendors for customer
+userRouter.get('/fetch-vendor',authMiddleware,fetchNearbyVendorController)
 export default userRouter;

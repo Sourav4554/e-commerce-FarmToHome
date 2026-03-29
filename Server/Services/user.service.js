@@ -55,3 +55,23 @@ export const fetchCustomerService=async()=>{
  const customers=await usermodel.find({role:'customer'})
  return customers;
 }
+
+//service for fetch nearby vendors for customer
+export const fetchNearbyVendorService=async(user)=>{
+   //fetch customer details
+   const customer=await usermodel.findById(user._id)
+   if(!customer){
+     throw new AppError('Cant find customer',404)
+   }
+    const vendors=await usermodel.find({
+       district:customer.district,
+       panchayth:customer.panchayth,
+       role:'vendor',
+       isapproved:true,
+     })
+  if(vendors.length===0){
+      throw new AppError('no near by vendors',404)
+    }
+
+  return vendors
+}

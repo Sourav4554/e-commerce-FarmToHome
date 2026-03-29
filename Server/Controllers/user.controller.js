@@ -2,7 +2,8 @@ import {
   currentUserService,
   updateProfileService,
   deleteProfileService,
-  fetchCustomerService
+  fetchCustomerService,
+  fetchNearbyVendorService
 } from "../Services/user.service.js";
 import AppError from "../Utilities/AppError.js";
 
@@ -64,9 +65,23 @@ try {
     next(error)
 }
 }
+
+//controller for fetch nearby vendors for customer
+const fetchNearbyVendorController=async(req,res,next)=>{
+try {
+  const nearbyVendor=await fetchNearbyVendorService(req.user)
+  return res.status(200).json({
+    data:nearbyVendor,
+    success:true
+    })
+} catch (error) {
+  next(error)
+}
+}
 export {
   currentUserController,
   updateProfileController,
   deleteProfileController,
-  fetchCustomerController
+  fetchCustomerController,
+  fetchNearbyVendorController
 };
