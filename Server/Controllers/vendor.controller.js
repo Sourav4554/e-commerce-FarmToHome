@@ -3,10 +3,11 @@ import AppError from "../Utilities/AppError.js"
 //fetch vendor controller
 const fetchvendorController=async(req,res,next)=>{
 try {
-    const vendors=await fetchvendorService()
+    const vendors=await fetchvendorService(req.query)
     if(vendors.length===0){
         throw new AppError('No customers registered',400)
         }
+        console.log(vendors)
         return res.status(200).json({
         data:vendors,
         success:true
