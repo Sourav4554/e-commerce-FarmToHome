@@ -3,8 +3,8 @@ import AppError from "../Utilities/AppError.js";
 
 //service for fetch vendor
 export const fetchvendorService = async (query) => {
-  const { limit, page } = query;
-  console.log(limit,page)
+  const limit=parseInt(query.limit) || 8
+  const page=parseInt(query.page) || 1
   if (!limit || !page) {
     throw new AppError("Query not provided", 401);
   }

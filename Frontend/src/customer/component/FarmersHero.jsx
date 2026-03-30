@@ -1,6 +1,7 @@
+import VendorCardSkeleton from "../../components/VendorCardSkenlton";
 import VendorCard from "./VendorCard";
 
-const FarmersHero = () => {
+const FarmersHero = ({ vendors }) => {
   return (
     <section className="px-6 py-12 bg-linear-to-b from-green-50 via-white to-white min-h-screen">
       {/* Header */}
@@ -36,14 +37,24 @@ const FarmersHero = () => {
                     lg:grid-cols-2
                   "
         >
-          <VendorCard />
-          <VendorCard />
-          <VendorCard />
-          <VendorCard />
-          <VendorCard />
-          <VendorCard />
-          <VendorCard />
-          <VendorCard />
+          {
+          vendors.length>0?(
+          vendors.map((item, _) => (
+            <VendorCard
+              key={item._id}
+              name={item.name}
+              district={item.district}
+              panchayth={item.panchayth}
+              ward={item.ward}
+              createAt={item.createdAt}
+            />
+          ))
+          ):(
+            Array.from({length:4}).map((_,index)=>(
+              <VendorCardSkeleton key={index}/>
+              ))
+            )
+          }
         </div>
       </div>
 

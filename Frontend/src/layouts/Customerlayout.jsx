@@ -9,7 +9,7 @@ const Customerlayout = () => {
   const { loading } = useContext(AuthContextProvide);
   return (
     <>
-      {loading && <Loader />}
+      {/* {loading && <Loader />} */}
       <div className="w-full md:max-w-\[1300px] md:px-7 m-auto">
         <Navbar />
         <Outlet />
