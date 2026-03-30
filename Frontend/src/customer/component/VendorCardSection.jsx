@@ -4,8 +4,10 @@ import useCustomerHook from "../../hooks/customerHook/useCustomerHook";
 import { AuthContextProvide } from "../../context/AuthContext";
 import Loader from "../../components/Loader";
 import VendorCardSkeleton from "../../components/VendorCardSkenlton";
+import { useNavigate } from "react-router-dom";
 
 const VendorCardSection = () => {
+  const navigate=useNavigate()
   const [nearbyVendors, setNearbyVendors] = useState([]);
   const { fetchNearestFarmers, loading } = useCustomerHook();
   const { userInfo } = useContext(AuthContextProvide);
@@ -65,7 +67,9 @@ const VendorCardSection = () => {
         <VendorCard /> */}
       </div>
       <div className="flex py-5 items-center justify-center">
-        <button className="mt-6 ml-[8%] md:ml-0 px-6 py-3 text-white bg-primary rounded-lg font-medium transition duration-300 hover:bg-green-700 hover:-translate-y-1 cursor-pointer">
+        <button className="mt-6 ml-[8%] md:ml-0 px-6 py-3 text-white bg-primary rounded-lg font-medium transition duration-300 hover:bg-green-700 hover:-translate-y-1 cursor-pointer"
+        onClick={()=>navigate('/farmers')}
+        >
           Explore Farmers
         </button>
       </div>

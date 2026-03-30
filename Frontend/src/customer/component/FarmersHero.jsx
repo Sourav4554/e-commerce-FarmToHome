@@ -1,0 +1,56 @@
+import VendorCard from "./VendorCard";
+
+const FarmersHero = () => {
+  return (
+    <section className="px-6 py-12 bg-linear-to-b from-green-50 via-white to-white min-h-screen">
+      {/* Header */}
+      <div className="max-w-6xl mx-auto mb-10">
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 tracking-tight">
+              Explore Our Farmers
+            </h2>
+
+            <p className="text-gray-500 text-sm sm:text-base mt-2">
+              Fresh and organic products directly from local farmers
+            </p>
+          </div>
+
+          {/* Optional badge */}
+          <div className="bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-xs font-medium shadow-sm">
+            Local & Fresh
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="mt-6 h-px bg-linear-to-r from-transparent via-green-200 to-transparent" />
+      </div>
+
+      {/* List Container */}
+      <div className="max-w-6xl mx-auto">
+        <div
+          className="
+                    grid gap-6
+                    sm:grid-cols-1
+                    md:grid-cols-1
+                    lg:grid-cols-2
+                  "
+        >
+          <VendorCard />
+          <VendorCard />
+          <VendorCard />
+          <VendorCard />
+          <VendorCard />
+          <VendorCard />
+          <VendorCard />
+          <VendorCard />
+        </div>
+      </div>
+
+      {/* Bottom spacing */}
+      <div className="h-10" />
+    </section>
+  );
+};
+
+export default FarmersHero;
