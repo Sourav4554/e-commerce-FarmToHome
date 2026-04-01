@@ -1,4 +1,5 @@
-import { fetchvendorService,filterService } from "../Services/vendor.service.js"
+import usermodel from "../Models/usermodel.js"
+import { fetchvendorService,filterService,fetchvendorFiltersService } from "../Services/vendor.service.js"
 import AppError from "../Utilities/AppError.js"
 //fetch vendor controller
 const fetchvendorController=async(req,res,next)=>{
@@ -33,7 +34,25 @@ try {
 }
 }
 
+//controller for fetch districts wards and panchayath of vendors
+const fetchvendorFiltersController=async(req,res,next)=>{
+try {
+    const result=await fetchvendorFiltersService()
+    return res.status(200).json({
+        district:result[0].district,
+        panchayth:result[0].panchayth,
+        ward:result[0].ward,
+        success:true
+        })
+
+
+} catch (error) {
+    next(error)
+}
+}
+
 export {
 fetchvendorController,
-filterController
+filterController,
+fetchvendorFiltersController
 }
