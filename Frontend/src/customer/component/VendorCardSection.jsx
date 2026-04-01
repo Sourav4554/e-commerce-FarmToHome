@@ -4,6 +4,7 @@ import useCustomerHook from "../../hooks/customerHook/useCustomerHook";
 import { AuthContextProvide } from "../../context/AuthContext";
 import Loader from "../../components/Loader";
 import VendorCardSkeleton from "../../components/VendorCardSkenlton";
+
 import { useNavigate } from "react-router-dom";
 
 const VendorCardSection = () => {
@@ -44,6 +45,7 @@ const VendorCardSection = () => {
             : `Please Login to explore nearby farmers`}
         </p>
       </div>
+   
       <div className=" grid  grid-cols-1 md:grid-cols-2 gap-10">
         {nearbyVendors.length > 0
           ? nearbyVendors.map((item, _) => (

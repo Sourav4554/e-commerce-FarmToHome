@@ -28,6 +28,7 @@ const Farmers = () => {
 
   return (
     <>
+
     <FarmersHero 
     vendors={vendors}
     />

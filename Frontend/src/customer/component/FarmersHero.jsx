@@ -1,4 +1,5 @@
 import VendorCardSkeleton from "../../components/VendorCardSkenlton";
+import FarmerFilter from "./FarmerFilter";
 import VendorCard from "./VendorCard";
 
 const FarmersHero = ({ vendors }) => {
@@ -16,13 +17,13 @@ const FarmersHero = ({ vendors }) => {
               Fresh and organic products directly from local farmers
             </p>
           </div>
-
+       
           {/* Optional badge */}
           <div className="bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-xs font-medium shadow-sm">
             Local & Fresh
           </div>
         </div>
-
+        <FarmerFilter/>
         {/* Divider */}
         <div className="mt-6 h-px bg-linear-to-r from-transparent via-green-200 to-transparent" />
       </div>
