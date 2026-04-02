@@ -1,19 +1,52 @@
 import { IoIosSearch } from "react-icons/io";
+import useCustomerHook from "../../hooks/customerHook/useCustomerHook";
+import { useEffect, useState } from "react";
 const FarmerFilter = () => {
+  const {filterDetails}=useCustomerHook()
+  const [district,setDistrict]=useState([])
+  const [panchayth,setPanchayth]=useState([])
+  const [ward,setWard]=useState([])
+  useEffect(()=>{
+  const getFilters=async()=>{
+  const response=await filterDetails();
+  if(!response.success){
+  console.log(response.message)
+  }
+  setDistrict(response.district)
+  setPanchayth(response.panchayth)
+  setWard(response.ward)
+  }
+  getFilters()
+  },[])
   return (
     <div className="mt-6 ">
       {/* Top Filters */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-4xl mx-auto">
         <select className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-green-400 focus:outline-none">
-          <option>District</option>
+          <option value="" >Select District</option>
+          {
+          district.map((item,index)=>(
+            <option key={index} value={item}>{item}</option>
+            ))
+          }
         </select>
 
         <select className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-green-400 focus:outline-none">
-          <option>Panchayath</option>
+          <option value="">Select Panchayath</option>
+          { 
+          panchayth.map((item,index)=>(
+            <option key={index} value={item}>{item}</option>
+            ))
+          }
         </select>
 
         <select className="w-full px-3 py-2.5 rounded-lg border border-gray-300 text-sm focus:ring-2 focus:ring-green-400 focus:outline-none">
-          <option>Ward</option>
+          <option value="">Select Ward</option>
+          {
+          ward.map((item,index)=>(
+            <option key={index} value={item}>{item}</option>
+            ))
+          }
         </select>
       </div>
 

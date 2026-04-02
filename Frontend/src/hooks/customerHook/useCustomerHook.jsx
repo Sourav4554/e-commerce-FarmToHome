@@ -1,5 +1,6 @@
 import {
   fetchAllFarmers,
+  fetchFilters,
   fetchNearbyFarmers,
 } from "../../services/customerService";
 import { useState } from "react";
@@ -23,10 +24,11 @@ const useCustomerHook = () => {
   };
   //method for paginate farmers
   const fetchFarmers = async (page) => {
+    console.log('working')
     try {
       setLoading(true);
       const { data } = await fetchAllFarmers(page);
-      console.log(`data inside custoom hook`,data.data.totalPages)
+      // console.log(`data inside custoom hook`,data.data.totalPages)
       return {
         success: data?.success,
         farmers: data?.data?.vendors,
@@ -41,9 +43,30 @@ const useCustomerHook = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }
+    // method for fetch filter details
+    const filterDetails=async()=>{
+    try {
+      setLoading(true)
+      const {data}=await fetchFilters()
+      return {
+        success: data?.success,
+        district: data?.district,
+        panchayth: data?.panchayth,
+        ward:data?.ward,
+      };
+    } catch (err) {
 
-  return { fetchNearestFarmers, fetchFarmers, loading };
+      const message =
+        err?.response?.data?.message || "Something wromg try again later";
+      return { success: false, message: message };
+    }finally{
+    setLoading(false)
+    }
+    }
+  
+
+  return { fetchNearestFarmers, fetchFarmers,filterDetails, loading };
 };
 
 export default useCustomerHook;

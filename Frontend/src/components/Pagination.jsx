@@ -1,5 +1,5 @@
 const Pagination = ({ page, setPage, totalPages }) => {
-  console.log("total pages inside pagination", totalPages);
+ // console.log("total pages inside pagination", totalPages);
   return (
     <div className="flex items-center justify-center gap-1 md:gap-2 mt-10">
       {/* Prev Button */}

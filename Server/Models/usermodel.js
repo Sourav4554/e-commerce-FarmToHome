@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     ward: {
-      type: String,
+      type: Number,
     },
     avatar: {
       type: String,
