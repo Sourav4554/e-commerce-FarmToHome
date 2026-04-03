@@ -9,7 +9,7 @@ const ProtectedRoutes = ({ role }) => {
     return <Loader/>;
   }
   if (!userInfo) {
-    return <Navigate to="" replace/>;
+    return <Navigate to="/" replace/>;
   }
   if (userInfo.role !== role) {
     return <Navigate to="/register" replace/>;
