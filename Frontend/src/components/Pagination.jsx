@@ -1,4 +1,4 @@
-const Pagination = ({ page, setPage, totalPages }) => {
+const Pagination = ({ page, setPage, totalPages,loading }) => {
  // console.log("total pages inside pagination", totalPages);
   return (
     <div className="flex items-center justify-center gap-1 md:gap-2 mt-10">
@@ -6,7 +6,7 @@ const Pagination = ({ page, setPage, totalPages }) => {
       <button
         className="px-4 py-2 rounded-xl border border-gray-300 bg-white text-gray-600 hover:bg-gray-100 transition cursor-pointer"
         onClick={() => setPage(page - 1)}
-        disabled={page === 1}
+        disabled={page === 1 || loading}
       >
         Prev
       </button>
@@ -16,7 +16,7 @@ const Pagination = ({ page, setPage, totalPages }) => {
         {Array.from({ length: totalPages }).map((_, index) => (
           <button
             key={index}
-            onClick={() => setPage(index + 1)}
+            onClick={() => setPage(index + 1 || loading)}
             className={`w-10 h-10 flex items-center justify-center rounded-xl border transition cursor-pointer
            ${
              page === index + 1
@@ -33,7 +33,7 @@ const Pagination = ({ page, setPage, totalPages }) => {
       <button
         className="px-4 py-2 rounded-xl border border-gray-300 bg-white text-gray-600 hover:bg-gray-100 transition cursor-pointer"
         onClick={() => setPage(page + 1)}
-        disabled={page === totalPages}
+        disabled={page === totalPages || loading}
       >
         Next
       </button>

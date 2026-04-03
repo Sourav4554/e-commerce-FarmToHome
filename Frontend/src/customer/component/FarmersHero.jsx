@@ -2,7 +2,7 @@ import VendorCardSkeleton from "../../components/VendorCardSkenlton";
 import FarmerFilter from "./FarmerFilter";
 import VendorCard from "./VendorCard";
 
-const FarmersHero = ({ vendors }) => {
+const FarmersHero = ({ vendors,filteredData,setFilteredData }) => {
   return (
     <section className="px-6 py-12 bg-linear-to-b from-green-50 via-white to-white min-h-screen">
       {/* Header */}
@@ -23,7 +23,10 @@ const FarmersHero = ({ vendors }) => {
             Local & Fresh
           </div>
         </div>
-        <FarmerFilter/>
+        <FarmerFilter
+           filteredData={filteredData}
+           setFilteredData={setFilteredData}
+        />
         {/* Divider */}
         <div className="mt-6 h-px bg-linear-to-r from-transparent via-green-200 to-transparent" />
       </div>
@@ -39,7 +42,7 @@ const FarmersHero = ({ vendors }) => {
                   "
         >
           {
-          vendors.length>0?(
+          vendors?(
           vendors.map((item, _) => (
             <VendorCard
               key={item._id}

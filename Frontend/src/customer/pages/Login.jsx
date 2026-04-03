@@ -207,7 +207,8 @@ const Login = () => {
                 />
                 <input
                   required
-                  type="text"
+                  type="number"
+                  min={1}
                   placeholder="Ward"
                   name="ward"
                   value={formData.ward}

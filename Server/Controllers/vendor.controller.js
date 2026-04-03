@@ -7,8 +7,7 @@ try {
     const vendors=await fetchvendorService(req.query)
     if(vendors.length===0){
         throw new AppError('No customers registered',400)
-        }
-        console.log(vendors)
+    }
         return res.status(200).json({
         data:vendors,
         success:true

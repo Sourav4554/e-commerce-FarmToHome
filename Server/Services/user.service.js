@@ -63,9 +63,11 @@ export const fetchNearbyVendorService=async (user)=>{
    if(!customer){
      throw new AppError('Cant find customer',404)
    }
+   const district= { $regex: customer.district, $options: "i" }
+   const panchayth= { $regex:customer.panchayth, $options: "i" }
     const vendors=await usermodel.find({
-       district:customer.district,
-       panchayth:customer.panchayth,
+       district:district,
+       panchayth:panchayth,
        role:'vendor',
        isapproved:true,
      }).limit(6).select("name panchayth district ward createdAt")

@@ -29,18 +29,18 @@ export const filterService = async (query) => {
     role: "vendor",
     isapproved: true,
   };
-  if (district) filter.district = district;
-  if (panchayth) filter.panchayth = panchayth;
+  if (district) filter.district = { $regex: district, $options: "i" };
+  if (panchayth) filter.panchayth =  { $regex: panchayth, $options: "i" };
   if (ward) filter.ward = ward;
   if (search) {
     filter.name = { $regex: search, $options: "i" };
   }
+
   const filteredProducts = await usermodel.find(filter);
   return filteredProducts;
 };
 
 //Service for fetch districts wards and panchayath of vendors
-
 export const fetchvendorFiltersService = async () => {
   const result = await usermodel.aggregate([
     {
@@ -55,7 +55,7 @@ export const fetchvendorFiltersService = async () => {
       $project: {
         _id: 0,
         district: { $sortArray: { input: "$district", sortBy: -1 } },
-        panchayth: { $sortArray: { input: "$panchayth", sortBy: 1} },
+        panchayth: { $sortArray: { input: "$panchayth", sortBy: 1 } },
         ward: { $sortArray: { input: "$ward", sortBy: 1 } },
       },
     },
