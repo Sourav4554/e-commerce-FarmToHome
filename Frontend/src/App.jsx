@@ -15,10 +15,12 @@ const App = () => {
           <Route path="/*" element={<CustomerRoutes/>} />
           <Route path='/admin/*' element={<AdminRoutes/>}/>
            <Route path="/vendor/*" element={<VendorRoutes/>}/>
+           
           {/* <Route path="/register" element={<Login />} /> */}
 
           {/* <Route path="/customer/*" element={<CustomerDashboard />} /> */}
         </Routes>
+       
     </AuthContext>
   );
 };
