@@ -1,75 +1,104 @@
-import { addProductService,deleteProductService,fetchProductService,updateProductService , searchProductService} from "../Services/product.service.js";
+import {
+  addProductService,
+  deleteProductService,
+  fetchProductService,
+  updateProductService,
+  createSignedUrlService,
+  searchProductService,
+} from "../Services/product.service.js";
 
-
-
-//controller for add product 
-const addProductController=async(req,res,next)=>{
-try {
-    const productAdedd=await addProductService(req.body,req.user)
+//controller for add product
+const addProductController = async (req, res, next) => {
+  try {
+    const productAdedd = await addProductService(req.body, req.user);
     res.status(201).json({
-    message:'product Successfully adedd',
-    data:productAdedd,
-    success:true
-    })
-} catch (error) {
-    next(error)
-}
-}
+      message: "product Successfully adedd",
+      data: productAdedd,
+      success: true,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 //control for fetch product
-const fetchProductController=async(req,res,next)=>{
-try {
-    const products=await fetchProductService(req.user)
+const fetchProductController = async (req, res, next) => {
+  try {
+    const products = await fetchProductService(req.user);
     res.status(200).json({
-    data:products,
-    success:true
-    })
-} catch (error) {
-    next(error)
-}
-}
+      data: products,
+      success: true,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 //controller for delete Product
-const deleteProductController=async(req,res,next)=>{
-try {
-    const deletedProduct=await deleteProductService(req.user,req.params)
+const deleteProductController = async (req, res, next) => {
+  try {
+    const deletedProduct = await deleteProductService(req.user, req.params);
     res.status(200).json({
-    message:'product deleted',
-    data:deletedProduct,
-    success:true
-    })
-} catch (error) {
-    next(error)
-}
-}
+      message: "product deleted",
+      data: deletedProduct,
+      success: true,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 //controller for update product
-const updateProductController=async(req,res,next)=>{
-try {
-    const updatedProduct=await updateProductService(req.body,req.user,req.params)
+const updateProductController = async (req, res, next) => {
+  try {
+    const updatedProduct = await updateProductService(
+      req.body,
+      req.user,
+      req.params
+    );
     res.status(200).json({
-    message:'product updated',
-    data:updatedProduct,
-    success:true
-    })
-} catch (error) {
-    next(error)
-}
-}
+      message: "product updated",
+      data: updatedProduct,
+      success: true,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 //controller for search product
-const searchProductController=async(req,res,next)=>{
-try {
-    const searchResult=await searchProductService(req.query,req.params)
+const searchProductController = async (req, res, next) => {
+  try {
+    const searchResult = await searchProductService(req.query, req.params);
     res.status(200).json({
-        data:searchResult,
-        success:true
-        })
-} catch (error) {
-    next(error)
-}
-}
+      data: searchResult,
+      success: true,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+//controller for create SignedUrl
+const createSignedUrlController = (req, res, next) => {
+  try {
+    const url = createSignedUrlService();
+    return res.status(201).json(
+        {
+          success: true, 
+          timestamp:url.timestamp,
+          signature: url.signature,
+          apikey:process.env.CLOUDINARY_API_KEY,
+          cloudName:process.env.CLOUD_NAME,
+          folder:'Farm2Home'
+         }
+        );
+  } catch (error) {
+    next(error);
+  }
+};
 export {
-    addProductController,
-    fetchProductController,
-    deleteProductController,
-    updateProductController,
-    searchProductController
-}
+  addProductController,
+  fetchProductController,
+  deleteProductController,
+  updateProductController,
+  searchProductController,
+  createSignedUrlController,
+};

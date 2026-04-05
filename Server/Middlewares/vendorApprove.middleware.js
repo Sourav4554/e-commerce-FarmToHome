@@ -6,7 +6,7 @@ export const vendorApproveMiddleware = async (req, res, next) => {
       .select("isapproved");
   
     if (!vendor || !vendor.isapproved) {
-      return next(new AppError("Vendor not approved", 403));
+      return next(new AppError("Admin not approved", 403));
     }
   
     next();

@@ -1,3 +1,4 @@
+import { cloudinary } from "../Config/cloudinary.config.js"
 import { productModel } from "../Models/product.model.js"
 import AppError from "../Utilities/AppError.js"
 
@@ -71,4 +72,18 @@ export const searchProductService= async(query,params)=>{
   }
   const searchProduct=await productModel.find(filter).lean()
    return searchProduct
+}
+
+//service for signed url
+export const createSignedUrlService=()=>{
+const timestamp=Math.floor(Date.now()/1000);
+const params={
+timestamp,
+folder:'Farm2Home'
+}
+const signature=cloudinary.utils.api_sign_request(
+  params,
+  process.env.CLOUDINARY_API_SECRET
+  )
+  return {signature,timestamp}
 }

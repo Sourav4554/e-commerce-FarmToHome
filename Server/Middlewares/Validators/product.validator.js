@@ -20,7 +20,7 @@ export const productValidation=[
   // Unit
   body("unit")
     .optional()
-    .isIn(["kg", "g", "ltr", "ml", "pcs"])
+    .isIn(["kg", , "pcs"])
     .withMessage("Invalid unit"),
 
   // Stock
