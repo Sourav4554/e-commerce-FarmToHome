@@ -11,6 +11,9 @@ const ProtectedRoutes = ({ role }) => {
   if (!userInfo) {
     return <Navigate to="/" replace/>;
   }
+  if(!userInfo.isapproved){
+  return <Navigate to="/pending" replace/>
+  }
   if (userInfo.role !== role) {
     return <Navigate to="/register" replace/>;
   }

@@ -1,6 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import VendorNavbar from "../vendor/components/VendorNavbar";
+import VendorFooter from "../vendor/components/VendorFooter";
 
 const VendorLayout = () => {
   return (
@@ -10,6 +11,7 @@ const VendorLayout = () => {
         <VendorNavbar />
         <Outlet/>
       </div>
+      <VendorFooter/>
     </>
   );
 };

@@ -6,6 +6,7 @@ import AuthContext from "./context/AuthContext";
 import CustomerRoutes from "./routes/CustomerRoutes";
 import AdminRoutes from "./routes/AdminRoutes";
 import VendorRoutes from "./routes/VendorRoutes";
+import PendingPage from "./components/PendingPage";
 
 const App = () => {
   return (
@@ -15,7 +16,7 @@ const App = () => {
           <Route path="/*" element={<CustomerRoutes/>} />
           <Route path='/admin/*' element={<AdminRoutes/>}/>
            <Route path="/vendor/*" element={<VendorRoutes/>}/>
-           
+           <Route path="/pending" element={<PendingPage/>}/>
           {/* <Route path="/register" element={<Login />} /> */}
 
           {/* <Route path="/customer/*" element={<CustomerDashboard />} /> */}

@@ -13,15 +13,15 @@ const VendorNavbar = () => {
     setNav(!nav);
   };
   const navItems = [
-    { id: 1, text: "Dashboard", path: "/vendor" },
-    { id: 2, text: "Products", path: "/products" },
-    { id: 3, text: "Orders", path: "/orders" },
+    { id: 1, text: "Dashboard", path: "/vendor/dashboard" },
+    { id: 2, text: "Products", path: "/vendor/products" },
+    { id: 3, text: "Orders", path: "/vendor/orders" },
     { id: 4, text: "Profile", path: "/vendor/profile", varient: "button" },
   ];
 
   //helper function for handling color in navbar
   const handleColor = ({ isActive }, varient) => {
-    const base = `  py-3 px-6 rounded-xl m-2 cursor-pointer hover:text-primary duration-300 `;
+    const base = ` py-3 px-6 rounded-xl m-2 cursor-pointer hover:text-primary duration-300 `;
     if (varient === "button") {
       return `m-2 py-3 px-6 bg-primary text-white rounded-xl`;
     }
@@ -39,6 +39,7 @@ const VendorNavbar = () => {
           <NavLink
             key={item.id}
             to={item.path}
+            end={item.path==='/vendor'}
             className={(props) => handleColor(props, item.varient)}
           >
             {item.text}
