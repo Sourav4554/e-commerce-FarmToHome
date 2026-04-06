@@ -51,9 +51,7 @@ const Farmers = () => {
     }
   }, [page, filteredData]);
 
-useEffect(()=>{
-console.log(filteredData)
-},[filteredData])
+
   return (
     <>
       <FarmersHero

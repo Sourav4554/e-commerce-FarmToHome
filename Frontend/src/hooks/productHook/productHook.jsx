@@ -1,5 +1,5 @@
 
-import { fetchSignedUrl, submitProduct } from "../../services/productService";
+import { fetchSignedUrl, paginatedProducts, submitProduct } from "../../services/productService";
 import { useState } from "react";
 
 //custom hook for handling product for vendor
@@ -45,5 +45,27 @@ export const productCustomHook = () => {
     setLoading(false)
   }
   }
-  return { loading, signedUrlFun,saveProduct };
+
+  //method for fetch paginated products for customer
+  const fetchPaginatedProducts=async(page)=>{
+  try {
+    setLoading(true)
+    const {data}=await paginatedProducts(page)
+    return {
+    success:data.success,
+    totalPages:data.totalPages,
+    pages:data.pages,
+    products:data.products
+    }
+  } catch (err) {
+    console.log(err.response.data);
+    const message =
+      err?.response?.data?.message || "Something wromg try again later";
+    return { success: false, message: message };
+  }
+  finally{
+    setLoading(false)
+  }
+}
+  return { loading, signedUrlFun,saveProduct,fetchPaginatedProducts};
 };

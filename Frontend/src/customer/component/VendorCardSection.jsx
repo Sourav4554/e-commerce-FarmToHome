@@ -55,6 +55,7 @@ const VendorCardSection = () => {
                 district={item.district}
                 panchayth={item.panchayth}
                 ward={item.ward}
+                image={item.image}
                 createAt={item.createdAt}
               />
             ))

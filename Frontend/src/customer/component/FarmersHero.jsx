@@ -14,7 +14,7 @@ const FarmersHero = ({ vendors,filteredData,setFilteredData }) => {
             </h2>
 
             <p className="text-gray-500 text-sm sm:text-base mt-2">
-              Fresh and organic products directly from local farmers
+              Find nearby farmers and explore their products
             </p>
           </div>
        
@@ -42,7 +42,7 @@ const FarmersHero = ({ vendors,filteredData,setFilteredData }) => {
                   "
         >
           {
-          vendors?(
+          vendors.length>0 ?(
           vendors.map((item, _) => (
             <VendorCard
               key={item._id}

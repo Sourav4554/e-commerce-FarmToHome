@@ -1,3 +1,4 @@
+
 import {
   addProductService,
   deleteProductService,
@@ -5,6 +6,7 @@ import {
   updateProductService,
   createSignedUrlService,
   searchProductService,
+  ProductsForCustomerService
 } from "../Services/product.service.js";
 
 //controller for add product
@@ -94,6 +96,21 @@ const createSignedUrlController = (req, res, next) => {
     next(error);
   }
 };
+
+//fetch all products for customer controller
+const ProductsForCustomerController=async(req,res,next)=>{
+try {
+  const paginatedProducts=await ProductsForCustomerService(req.query);
+  return res.status(200).json({
+  success:true,
+  products:paginatedProducts.products || [],
+  pages:paginatedProducts.page ,
+  totalPages:paginatedProducts.totalPages,
+  })
+} catch (error) {
+  next(error)
+}
+}
 export {
   addProductController,
   fetchProductController,
@@ -101,4 +118,5 @@ export {
   updateProductController,
   searchProductController,
   createSignedUrlController,
+  ProductsForCustomerController
 };

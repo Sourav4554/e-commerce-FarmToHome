@@ -8,6 +8,7 @@ import {
   updateProductController,
   searchProductController,
   createSignedUrlController,
+  ProductsForCustomerController
 } from "../Controllers/product.controller.js";
 import { productValidation } from "../Middlewares/Validators/product.validator.js";
 import { validationErrors } from "../Middlewares/Validators/validationerror.js";
@@ -69,5 +70,11 @@ productRouter.get(
   customerroleMiddleware,
   searchProductController
 );
+
+//fetch paginated product for customer
+productRouter.get(
+  '/fetch-products',
+  ProductsForCustomerController
+  )
 
 export default productRouter;

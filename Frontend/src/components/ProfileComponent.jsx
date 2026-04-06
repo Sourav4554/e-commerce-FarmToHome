@@ -1,6 +1,6 @@
 import React from 'react'
 import Logout from "./Logout";
-
+import noProfileLogo from '../asscets/Starter pfp.jpeg'
 const ProfileComponent = ({userInfo}) => {
   return (
     <div className="min-h-screen bg-linear-to-br from-green-50 via-white to-green-100 p-4 md:p-8">
@@ -25,7 +25,7 @@ const ProfileComponent = ({userInfo}) => {
           {/* Avatar with ring */}
           <div className="relative">
             <img
-              src="https://i.pravatar.cc/100?img=5"
+              src={userInfo.avatar ?? noProfileLogo}
               alt="profile"
               className="w-20 h-20 rounded-full object-cover border-4 border-green-200"
             />

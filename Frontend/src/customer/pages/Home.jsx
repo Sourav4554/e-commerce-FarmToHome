@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import Header from '../component/Header'
 import VendorCardSection from '../component/VendorCardSection'
 import HowItWorks from '../component/HowItWorks'
-import WhyChooseUs from '../component/Chooseus'
 import { AuthContextProvide } from '../../context/AuthContext'
 import Loader from '../../components/Loader'
 

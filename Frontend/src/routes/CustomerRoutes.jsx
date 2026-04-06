@@ -7,6 +7,7 @@ import ProfilePage from '../customer/pages/ProfilePage'
 import CompleteProfile from '../customer/pages/CompleteProfile'
 import Farmers from '../customer/pages/Farmers'
 import NotFound from "../components/NotFound";
+import Product from '../customer/pages/Product'
 
 const CustomerRoutes = () => {
   return (
@@ -18,6 +19,7 @@ const CustomerRoutes = () => {
      <Route path='profile' element={<ProfilePage/>}/>
      <Route path='complete-profile' element={<CompleteProfile/>}/>
      <Route path='farmers' element={<Farmers/>}/>
+     <Route path='products' element= {<Product/>}/>
     </Route>
     <Route path="*" element={<NotFound/>}/>
     </Routes>
