@@ -42,7 +42,7 @@ const FarmersHero = ({ vendors,filteredData,setFilteredData }) => {
                   "
         >
           {
-          vendors.length>0 ?(
+          vendors.length ?(
           vendors.map((item, _) => (
             <VendorCard
               key={item._id}

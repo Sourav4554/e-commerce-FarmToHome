@@ -23,7 +23,6 @@ const Farmers = () => {
   //method for fetch paginated farmers
   const fetchPaginatedFarmers = async (page) => {
     const response = await fetchFarmers(page);
-    console.log(`data inside farmers`, response);
     if (!response.success) {
       console.log(response.message);
       return;
@@ -37,8 +36,11 @@ const Farmers = () => {
   //method for fetch filtered farmers
   const fetchFilteredFarmers = async (filteredData) => {
     const response = await filterFarmers(filteredData);
+    console.log(`response inside filtered farmers`,response)
     if (!response.success) {
       console.log(response.message);
+      setVendors([])
+      return;
     }
     setVendors(response.farmers);
   };
@@ -59,7 +61,7 @@ const Farmers = () => {
         filteredData={filteredData}
         setFilteredData={setFilteredData}
       />
-      <Pagination page={page} setPage={setPage} totalPages={totalPages} loading={loading}/>
+      <Pagination page={page} setPage={setPage} totalPages={totalPages} loading={loading} />
     </>
   );
 };

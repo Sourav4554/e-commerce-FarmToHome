@@ -15,3 +15,8 @@ return axios.post('/product/addproduct',data)
 export const paginatedProducts=(page)=>{
 return axios.get(`/product/fetch-products?limit=12&page=${page}`)
 }
+
+//api call for fetch product detailss
+export const fetchProductDetails=(id)=>{
+return axios.get(`/product/product-display/${id}`)
+}

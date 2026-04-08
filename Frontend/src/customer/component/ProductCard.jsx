@@ -1,10 +1,14 @@
 import React from 'react'
+import { replace, useNavigate } from 'react-router-dom'
 
-const ProductCard = ({name,price,image,unit}) => {
+const ProductCard = ({id,name,price,image,unit}) => {
+  const navigate=useNavigate()
   return (
    
 
-  <div className="bg-white  cursor-pointer rounded-xl overflow-hidden shadow-2xl hover:shadow-lg transition duration-300">
+  <div className="bg-white  cursor-pointer rounded-xl overflow-hidden shadow-2xl hover:shadow-lg transition duration-300"
+  onClick={()=>navigate(`${id}`)}
+  >
     
     {/* Image + Stock Badge */}
     <div className="relative h-44 overflow-hidden">
@@ -32,7 +36,7 @@ const ProductCard = ({name,price,image,unit}) => {
 
       {/* CTA */}
       <button className="w-full mt-2 bg-green-600 text-white py-2 rounded-lg text-sm hover:bg-green-700 transition">
-        Add to Cart
+        Product Details
       </button>
     </div>
 

@@ -6,7 +6,8 @@ import {
   updateProductService,
   createSignedUrlService,
   searchProductService,
-  ProductsForCustomerService
+  ProductsForCustomerService,
+  fetchSingleProductDetailsService
 } from "../Services/product.service.js";
 
 //controller for add product
@@ -111,6 +112,21 @@ try {
   next(error)
 }
 }
+//fetch details of a single product 
+
+const fetchSingleProductDetailsController=async(req,res,next)=>{
+try {
+  const productDetails=await fetchSingleProductDetailsService(req.params);
+  return res.status(200).json({
+  success:true,
+  product:productDetails,
+  })
+} catch (error) {
+  next(error)
+}
+}
+
+
 export {
   addProductController,
   fetchProductController,
@@ -118,5 +134,6 @@ export {
   updateProductController,
   searchProductController,
   createSignedUrlController,
-  ProductsForCustomerController
+  ProductsForCustomerController,
+  fetchSingleProductDetailsController
 };

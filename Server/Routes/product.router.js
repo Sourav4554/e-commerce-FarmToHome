@@ -8,7 +8,8 @@ import {
   updateProductController,
   searchProductController,
   createSignedUrlController,
-  ProductsForCustomerController
+  ProductsForCustomerController,
+  fetchSingleProductDetailsController
 } from "../Controllers/product.controller.js";
 import { productValidation } from "../Middlewares/Validators/product.validator.js";
 import { validationErrors } from "../Middlewares/Validators/validationerror.js";
@@ -76,5 +77,10 @@ productRouter.get(
   '/fetch-products',
   ProductsForCustomerController
   )
+
+//fetch single product details
+productRouter.get('/product-display/:id',
+fetchSingleProductDetailsController
+)
 
 export default productRouter;

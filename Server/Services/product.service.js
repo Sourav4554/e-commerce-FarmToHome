@@ -103,3 +103,16 @@ export const ProductsForCustomerService = async (query) => {
 
     return {products,page,totalPages: Math.ceil(totalPages / limit)}
 };
+
+//service for find products details 
+export const fetchSingleProductDetailsService=async(params)=>{
+const {id}=params;
+if(!id){
+throw new AppError('id required',401)
+}
+const productDetail=await productModel.findById(id).populate('VendorId')
+if(!productDetail){
+throw new AppError('no product ',404)
+}
+return productDetail;
+}

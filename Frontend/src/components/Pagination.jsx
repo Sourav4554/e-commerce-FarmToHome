@@ -6,7 +6,7 @@ const Pagination = ({ page, setPage, totalPages,loading }) => {
       <button
         className="px-4 py-2 rounded-xl border border-gray-300 bg-white text-gray-600 hover:bg-gray-100 transition cursor-pointer"
         onClick={() => setPage(page - 1)}
-        disabled={page === 1 || loading}
+        disabled={page === 1 || loading }
       >
         Prev
       </button>
@@ -24,7 +24,7 @@ const Pagination = ({ page, setPage, totalPages,loading }) => {
              : "bg-white text-gray-700 border-gray-300 hover:bg-green-100 hover:text-green-700"
             }`}
           >
-            {index + 1}
+            {index + 1 }
           </button>
         ))}
       </div>
@@ -33,7 +33,7 @@ const Pagination = ({ page, setPage, totalPages,loading }) => {
       <button
         className="px-4 py-2 rounded-xl border border-gray-300 bg-white text-gray-600 hover:bg-gray-100 transition cursor-pointer"
         onClick={() => setPage(page + 1)}
-        disabled={page === totalPages || loading}
+        disabled={page === totalPages || loading }
       >
         Next
       </button>

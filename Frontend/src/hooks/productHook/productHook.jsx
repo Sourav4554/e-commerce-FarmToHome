@@ -1,5 +1,9 @@
-
-import { fetchSignedUrl, paginatedProducts, submitProduct } from "../../services/productService";
+import {
+  fetchProductDetails,
+  fetchSignedUrl,
+  paginatedProducts,
+  submitProduct,
+} from "../../services/productService";
 import { useState } from "react";
 
 //custom hook for handling product for vendor
@@ -8,7 +12,7 @@ export const productCustomHook = () => {
   //method for signed url
   const signedUrlFun = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const { data } = await fetchSignedUrl();
       return {
         success: data.success,
@@ -28,44 +32,64 @@ export const productCustomHook = () => {
     }
   };
   //method for add product to database
-  const saveProduct=async(formdata)=>{
-   try {
-    setLoading(true)
-    const {data}=await submitProduct(formdata)
-    return {
-      success:data.success,
-      message:data.message
-     }
-   } catch (err) {
-    console.log(err);
-    const message =
-      err?.response?.data?.message || "Something wromg try again later";
-    return { success: false, message: message };
-   }finally{
-    setLoading(false)
-  }
-  }
+  const saveProduct = async (formdata) => {
+    try {
+      setLoading(true);
+      const { data } = await submitProduct(formdata);
+      return {
+        success: data.success,
+        message: data.message,
+      };
+    } catch (err) {
+      console.log(err);
+      const message =
+        err?.response?.data?.message || "Something wromg try again later";
+      return { success: false, message: message };
+    } finally {
+      setLoading(false);
+    }
+  };
 
   //method for fetch paginated products for customer
-  const fetchPaginatedProducts=async(page)=>{
-  try {
-    setLoading(true)
-    const {data}=await paginatedProducts(page)
-    return {
-    success:data.success,
-    totalPages:data.totalPages,
-    pages:data.pages,
-    products:data.products
+  const fetchPaginatedProducts = async (page) => {
+    try {
+      setLoading(true);
+      const { data } = await paginatedProducts(page);
+      return {
+        success: data.success,
+        totalPages: data.totalPages,
+        pages: data.pages,
+        products: data.products,
+      };
+    } catch (err) {
+      console.log(err.response.data);
+      const message =
+        err?.response?.data?.message || "Something wromg try again later";
+      return { success: false, message: message };
+    } finally {
+      setLoading(false);
     }
-  } catch (err) {
-    console.log(err.response.data);
-    const message =
-      err?.response?.data?.message || "Something wromg try again later";
-    return { success: false, message: message };
-  }
-  finally{
-    setLoading(false)
-  }
-}
-  return { loading, signedUrlFun,saveProduct,fetchPaginatedProducts};
+  };
+  //method for fetch product details
+  const fetchProductDescription = async (id) => {
+    try {
+      setLoading(true);
+      const { data } = await fetchProductDetails(id);
+      return { success: data.success, product: data.product };
+    } catch (err) {
+      console.log(err.response.data);
+      const message =
+        err?.response?.data?.message || "Something wromg try again later";
+      return { success: false, message: message };
+    } finally {
+      setLoading(false);
+    }
+  };
+  return {
+    loading,
+    signedUrlFun,
+    saveProduct,
+    fetchPaginatedProducts,
+    fetchProductDescription,
+  };
 };

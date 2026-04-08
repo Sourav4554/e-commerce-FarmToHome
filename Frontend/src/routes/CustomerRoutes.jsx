@@ -8,6 +8,7 @@ import CompleteProfile from '../customer/pages/CompleteProfile'
 import Farmers from '../customer/pages/Farmers'
 import NotFound from "../components/NotFound";
 import Product from '../customer/pages/Product'
+import ProductDisplay from '../customer/pages/ProductDisplay'
 
 const CustomerRoutes = () => {
   return (
@@ -20,6 +21,9 @@ const CustomerRoutes = () => {
      <Route path='complete-profile' element={<CompleteProfile/>}/>
      <Route path='farmers' element={<Farmers/>}/>
      <Route path='products' element= {<Product/>}/>
+     <Route path='products/:id' element={<ProductDisplay/>}/>
+     {/* </Route> */}
+    
     </Route>
     <Route path="*" element={<NotFound/>}/>
     </Routes>
