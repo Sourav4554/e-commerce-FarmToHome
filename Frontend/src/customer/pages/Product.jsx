@@ -26,7 +26,7 @@ const Product = () => {
     fetchPaginatedVegitables(page);
   }, [page]);
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-green-50 p-4 md:p-8">
       {/* Header */}
       <ProductsHero />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 px-4 py-6 bg-gray-50">

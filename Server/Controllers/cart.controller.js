@@ -3,7 +3,7 @@ import { addToCartService ,removeFromCartService,fetchCartService,clearCartServi
 const addToCartController=async(req,res,next)=>{
 try {
     const result=await addToCartService(req.user,req.body)
-    res.status(201).json({
+   return res.status(201).json({
     message:'product added to cart',
     data:result,
     success:true
@@ -17,7 +17,7 @@ try {
 const removeFromCartController=async(req,res,next)=>{
 try {
     const result=await removeFromCartService(req.user,req.body);
-    res.status(201).json({
+   return res.status(201).json({
         message:'product remove from cart',
         data:result,
         success:true
@@ -30,7 +30,7 @@ try {
 const fetchCartController=async(req,res,next)=>{
 try {
     const cartdata=await fetchCartService(req.user)
-    res.status(200).json({
+  return res.status(200).json({
     data:cartdata,
     success:true
     })
@@ -42,9 +42,10 @@ try {
 //controll for clear cart data
 const clearCartController=async(req,res,next)=>{
 try {
-    await clearCartService(req.user);
-    res.status(200).json({
-    message:'Cart cleared',
+    const result=await clearCartService(req.user,req.body);
+    return res.status(200).json({
+    message:'Cart item cleared',
+    data:result,
     success:true
     })
 } catch (error) {

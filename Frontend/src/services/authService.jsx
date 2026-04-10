@@ -17,6 +17,5 @@ return api.post('/auth/logout')
 
 //profileCompletion
 export const profileCompletion=(data)=>{
-    console.log('data inside service',data)
 return api.patch('/auth/completeprofile',data)
 }

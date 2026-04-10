@@ -65,7 +65,7 @@ const ProductDetails = ({ productDetails, vendorDetails }) => {
 
 
         {/* Buttons */}
-         <CartButtons/>
+         <CartButtons products={productDetails}/>
 
         {/* FARMER CARD */}
         <FarmerCard vendorDetails={vendorDetails} />

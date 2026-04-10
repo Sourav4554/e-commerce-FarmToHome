@@ -3,6 +3,7 @@ import api from "../api/axios";
 export const AuthContextProvide = createContext(null);
 
 const AuthContext = ({ children }) => {
+
   //state variable used for store user information
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(true);

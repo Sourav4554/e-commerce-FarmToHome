@@ -114,11 +114,26 @@ export const fetchCartService = async (user) => {
 };
 
 //service for clear cartData
-export const clearCartService = async (user) => {
-  const result = await cartModel.updateOne(
-    {
-      customerId: user._id,
-    },
-    { $set: { items: [] } }
+export const clearCartService = async (user,body) => {
+  const { productId } = body;
+  if (!productId) {
+    throw new AppError("product id not found", 400);
+  }
+  
+  const cart = await cartModel.findOne({
+    customerId: user._id,
+  });
+  if (!cart) {
+    throw new AppError("Cart not found", 404);
+  }
+  const itemIndex = cart.items.findIndex(
+    (item) => item.productId.toString() === productId
   );
+  if (itemIndex === -1) {
+    throw new AppError("Product not found in cart", 404);
+  }
+  cart.items.splice(itemIndex, 1);
+  await cart.save();
+  const updatedCart = await cart.populate("items.productId");
+  return updatedCart;
 };
