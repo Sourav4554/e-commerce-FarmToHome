@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { cartModel } from "../Models/cart.Model.js";
 import { productModel } from "../Models/product.model.js";
 import AppError from "../Utilities/AppError.js";
@@ -8,8 +9,8 @@ export const addToCartService = async (user, body) => {
   if (!productId) {
     throw new AppError("product id not found", 400);
   }
-  //fetch product
 
+  //fetch product
   const product = await productModel
     .findById({ _id: productId })
     .select("VendorId stock");
@@ -23,12 +24,13 @@ export const addToCartService = async (user, body) => {
     "items.productId": productId,
   });
   if (cart) {
-    const cartproduct = cart.items.find((p) => p.productId === productId);
-
+    const cartproduct = cart.items.find(
+      (p) => p.productId.toString() === productId
+    );
     let existingQuatinty = cartproduct.quantity;
 
     if (existingQuatinty + 1 > product.stock) {
-      throw new AppError("Out of stock", 400);
+      throw new AppError("Maximum available quantity reached", 400);
     }
   } else {
     if (product.stock < 1) {
@@ -65,6 +67,7 @@ export const addToCartService = async (user, body) => {
     .findOne({
       customerId: user._id,
     })
+    .populate("items.productId")
     .lean();
 
   return updatedCart;
@@ -76,45 +79,34 @@ export const removeFromCartService = async (user, body) => {
   if (!productId) {
     throw new AppError("product id not found", 400);
   }
-
-  const result = await cartModel.updateOne(
-    {
-      customerId: user._id,
-      "items.productId": productId,
-      "items.quantity": { $gt: 1 },
-    },
-    {
-      $inc: { "items.$.quantity": -1 },
-    }
-  );
-  if (result.modifiedCount === 0) {
-    const exist = await cartModel.exists({
-      customerId: user._id,
-      "items.productId": productId,
-    });
-    if (!exist) {
-      throw new AppError("Cart item not found", 404);
-    }
-    //remove item from cart 
-    await cartModel.updateOne(
-      {
-        customerId: user._id,
-      },
-      {
-        $pull: { items: { productId: productId } },
-      }
-    );
+  
+  const cart = await cartModel.findOne({
+    customerId: user._id,
+  });
+  if (!cart) {
+    throw new AppError("Cart not found", 404);
   }
-  return cartModel
-    .findOne({
-      customerId: user._id,
-    })
-    .lean();
+  const itemIndex = cart.items.findIndex(
+    (item) => item.productId.toString() === productId
+  );
+  if (itemIndex === -1) {
+    throw new AppError("Product not found in cart", 404);
+  }
+  if (cart.items[itemIndex].quantity > 1) {
+    cart.items[itemIndex].quantity -= 1;
+  } else {
+    cart.items.splice(itemIndex, 1);
+  }
+  await cart.save();
+  const updatedCart = await cart.populate("items.productId");
+  return updatedCart;
 };
 
 //service for fetch cart data
 export const fetchCartService = async (user) => {
-  const result = await cartModel.findOne({ customerId: user._id }).lean();
+  const result = await cartModel
+    .findOne({ customerId: user._id })
+    .populate("items.productId");
   if (!result) {
     throw new AppError("No cartdata available", 404);
   }
@@ -123,11 +115,10 @@ export const fetchCartService = async (user) => {
 
 //service for clear cartData
 export const clearCartService = async (user) => {
- const result= await cartModel.updateOne(
+  const result = await cartModel.updateOne(
     {
       customerId: user._id,
     },
     { $set: { items: [] } }
   );
- 
 };
