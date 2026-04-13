@@ -10,6 +10,8 @@ import NotFound from "../components/NotFound";
 import Product from '../customer/pages/Product'
 import ProductDisplay from '../customer/pages/ProductDisplay'
 import Cart from '../customer/pages/Cart'
+import Order from '../customer/pages/Order'
+import PlaceOrder from '../customer/pages/PlaceOrder'
 
 const CustomerRoutes = () => {
   return (
@@ -24,6 +26,8 @@ const CustomerRoutes = () => {
      <Route path='products' element= {<Product/>}/>
      <Route path='products/:id' element={<ProductDisplay/>}/>
      <Route path='cart' element={<Cart/>}/>
+     <Route path='order' element={<Order/>}/>
+     <Route path='placeorder' element={<PlaceOrder/>}/>
      {/* </Route> */}
     
     </Route>

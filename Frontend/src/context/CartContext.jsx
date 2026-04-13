@@ -64,6 +64,7 @@ const CartContext = ({ children }) => {
   useEffect(() => {
     //fetch cartData
     const loadCart = async () => {
+      if(!userInfo)return 
       const result = await fetchCartData();
       if (!result.success) {
         console.log(result.message);

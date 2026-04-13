@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
+import { PiShoppingCartFill } from "react-icons/pi";
+import { TfiPackage } from "react-icons/tfi";
 import { NavLink } from "react-router-dom";
 import { AuthContextProvide } from "../../context/AuthContext";
 
@@ -17,9 +19,10 @@ const Navbar = () => {
     { id: 1, text: "Home", path: "/" },
     { id: 2, text: "Farmers", path: "/farmers" },
     { id: 3, text: "Products", path: "/products" },
-    { id: 4, text: "Cart", path: "/cart" },
+    { id: 4, icon: PiShoppingCartFill, path: "/cart" },
+    { id: 5, icon: TfiPackage, path: "/order" },
     {
-      id: 5,
+      id: 6,
       text: `${
         userInfo && userInfo.role === "customer" ? "Profile" : "Register"
       }`,
@@ -45,15 +48,22 @@ const Navbar = () => {
 
       {/* Desktop Navigation */}
       <ul className="hidden md:flex ">
-        {navItems.map((item) => (
-          <NavLink
-            key={item.id}
-            to={item.path}
-            className={(props) => handleColor(props, item.varient)}
-          >
-            {item.text}
-          </NavLink>
-        ))}
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          return (
+            <NavLink
+              key={item.id}
+              to={item.path}
+              className={(props) => handleColor(props, item.varient)}
+            >
+              {Icon ? (
+                <Icon className="text-2xl hover:scale-110 transition-transform" />
+              ) : (
+                item.text
+              )}
+            </NavLink>
+          );
+        })}
       </ul>
 
       {/* Mobile Navigation Icon */}

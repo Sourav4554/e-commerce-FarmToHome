@@ -12,32 +12,28 @@ export const codOrderService = async (user, body) => {
   if (!cartItems || cartItems.items.length === 0) {
     throw new AppError("cart is empty", 400);
   }
-
   const productIdes = cartItems.items.map(
     (product) => new mongoose.Types.ObjectId(product.productId)
   );
-
   //fetch all products in cart
   const products = await productModel
     .find({ _id: { $in: productIdes } })
     .lean();
-
   const productMap = new Map();
 
   products.forEach((p) => {
     productMap.set(p._id.toString(), p);
   });
-
   let totalAmount = 0;
   const orders = cartItems.items.map((item) => {
-    const product = productMap.get(item.productId);
+    const product = productMap.get(item.productId.toString());
     if (!product) {
       throw new AppError("product not found", 404);
     }
     if (product.stock < item.quantity) {
       throw new AppError(`${product.name} out of stock`);
     }
-    totalAmount += product.price * item.quantity;
+    totalAmount += product.price * item.quantity + 20;
     return {
       _id: product._id.toString(),
       name: product.name,
@@ -47,7 +43,7 @@ export const codOrderService = async (user, body) => {
       quantity: item.quantity,
     };
   });
-
+  
   const createOrder = await orderModel.create({
     customerId: user._id,
     items: orders,
@@ -55,6 +51,23 @@ export const codOrderService = async (user, body) => {
     paymentMethod: "COD",
     address: address,
   });
+  
+  //reduce the stock in productModel
+  await productModel.bulkWrite(
+    cartItems.items.map((item)=>({
+      updateOne:{
+          filter:{
+            _id:item.productId
+          },
+          update:{
+            $inc:{
+              stock:-item.quantity
+            }
+          }
+      }
+    }))
+    )
+  
   await cartModel.updateOne({ customerId: user._id }, { $set: { items: [] } });
   return createOrder;
 };
@@ -68,7 +81,7 @@ export const fetchCustomerOrdersService = async (user) => {
   return customerOrders;
 };
 
-//service for fetch customer orders
+//service for fetch vendor orders
 export const fetchVendorOrderService = async (user) => {
   const vendorOrders = await orderModel.aggregate([
     {

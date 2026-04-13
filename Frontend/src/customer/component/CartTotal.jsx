@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
 import { cartContextProvider } from "../../context/CartContext";
+import { useNavigate } from "react-router-dom";
 
 const CartTotal = () => {
     const {TotalAmount}=useContext(cartContextProvider)
+    const navigate=useNavigate()
   return (
     <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
       <div></div>
@@ -32,7 +34,10 @@ const CartTotal = () => {
           </div>
         </div>
 
-        <button className="bg-primary w-full mt-5 text-white py-2 rounded-lg hover:bg-green-800 transition cursor-pointer">
+        <button className="bg-primary w-full mt-5 text-white py-2 rounded-lg hover:bg-green-800 transition cursor-pointer"
+        disabled={!TotalAmount}
+        onClick={()=>TotalAmount&&navigate('/placeorder')}
+        >
           Proceed to Checkout
         </button>
       </div>

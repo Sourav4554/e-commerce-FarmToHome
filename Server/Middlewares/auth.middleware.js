@@ -6,7 +6,7 @@ export const authMiddleware=async (req,res,next)=>{
   try {
    const {token}=req.cookies
    if(!token){
-   throw new AppError('Access denined Unautharized',401)
+   throw new AppError('Access denined PleaseLogin',401)
    }
    const tokenDecode=jwt.verify(token,process.env.JWTSECRET)
    const user=await usermodel.findById(tokenDecode.userId)

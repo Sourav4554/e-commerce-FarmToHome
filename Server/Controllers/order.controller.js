@@ -20,7 +20,7 @@ const fetchCustomerOrdersController=async(req,res,next)=>{
 try {
     const customerOrders=await fetchCustomerOrdersService(req.user)
     res.status(200).json({
-    data:customerOrders,
+    order:customerOrders,
     success:true
     })
 } catch (error) {
