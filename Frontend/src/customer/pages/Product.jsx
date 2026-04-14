@@ -43,6 +43,7 @@ const Product = () => {
               image={item.image}
               unit={item.unit}
               id={item._id}
+              stock={item.stock}
             />
           ))
         ) : (

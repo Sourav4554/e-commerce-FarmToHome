@@ -25,3 +25,8 @@ return axios.get(`/product/product-display/${id}`)
 export const listVendorProducts=()=>{
 return axios.get(`/product/fetch-product`)
 }
+
+//api call for delete product
+export const deleteProduct=(id)=>{
+return axios.delete(`/product/delete-product/${id}`)
+}

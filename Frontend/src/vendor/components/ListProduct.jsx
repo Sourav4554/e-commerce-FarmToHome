@@ -3,12 +3,13 @@ import Pagination from "../../components/Pagination";
 import { productCustomHook } from "../../hooks/productHook/productHook";
 import { useNavigate } from "react-router-dom";
 import TableRows from "./TableRows";
-import DeleteAlert from "./DeleteAlert";
+import Loader from "../../components/Loader";
 const ListProduct = () => {
   const navigate = useNavigate();
   const [storeProducts, setStoreProducts] = useState(null);
+  const [showPopup, setShowPoPUp] = useState(false);
   const { fetchVendorProducts, loading } = productCustomHook();
-  
+
   //method for fetch Products
   useEffect(() => {
     const fetchProducts = async () => {
@@ -22,9 +23,9 @@ const ListProduct = () => {
     fetchProducts();
   }, []);
 
-  useEffect(() => {
-    console.log(storeProducts);
-  }, [storeProducts]);
+  if (loading) {
+    return <Loader />;
+  }
   return (
     <div className=" mx-auto bg-green-50">
       <div className="flex flex-col md:flex-row justify-between items-center gap-6  py-2 sm:px-6 lg:px-8">
@@ -73,31 +74,31 @@ const ListProduct = () => {
                     </th>
                   </tr>
                 </thead>
-                
-                  {storeProducts && storeProducts.length > 0 ? (
-                    storeProducts.map((item, index) => (
-                      <TableRows
-                        id={item.id}
-                        index={index}
-                        image={item.image}
-                        name={item.name}
-                        category={item.category}
-                        price={item.price}
-                        unit={item.unit}
-                        stock={item.stock}
-                      />
-                    ))
-                  ) : (
-                    <p>fetching...</p>
-                  )}
-                
+
+                {storeProducts && storeProducts.length > 0 ? (
+                  storeProducts.map((item, index) => (
+                    <TableRows
+                      id={item._id}
+                      index={index}
+                      image={item.image}
+                      name={item.name}
+                      category={item.category}
+                      price={item.price}
+                      unit={item.unit}
+                      stock={item.stock}
+                      showPopup={showPopup} 
+                      setShowPoPUp={setShowPoPUp}
+                    />
+                  ))
+                ) : (
+                  <p>fetching...</p>
+                )}
               </table>
               <Pagination />
             </div>
           </div>
         </div>
       </div>
-      {/* <DeleteAlert/> */}
     </div>
   );
 };

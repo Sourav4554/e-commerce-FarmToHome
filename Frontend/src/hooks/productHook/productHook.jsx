@@ -1,4 +1,5 @@
 import {
+  deleteProduct,
   fetchProductDetails,
   fetchSignedUrl,
   listVendorProducts,
@@ -87,26 +88,45 @@ export const productCustomHook = () => {
     }
   };
   //method for fetch vendor products
-  const fetchVendorProducts=async()=>{
-  try {
-    setLoading(true)
-   const {data}=await listVendorProducts()
-   return { success: data.success, product: data?.data};
-  } catch (err) {
-    console.log(err.response.data);
-    const message =
-      err?.response?.data?.message || "Something wromg try again later";
-    return { success: false, message: message };
-  }finally{
-  setLoading(false)
-  }
-  }
+  const fetchVendorProducts = async () => {
+    try {
+      setLoading(true);
+      const { data } = await listVendorProducts();
+      return { success: data.success, product: data?.data };
+    } catch (err) {
+      console.log(err.response.data);
+      const message =
+        err?.response?.data?.message || "Something wromg try again later";
+      return { success: false, message: message };
+    } finally {
+      setLoading(false);
+    }
+  };
+  //method for delete products -vendor
+  const deleteSellerProduct = async (id) => {
+    try {
+      setLoading(true);
+      const { data } = await deleteProduct(id);
+      return {
+      success:data.success,
+      message:data.message
+      }
+    } catch (err) {
+      console.log(err.response.data);
+      const message =
+        err?.response?.data?.message || "Something wromg try again later";
+      return { success: false, message: message };
+    } finally {
+      setLoading(false);
+    }
+  };
   return {
     loading,
     signedUrlFun,
     saveProduct,
     fetchPaginatedProducts,
     fetchProductDescription,
-    fetchVendorProducts
+    fetchVendorProducts,
+    deleteSellerProduct,
   };
 };

@@ -47,7 +47,7 @@ productRouter.get(
   fetchProductController
 );
 //delete product route
-productRouter.patch(
+productRouter.delete(
   "/delete-product/:id",
   authMiddleware,
   vendorRoleMiddleware,
