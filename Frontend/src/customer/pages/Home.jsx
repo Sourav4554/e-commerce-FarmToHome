@@ -6,10 +6,10 @@ import { AuthContextProvide } from '../../context/AuthContext'
 import Loader from '../../components/Loader'
 
 const Home = () => {
-  const {loading}=useContext(AuthContextProvide)
-  if(loading){
-    return <Loader/>
-  }
+  //const {loading}=useContext(AuthContextProvide)
+  // if(loading){
+  //   return <Loader/>
+  // }
   return (
     <div>
         <Header/>

@@ -1,6 +1,7 @@
 import React from "react";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import DeleteAlert from "./DeleteAlert";
+import { useNavigate } from "react-router-dom";
 
 const TableRows = ({
   id,
@@ -14,6 +15,7 @@ const TableRows = ({
   showPopup,
   setShowPoPUp,
 }) => {
+    const navigate=useNavigate()
   return (
     <>
     <tbody>
@@ -33,7 +35,9 @@ const TableRows = ({
           {stock <= 0 ? "out of stock" : stock} {stock > 0 && unit}
         </td>
         <td className="whitespace-nowrap px-6 py-4 flex items-center gap-4">
-          <MdModeEdit className="text-blue-500 cursor-pointer hover:text-blue-700 text-xl transition" />
+          <MdModeEdit className="text-blue-500 cursor-pointer hover:text-blue-700 text-xl transition" 
+          onClick={()=>navigate(`/vendor/edit-product/${id}`)}
+          />
           <MdDelete className="text-red-500 cursor-pointer hover:text-red-700 text-xl transition" 
           onClick={()=>setShowPoPUp(!showPopup)}
           />

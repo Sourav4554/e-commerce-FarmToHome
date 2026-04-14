@@ -20,6 +20,7 @@ app.use(cors({
 origin:'http://localhost:5173',
 credentials: true
 }))
+
 //order endpoint
 app.use('/api/v1/order',orderRouter)
 //cart endpoint

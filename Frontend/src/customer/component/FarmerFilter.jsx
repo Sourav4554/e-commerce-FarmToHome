@@ -55,7 +55,7 @@ const FarmerFilter = ({ filteredData, setFilteredData }) => {
           onChange={handleData}
         >
           <option value="">Select District</option>
-          {district.map((item, index) => (
+          {district && district.length>0 && district.map((item, index) => (
             <option key={index} value={item}>
               {item}
             </option>
@@ -68,7 +68,7 @@ const FarmerFilter = ({ filteredData, setFilteredData }) => {
           onChange={handleData}
         >
           <option value="">Select Panchayath</option>
-          {panchayth.map((item, index) => (
+          {panchayth && panchayth.length && panchayth.map((item, index) => (
             <option key={index} name="" value={item}>
               {item}
             </option>
@@ -81,7 +81,7 @@ const FarmerFilter = ({ filteredData, setFilteredData }) => {
           onChange={handleData}
         >
           <option value="">Select Ward</option>
-          {ward.map((item, index) => (
+          {ward && ward.length && ward.map((item, index) => (
             <option key={index} value={item}>
               {item}
             </option>

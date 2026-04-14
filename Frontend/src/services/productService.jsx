@@ -30,3 +30,8 @@ return axios.get(`/product/fetch-product`)
 export const deleteProduct=(id)=>{
 return axios.delete(`/product/delete-product/${id}`)
 }
+
+//api call for update product
+export const updateProduct=(id,product)=>{
+return axios.patch(`/product/update-product/${id}`,product)
+}

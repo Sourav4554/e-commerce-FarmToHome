@@ -5,6 +5,7 @@ import {
   listVendorProducts,
   paginatedProducts,
   submitProduct,
+  updateProduct
 } from "../../services/productService";
 import { useState } from "react";
 
@@ -120,6 +121,24 @@ export const productCustomHook = () => {
       setLoading(false);
     }
   };
+  //methode for update product
+  const updateSellerProduct = async (id,product) => {
+    try {
+      setLoading(true);
+      const { data } = await updateProduct(id,product);
+      return {
+      success:data.success,
+      message:data.message
+      }
+    } catch (err) {
+      console.log(err);
+      const message =
+        err?.response?.data?.message || "Something wromg try again later";
+      return { success: false, message: message };
+    } finally {
+      setLoading(false);
+    }
+  };
   return {
     loading,
     signedUrlFun,
@@ -128,5 +147,6 @@ export const productCustomHook = () => {
     fetchProductDescription,
     fetchVendorProducts,
     deleteSellerProduct,
+    updateSellerProduct
   };
 };

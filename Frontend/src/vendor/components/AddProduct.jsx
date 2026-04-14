@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { productCustomHook } from "../../hooks/productHook/productHook";
 import toast from "react-hot-toast";
 import cloudinaryUpload from "../../utilities/CloudinaryUpload";
 import { validateImage } from "../../utilities/ValidateImage";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 const AddProduct = () => {
-  const { signedUrlFun, saveProduct, loading } = productCustomHook();
-  const navigate=useNavigate()
+  const { signedUrlFun, saveProduct, fetchProductDescription, loading,updateSellerProduct } =
+    productCustomHook();
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const isEdit = !!id;
+
   const [file, setFile] = useState("");
   const [preview, setPreview] = useState("");
   const [productData, setProductData] = useState({
@@ -18,6 +22,22 @@ const AddProduct = () => {
     description: "",
     image: "",
   });
+
+  //api call for retrive update product
+  useEffect(() => {
+    if (isEdit) {
+      const fetchData = async () => {
+        const response = await fetchProductDescription(id);
+        if (!response.success) {
+          console.log(response.message);
+          return;
+        }
+        setProductData(response.product);
+        setPreview(response?.product?.image);
+      };
+      fetchData();
+    }
+  }, [id]);
 
   //get data from form
   const changeHandler = (e) => {
@@ -34,22 +54,37 @@ const AddProduct = () => {
     }
   };
 
+  //handling update and add product based on condition
   const submitProduct = async (e) => {
     e.preventDefault();
-    const imageValidation= await validateImage(file)
-    if(!imageValidation.success){
-      toast.error(imageValidation.message)
-      return
+    let imageUrl = productData.image;
+    if (file) {
+      const imageValidation = await validateImage(file);
+
+      if (!imageValidation.success) {
+        toast.error(imageValidation.message);
+        return;
+      }
+
+      //cloudinary upload function evoke
+      const cloudinaryRes = await cloudinaryUpload(
+        imageValidation.image,
+        signedUrlFun
+      );
+      if (cloudinaryRes) {
+        imageUrl = cloudinaryRes;
+      }
     }
-    //cloudinary upload function evoke
-    const cloudinaryRes = await cloudinaryUpload(imageValidation.image, signedUrlFun);
-    if (cloudinaryRes) {
       const updatedData = {
         ...productData,
-        image: cloudinaryRes,
+        image: imageUrl,
       };
-
-      const response = await saveProduct(updatedData);
+      let response;
+      if(!isEdit){
+       response = await saveProduct(updatedData);
+      }else{
+       response=await updateSellerProduct(id,updatedData)
+      }
       if (!response.success) {
         toast.error(response.message);
         return;
@@ -66,9 +101,9 @@ const AddProduct = () => {
         image: "",
       });
       setPreview("");
-      navigate('/vendor/products')
+      navigate("/vendor/products");
       setFile(null);
-    }
+    
   };
 
   return (
@@ -207,7 +242,7 @@ const AddProduct = () => {
             {/* Upload Area */}
             <div className="relative border-2 border-dashed rounded-xl p-12 transition-all border-slate-300 bg-slate-50/50 hover:border-emerald-400 hover:bg-emerald-50/30 ">
               <input
-                required
+                required={!isEdit}
                 type="file"
                 id="file-upload"
                 accept="image/*"
@@ -263,7 +298,13 @@ const AddProduct = () => {
                 type="submit"
                 disabled={loading}
               >
-                {loading ? "Publishing..." : "Publish Product"}
+                {loading
+                  ? isEdit
+                    ? "Updating...."
+                    : "Publishing..."
+                  : isEdit
+                  ? "Update Product"
+                  : "PublishProduct"}
               </button>
             </div>
           </div>

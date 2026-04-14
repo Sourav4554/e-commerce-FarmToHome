@@ -7,6 +7,7 @@ import VendorProfile from '../vendor/pages/VendorProfile'
 import Product from '../vendor/pages/Product'
 import Order from '../vendor/pages/Order'
 import AddProduct from '../vendor/components/AddProduct'
+import EditProduct from '../vendor/components/EditProduct'
 const VendorRoutes = () => {
   return (
     <>
@@ -19,6 +20,7 @@ const VendorRoutes = () => {
                <Route path='products' element={<Product/>}/>
                <Route path='addproduct' element={<AddProduct/>}/>
                <Route path='orders' element={<Order/>}/>
+               <Route path='edit-product/:id' element={<EditProduct/>}/>
          </Route>
      </Route>
     </Routes>

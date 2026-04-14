@@ -8,8 +8,8 @@ import { AuthContextProvide } from "../../context/AuthContext";
 const Navbar = () => {
   const { userInfo } = useContext(AuthContextProvide);
   const [nav, setNav] = useState(false);
-
-  console.log(userInfo);
+  let Icon;
+  
   // Toggle function to handle the navbar's display
   const handleNav = () => {
     setNav(!nav);
@@ -49,7 +49,7 @@ const Navbar = () => {
       {/* Desktop Navigation */}
       <ul className="hidden md:flex ">
         {navItems.map((item) => {
-          const Icon = item.icon;
+           Icon = item.icon;
           return (
             <NavLink
               key={item.id}
@@ -80,8 +80,11 @@ const Navbar = () => {
         }
       >
         {/* Mobile Navigation Items */}
-        {navItems.map((item) => (
+        {navItems.map((item) => {
+         Icon=item.icon
+         return (
           <NavLink
+          onClick={handleNav}
             key={item.id}
             to={item.path}
             className={({ isActive }) =>
@@ -90,9 +93,14 @@ const Navbar = () => {
               }`
             }
           >
-            {item.text}
+            {Icon ? (
+                <Icon className="text-2xl hover:scale-110 transition-transform" />
+              ) : (
+                item.text
+              )}
           </NavLink>
-        ))}
+              )
+        })}
       </ul>
     </nav>
   );
