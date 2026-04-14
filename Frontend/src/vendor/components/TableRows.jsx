@@ -1,0 +1,39 @@
+import React from 'react'
+import { MdDelete, MdModeEdit } from "react-icons/md";
+const TableRows = ({id,index,image,name,category,price,stock,unit}) => {
+  return (
+    <tbody>
+        <tr
+          // className="border-b dark:border-neutral-500 bg-white"
+          className={`border-b ${stock<=0?"bg-red-200":"bg-white"}`}
+          key={id}
+        >
+          <td className="whitespace-nowrap px-6 py-4 font-medium">
+            {index + 1}
+          </td>
+          <td className="whitespace-nowrap px-6 py-4">
+            <img src={image} alt="" width="50" height="50" />
+          </td>
+          <td className="whitespace-nowrap px-6 py-4">
+            {name}
+          </td>
+          <td className="whitespace-nowrap px-6 py-4">
+            {category}
+          </td>
+          <td className="whitespace-nowrap px-6 py-4">
+            {price}
+          </td>
+          <td className="whitespace-nowrap px-6 py-4">
+            {stock<=0?'out of stock':stock}  {stock>0 && unit}
+          </td>
+          <td className="whitespace-nowrap px-6 py-4 flex items-center gap-4">
+            <MdModeEdit className="text-blue-500 cursor-pointer hover:text-blue-700 text-xl transition" />
+            <MdDelete className="text-red-500 cursor-pointer hover:text-red-700 text-xl transition" />
+          </td>
+        </tr>
+      
+  </tbody>
+  )
+}
+
+export default TableRows

@@ -3,9 +3,10 @@ import { productCustomHook } from "../../hooks/productHook/productHook";
 import toast from "react-hot-toast";
 import cloudinaryUpload from "../../utilities/CloudinaryUpload";
 import { validateImage } from "../../utilities/ValidateImage";
+import { useNavigate } from "react-router-dom";
 const AddProduct = () => {
   const { signedUrlFun, saveProduct, loading } = productCustomHook();
-
+  const navigate=useNavigate()
   const [file, setFile] = useState("");
   const [preview, setPreview] = useState("");
   const [productData, setProductData] = useState({
@@ -65,6 +66,7 @@ const AddProduct = () => {
         image: "",
       });
       setPreview("");
+      navigate('/vendor/products')
       setFile(null);
     }
   };
@@ -115,8 +117,8 @@ const AddProduct = () => {
                   className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-slate-900 appearance-auto bg-white cursor-pointer"
                 >
                   <option value="">Select a category</option>
-                  <option value="electronics">Vegitable</option>
-                  <option value="clothing">Fruit</option>
+                  <option value="vegitable">Vegitable</option>
+                  <option value="fruit">Fruit</option>
                 </select>
               </div>
 

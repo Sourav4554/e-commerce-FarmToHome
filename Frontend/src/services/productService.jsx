@@ -20,3 +20,8 @@ return axios.get(`/product/fetch-products?limit=12&page=${page}`)
 export const fetchProductDetails=(id)=>{
 return axios.get(`/product/product-display/${id}`)
 }
+
+//api call for list vendor products 
+export const listVendorProducts=()=>{
+return axios.get(`/product/fetch-product`)
+}

@@ -21,7 +21,7 @@ export const addProductService = async (body, user) => {
 //service for fetch Product
 export const fetchProductService = async (user) => {
   const product = await productModel
-    .find({ VendorId: user._id, isDelete: false })
+    .find({ VendorId: user._id, isDelete: false }).sort({createdAt:-1})
     .lean();
   if (!product.length) {
     throw new AppError("No products available", 404);
