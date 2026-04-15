@@ -5,10 +5,12 @@ import { cartContextProvider } from "../../context/CartContext";
 import toast from "react-hot-toast";
 import useOrder from "../../hooks/orderHook/useOrder";
 import { useNavigate } from "react-router-dom";
+import { orderContextProvider } from "../../context/OrderContext";
 
 export default function PlaceOrder() {
   const [paymentMethod, setPaymentMethod] = useState("COD");
   const { cartDetail, setCartDetail } = useContext(cartContextProvider);
+  const {customerOrder, setCustomerOrder}=useContext(orderContextProvider)
   const navigate = useNavigate();
   const { placeOrder, loading } = useOrder();
   const [orderAddress, setOrderAddress] = useState({
@@ -41,6 +43,7 @@ export default function PlaceOrder() {
         return;
       }
       toast.success(response.message);
+      setCustomerOrder((prev) => ([...(prev || []), response.order]));
       navigate("/order", { replace: true });
       setCartDetail([]);
     }

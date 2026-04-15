@@ -91,7 +91,7 @@ const ListProduct = () => {
                     />
                   ))
                 ) : (
-                  <p>fetching...</p>
+                  <p>No products Avilable</p>
                 )}
               </table>
               <Pagination />
