@@ -2,7 +2,7 @@ import React from "react";
 import { MdOutlineDeliveryDining } from "react-icons/md";
 import { FiPackage } from "react-icons/fi";
 const OrderCard = ({ number, price, paymentMethod, items }) => {
-  console.log(items);
+  console.log(`order card`,items);
   return (
     <div
       key={1}

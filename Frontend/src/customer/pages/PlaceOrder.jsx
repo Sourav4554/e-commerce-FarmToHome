@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+
 import OrderAddress from "../component/OrderAddress";
 import Checkout from "../component/Checkout";
 import { cartContextProvider } from "../../context/CartContext";
@@ -6,13 +7,14 @@ import toast from "react-hot-toast";
 import useOrder from "../../hooks/orderHook/useOrder";
 import { useNavigate } from "react-router-dom";
 import { orderContextProvider } from "../../context/OrderContext";
+import Loader from "../../components/Loader";
 
 export default function PlaceOrder() {
   const [paymentMethod, setPaymentMethod] = useState("COD");
   const { cartDetail, setCartDetail } = useContext(cartContextProvider);
-  const {customerOrder, setCustomerOrder}=useContext(orderContextProvider)
+  const { setCustomerOrder,fetchOrders}=useContext(orderContextProvider)
   const navigate = useNavigate();
-  const { placeOrder, loading } = useOrder();
+  const { placeOrder,onlinePayment,verifyRazorpayPayment,loading,buttonLoad} = useOrder();
   const [orderAddress, setOrderAddress] = useState({
     name: "",
     phone: "",
@@ -23,6 +25,45 @@ export default function PlaceOrder() {
     houseName: "",
     houseNo: "",
   });
+
+
+ //verifying razorpay payment 
+ const verifyPayment=async(res)=>{
+  const response=await verifyRazorpayPayment(res);
+  if (!response.success) {
+    toast.error(response.message);
+    return;
+  }
+  toast.success(response.message);
+  await fetchOrders()
+  //setCustomerOrder((prev) => ([...(prev || []), response.order]));
+  navigate("/order", { replace: true });
+  setCartDetail([]);
+  return;
+}
+
+
+ //handling payment of razorpay
+ const handlingPayment=(order)=>{
+ const options={
+ key:import.meta.env.VITE_RAZORPAY_KEY_ID,
+ amount:order.amount,
+ currency:order.currency,
+ name:'Farm2Home',
+ description:'order payment',
+ order_id:order.id,
+ handler:(response)=>{
+    verifyPayment(response)
+ },
+ theme: {
+  color: "#22c55e",
+},
+ }
+ const razorpay=new window.Razorpay(options)
+ razorpay.open()
+ }
+
+
 
   //method for Order product
   const placeOrderMethod = async () => {
@@ -46,11 +87,23 @@ export default function PlaceOrder() {
       setCustomerOrder((prev) => ([...(prev || []), response.order]));
       navigate("/order", { replace: true });
       setCartDetail([]);
+      return;
+    }else{
+      const response =await onlinePayment(orderAddress)
+      if(!response.success){
+        console.log(response.message)
+        return
+      }
+      handlingPayment(response.order)
     }
   };
 useEffect(()=>{
 console.log(orderAddress)
 },[orderAddress])
+
+if(loading){
+return <Loader/>
+}
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-slate-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
@@ -64,6 +117,7 @@ console.log(orderAddress)
             paymentMethod={paymentMethod}
             setPaymentMethod={setPaymentMethod}
             placeOrderMethod={placeOrderMethod}
+            loading={buttonLoad}
           />
           {/* RIGHT SECTION - Order Summary */}
         </div>

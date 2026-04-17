@@ -32,6 +32,15 @@ const orderSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    razorpayPaymentId: {
+      type: String,
+    },
+    razorpayOrderId: {
+      type: String,
+    },
+    razorpaySignature: {
+      type: String,
+    },
     address: {
       name: {
         type: String,

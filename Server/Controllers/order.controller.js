@@ -1,4 +1,4 @@
-import { codOrderService,fetchCustomerOrdersService,fetchVendorOrderService} from "../Services/order.service.js"
+import { codOrderService,paymentVerificationSevice,fetchCustomerOrdersService,fetchVendorOrderService,razorpayService} from "../Services/order.service.js"
 
 
 //controller for cash on delivery
@@ -14,6 +14,33 @@ try {
     next(error)
 }
 }
+
+//controller for razorpy online payment
+const razorpayController=async(req,res,next)=>{
+try {
+    const razorpayResponse=await razorpayService(req.user,req.body);
+    return res.status(200).json({
+    success:true,
+    order:razorpayResponse
+    })
+} catch (error) {
+    next(error)
+}
+}
+
+//payment verification controller
+const paymentVerificationController=async(req,res,next)=>{
+ try {
+    await paymentVerificationSevice(req.body,req.user)
+    return res.status(201).json({
+    success:true,
+    message:'order created'
+    })
+ } catch (error) {
+    next(error)
+ }
+}
+
 
 //controller for fetch customer orders
 const fetchCustomerOrdersController=async(req,res,next)=>{
@@ -44,5 +71,7 @@ try {
 export {
     codOrderController,
     fetchCustomerOrdersController,
-    fetchVendorOrderController
+    fetchVendorOrderController,
+    razorpayController,
+    paymentVerificationController
 }

@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { FaLock, FaShoppingBag} from "react-icons/fa";
+import { FaLock, FaShoppingBag } from "react-icons/fa";
 import CartReview from "./CartReview";
 import CartCheckoutPrice from "./CartCheckoutPrice";
 import PaymentButton from "./PaymentButton";
 
-const Checkout = ({paymentMethod,setPaymentMethod,placeOrderMethod}) => {
-    
+const Checkout = ({
+  paymentMethod,
+  setPaymentMethod,
+  placeOrderMethod,
+  loading,
+}) => {
   return (
     <div className="lg:sticky lg:top-24 space-y-6 animate-fadeInUp animation-delay-200">
       <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
@@ -30,14 +34,22 @@ const Checkout = ({paymentMethod,setPaymentMethod,placeOrderMethod}) => {
           {/* Price Breakdown */}
           <CartCheckoutPrice />
           <PaymentButton
-          paymentMethod={paymentMethod}
-          setPaymentMethod={setPaymentMethod}
+            paymentMethod={paymentMethod}
+            setPaymentMethod={setPaymentMethod}
           />
           {/* Payment CTA */}
-          <button className="w-full bg-linear-to-r from-green-600 to-green-700 text-white py-4 px-6 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 group"
-          onClick={placeOrderMethod}
+          <button
+            className="w-full bg-linear-to-r from-green-600 to-green-700 text-white py-4 px-6 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2 group"
+            onClick={placeOrderMethod}
+            disabled={loading}
           >
-            <span>{paymentMethod==='COD'?"Place Order":"Proceed To Payment"}</span>
+            <span>
+              {loading
+                ? "processing..."
+                : paymentMethod === "COD"
+                ? "Place Order"
+                : "Proceed To Payment"}
+            </span>
             <svg
               className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
               fill="none"

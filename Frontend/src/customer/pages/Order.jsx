@@ -1,11 +1,15 @@
 import React, { useContext } from 'react'
 
 import OrderCard from '../component/OrderCard';
+import Loader from '../../components/Loader'
 import { orderContextProvider } from '../../context/OrderContext';
+import useOrder from '../../hooks/orderHook/useOrder';
 const Order = () => {
   const {customerOrder}=useContext(orderContextProvider)
-
- 
+  const {loading}=useOrder()
+if(loading){
+return <Loader/>
+}
   return (
 <div className="min-h-screen bg-linear-to-br from-green-50 via-white to-green-100">
   <div className="max-w-5xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
@@ -48,10 +52,10 @@ const Order = () => {
       {customerOrder && customerOrder.length>0?(customerOrder.map((order, index) => (
         <OrderCard
         number={index}
-        key={order._id}
-        price={order.totalAmount}
-        paymentMethod={order.paymentMethod}
-        items={order.items}
+        key={order?._id}
+        price={order?.totalAmount}
+        paymentMethod={order?.paymentMethod}
+        items={order?.items}
         
         />
       ))

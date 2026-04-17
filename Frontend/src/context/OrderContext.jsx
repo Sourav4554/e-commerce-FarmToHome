@@ -7,29 +7,35 @@ export const orderContextProvider = createContext(null);
 const OrderContext = ({ children }) => {
   const { userInfo } = useContext(AuthContextProvide);
   const [customerOrder, setCustomerOrder] = useState([]);
-  const { fetchCustomerOrder,fetchVendorUserOrder} = useOrder();
+  const { fetchCustomerOrder,fetchVendorUserOrder,loading} = useOrder();
+ 
+  const fetchOrders = async () => {
+    if (!userInfo) return;
+    let response;
+    if (userInfo && userInfo.role === "customer") {
+      response = await fetchCustomerOrder();
+    } else {
+      response=await fetchVendorUserOrder()
+      console.log(response)
+    }
+    if (!response.success) {
+      console.log(response.message);
+      return;
+    }
+    setCustomerOrder(response.order);
+  };
+
+  useEffect(() => {
+    
+    fetchOrders();
+  }, [userInfo]);
+
   const orderData = {
     customerOrder,
     setCustomerOrder,
+    loading,
+    fetchOrders
   };
-  useEffect(() => {
-    const fetchOrders = async () => {
-      if (!userInfo) return;
-      let response;
-      if (userInfo && userInfo.role === "customer") {
-        response = await fetchCustomerOrder();
-      } else {
-        response=await fetchVendorUserOrder()
-        console.log(response)
-      }
-      if (!response.success) {
-        console.log(response.message);
-        return;
-      }
-      setCustomerOrder(response.order);
-    };
-    fetchOrders();
-  }, [userInfo]);
 
   useEffect(() => {
     console.log(customerOrder);

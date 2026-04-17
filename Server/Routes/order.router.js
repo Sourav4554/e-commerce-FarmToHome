@@ -1,7 +1,7 @@
 import express from 'express'
 import { authMiddleware } from '../Middlewares/auth.middleware.js';
 import { customerroleMiddleware } from '../Middlewares/customerrole.middleware.js';
-import { codOrderController,fetchCustomerOrdersController,fetchVendorOrderController} from '../Controllers/order.controller.js';
+import { codOrderController,paymentVerificationController,fetchCustomerOrdersController,fetchVendorOrderController,razorpayController} from '../Controllers/order.controller.js';
 import { validateOrder } from '../Middlewares/Validators/order.validator.js';
 import { validationErrors } from '../Middlewares/Validators/validationerror.js';
 import { vendorRoleMiddleware } from '../Middlewares/vendorrole.middleware.js';
@@ -15,4 +15,9 @@ orderRouter.get('/customer-order',authMiddleware,customerroleMiddleware,fetchCus
 
 //route for fetch vendor orders
 orderRouter.get('/vendor-order',authMiddleware,vendorRoleMiddleware,fetchVendorOrderController)
+
+//route for online razorpay payment
+orderRouter.post('/online',validateOrder,validationErrors,authMiddleware,customerroleMiddleware,razorpayController)
 export default orderRouter
+
+orderRouter.post('/verify-payment',authMiddleware,customerroleMiddleware,paymentVerificationController)
