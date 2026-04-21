@@ -21,7 +21,8 @@ export const addProductService = async (body, user) => {
 //service for fetch Product
 export const fetchProductService = async (user) => {
   const product = await productModel
-    .find({ VendorId: user._id, isDelete: false }).sort({createdAt:-1})
+    .find({ VendorId: user._id, isDelete: false })
+    .sort({ createdAt: -1 })
     .lean();
   if (!product.length) {
     throw new AppError("No products available", 404);
@@ -93,26 +94,45 @@ export const ProductsForCustomerService = async (query) => {
     throw new AppError("query not provided", 401);
   }
   const skip = (page - 1) * limit;
-  const totalPages=await productModel.countDocuments()
+  const totalPages = await productModel.countDocuments();
   const products = await productModel
-    .find({})
+    .find({isDelete:false})
     .limit(limit)
     .skip(skip)
     .sort({ createAt: -1 })
-    .populate('VendorId')
+    .populate("VendorId");
 
-    return {products,page,totalPages: Math.ceil(totalPages / limit)}
+  return { products, page, totalPages: Math.ceil(totalPages / limit) };
 };
 
-//service for find products details 
-export const fetchSingleProductDetailsService=async(params)=>{
-const {id}=params;
-if(!id){
-throw new AppError('id required',401)
-}
-const productDetail=await productModel.findById(id).populate('VendorId')
-if(!productDetail){
-throw new AppError('no product ',404)
-}
-return productDetail;
-}
+//service for find products details
+export const fetchSingleProductDetailsService = async (params) => {
+  const { id } = params;
+  if (!id) {
+    throw new AppError("id required", 401);
+  }
+  const productDetail = await productModel.findById(id).populate("VendorId");
+  if (!productDetail) {
+    throw new AppError("no product ", 404);
+  }
+  return productDetail;
+};
+
+//services for product count
+export const productCountService = async (user) => {
+  const [total, inStock, outStock] = await Promise.all([
+    productModel.countDocuments({ isDelete: false, VendorId: user._id }),
+    productModel.countDocuments({
+      stock: { $gt: 0 },
+      isDelete: false,
+      VendorId: user._id,
+    }),
+    productModel.countDocuments({
+      stock: { $eq: 0 },
+      isDelete: false,
+      VendorId: user._id,
+    }),
+  ]);
+
+  return { total, inStock, outStock };
+};

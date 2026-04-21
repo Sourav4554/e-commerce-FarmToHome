@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { productCustomHook } from "../../hooks/productHook/productHook";
 import toast from "react-hot-toast";
+import { ProductContextProvide } from "../../context/ProductContext";
 
 const DeleteAlert = ({ showPopup, setShowPoPUp,id }) => {
     const {deleteSellerProduct,loading}=productCustomHook()
+    const {storeProducts,setStoreProducts,productCount}=useContext(ProductContextProvide)
   const handlePopup = () => {
     setShowPoPUp(!showPopup);
   };
@@ -16,6 +18,8 @@ if(!response.success){
   return
 }
 setShowPoPUp(!showPopup)
+setStoreProducts((prev)=>prev.filter((item)=>item._id!==id))
+await productCount()
 toast.success(response.message)
 }
   return (

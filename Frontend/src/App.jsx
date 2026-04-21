@@ -9,12 +9,14 @@ import VendorRoutes from "./routes/VendorRoutes";
 import PendingPage from "./components/PendingPage";
 import CartContext from "./context/CartContext";
 import OrderContext from "./context/OrderContext";
+import ProductContext from "./context/ProductContext";
 
 const App = () => {
   return (
     <AuthContext>
       <CartContext>
         <OrderContext>
+          <ProductContext>
         <ToastProvide />
         <Routes>
           <Route path="/*" element={<CustomerRoutes />} />
@@ -25,6 +27,7 @@ const App = () => {
 
           {/* <Route path="/customer/*" element={<CustomerDashboard />} /> */}
         </Routes>
+        </ProductContext>
         </OrderContext>
       </CartContext>
     </AuthContext>

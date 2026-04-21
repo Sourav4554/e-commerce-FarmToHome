@@ -1,27 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Pagination from "../../components/Pagination";
 import { productCustomHook } from "../../hooks/productHook/productHook";
 import { useNavigate } from "react-router-dom";
 import TableRows from "./TableRows";
 import Loader from "../../components/Loader";
+import { ProductContextProvide } from "../../context/ProductContext";
 const ListProduct = () => {
   const navigate = useNavigate();
-  const [storeProducts, setStoreProducts] = useState(null);
+ 
+  const {storeProducts}=useContext(ProductContextProvide)
   const [showPopup, setShowPoPUp] = useState(false);
   const { fetchVendorProducts, loading } = productCustomHook();
 
-  //method for fetch Products
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const response = await fetchVendorProducts();
-      if (!response.success) {
-        console.log(response.message);
-        return;
-      }
-      setStoreProducts(response.product);
-    };
-    fetchProducts();
-  }, []);
+ 
 
   if (loading) {
     return <Loader />;

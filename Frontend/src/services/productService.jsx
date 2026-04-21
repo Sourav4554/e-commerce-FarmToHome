@@ -35,3 +35,8 @@ return axios.delete(`/product/delete-product/${id}`)
 export const updateProduct=(id,product)=>{
 return axios.patch(`/product/update-product/${id}`,product)
 }
+
+//api call for dashboard product Details
+export const productCount=()=>{
+return axios.get(`/product/count-stock`)
+}

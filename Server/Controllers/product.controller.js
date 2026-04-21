@@ -7,7 +7,8 @@ import {
   createSignedUrlService,
   searchProductService,
   ProductsForCustomerService,
-  fetchSingleProductDetailsService
+  fetchSingleProductDetailsService,
+  productCountService
 } from "../Services/product.service.js";
 
 //controller for add product
@@ -126,7 +127,21 @@ try {
 }
 }
 
-
+//count product controller
+const productCountController=async(req,res,next)=>{
+try {
+  const productCount=await productCountService(req.user)
+  return res.status(200).json({
+  success:true,
+  total:productCount.total,
+  stock:productCount.inStock,
+  outOfStock:productCount.outStock,
+  })
+  
+} catch (error) {
+  next(error)
+}
+}
 export {
   addProductController,
   fetchProductController,
@@ -135,5 +150,6 @@ export {
   searchProductController,
   createSignedUrlController,
   ProductsForCustomerController,
-  fetchSingleProductDetailsController
+  fetchSingleProductDetailsController,
+  productCountController
 };

@@ -9,7 +9,8 @@ import {
   searchProductController,
   createSignedUrlController,
   ProductsForCustomerController,
-  fetchSingleProductDetailsController
+  fetchSingleProductDetailsController,
+  productCountController
 } from "../Controllers/product.controller.js";
 import { productValidation } from "../Middlewares/Validators/product.validator.js";
 import { validationErrors } from "../Middlewares/Validators/validationerror.js";
@@ -73,14 +74,18 @@ productRouter.get(
 );
 
 //fetch paginated product for customer
-productRouter.get(
-  '/fetch-products',
-  ProductsForCustomerController
-  )
+productRouter.get("/fetch-products", ProductsForCustomerController);
 
 //fetch single product details
-productRouter.get('/product-display/:id',
-fetchSingleProductDetailsController
-)
+productRouter.get("/product-display/:id", fetchSingleProductDetailsController);
+
+//fetch product count api
+productRouter.get(
+  "/count-stock",
+   authMiddleware,
+  vendorRoleMiddleware,
+  vendorApproveMiddleware,
+  productCountController
+);
 
 export default productRouter;

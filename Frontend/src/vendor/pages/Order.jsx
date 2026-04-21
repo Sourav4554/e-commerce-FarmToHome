@@ -17,7 +17,14 @@ const Order = () => {
   const [activeTab, setActiveTab] = useState("all");
   const [expandedOrder, setExpandedOrder] = useState(null);
   const orders = customerOrder || [];
-  console.log(orders)
+console.log(orders)
+const orderTotals=orders.map((order)=>{
+  return order.items.reduce((total,item)=>total+=item.price,0)
+})
+
+console.log(orderTotals);
+     
+  // }
   //order status implicitly set
   const statusConfig = {
     placed: {
@@ -212,7 +219,7 @@ const Order = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {filteredOrders.map((order) => {
+                {filteredOrders.map((order,index) => {
                   const StatusIcon =
                     statusConfig[order.orderStatus]?.icon || Clock;
                   const isExpanded = expandedOrder === order._id;
@@ -291,7 +298,7 @@ const Order = () => {
                         </td>
                         <td className="px-6 py-4">
                           <div className="text-sm font-semibold text-gray-900">
-                            ₹{order.totalAmount.toLocaleString("en-IN")}
+                            ₹{orderTotals[index].toLocaleString("en-IN") || 0}
                           </div>
                         </td>
                       </tr>
@@ -347,9 +354,9 @@ const Order = () => {
                                       Order Items
                                     </h3>
                                     <div className="space-y-2">
-                                      {order.items.map((item, idx) => (
+                                      {order.items.map((item, index) => (
                                         <div
-                                          key={idx}
+                                          key={index}
                                           className="flex justify-between items-center text-sm py-2 border-b border-gray-100 last:border-0"
                                         >
                                           <div>
@@ -372,7 +379,7 @@ const Order = () => {
                                         <span>Total</span>
                                         <span className="text-lg">
                                           ₹
-                                          {order.totalAmount.toLocaleString(
+                                          {orderTotals[index].toLocaleString(
                                             "en-IN"
                                           )}
                                         </span>

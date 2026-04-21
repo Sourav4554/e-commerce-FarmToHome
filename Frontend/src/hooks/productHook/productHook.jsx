@@ -4,8 +4,9 @@ import {
   fetchSignedUrl,
   listVendorProducts,
   paginatedProducts,
+  productCount,
   submitProduct,
-  updateProduct
+  updateProduct,
 } from "../../services/productService";
 import { useState } from "react";
 
@@ -109,9 +110,9 @@ export const productCustomHook = () => {
       setLoading(true);
       const { data } = await deleteProduct(id);
       return {
-      success:data.success,
-      message:data.message
-      }
+        success: data.success,
+        message: data.message,
+      };
     } catch (err) {
       console.log(err.response.data);
       const message =
@@ -122,14 +123,14 @@ export const productCustomHook = () => {
     }
   };
   //methode for update product
-  const updateSellerProduct = async (id,product) => {
+  const updateSellerProduct = async (id, product) => {
     try {
       setLoading(true);
-      const { data } = await updateProduct(id,product);
+      const { data } = await updateProduct(id, product);
       return {
-      success:data.success,
-      message:data.message
-      }
+        success: data.success,
+        message: data.message,
+      };
     } catch (err) {
       console.log(err);
       const message =
@@ -139,6 +140,27 @@ export const productCustomHook = () => {
       setLoading(false);
     }
   };
+  // method for dashbord product count
+  const productStockCount = async () => {
+    try {
+      setLoading(true);
+      const { data } = await productCount();
+      return {
+        success: data.success,
+        total: data.total,
+        stock: data.stock,
+        outOfStock: data.outOfStock,
+      };
+    } catch (err) {
+      console.log(err);
+      const message =
+        err?.response?.data?.message || "Something wromg try again later";
+      return { success: false, message: message };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     loading,
     signedUrlFun,
@@ -147,6 +169,7 @@ export const productCustomHook = () => {
     fetchProductDescription,
     fetchVendorProducts,
     deleteSellerProduct,
-    updateSellerProduct
+    updateSellerProduct,
+    productStockCount,
   };
 };

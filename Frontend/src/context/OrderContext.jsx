@@ -34,7 +34,8 @@ const OrderContext = ({ children }) => {
     customerOrder,
     setCustomerOrder,
     loading,
-    fetchOrders
+    fetchOrders,
+    
   };
 
   useEffect(() => {

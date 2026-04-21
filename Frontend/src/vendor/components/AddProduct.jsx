@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { productCustomHook } from "../../hooks/productHook/productHook";
 import toast from "react-hot-toast";
 import cloudinaryUpload from "../../utilities/CloudinaryUpload";
 import { validateImage } from "../../utilities/ValidateImage";
 import { useNavigate, useParams } from "react-router-dom";
+import { ProductContextProvide } from "../../context/ProductContext";
 const AddProduct = () => {
   const { signedUrlFun, saveProduct, fetchProductDescription, loading,updateSellerProduct } =
     productCustomHook();
+    const {fetchProducts,productCount}=useContext(ProductContextProvide)
   const navigate = useNavigate();
   const { id } = useParams();
   const isEdit = !!id;
@@ -101,6 +103,8 @@ const AddProduct = () => {
         image: "",
       });
       setPreview("");
+      await fetchProducts()
+      await productCount()
       navigate("/vendor/products");
       setFile(null);
     

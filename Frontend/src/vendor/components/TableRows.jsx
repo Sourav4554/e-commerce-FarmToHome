@@ -14,6 +14,7 @@ const TableRows = ({
   unit,
   showPopup,
   setShowPoPUp,
+  
 }) => {
     const navigate=useNavigate()
   return (
