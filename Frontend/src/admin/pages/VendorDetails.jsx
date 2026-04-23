@@ -8,7 +8,7 @@ const VendorDetails = () => {
   const [totalPages, setTotalPages] = useState(0);
   // Keep original data separate from filtered data
   const [originalVendors, setOriginalVendors] = useState([]);
-  // const [filteredVendors, setFilteredVendors] = useState([]);
+  const [filteredVendors, setFilteredVendors] = useState([]);
   const [activeFilter, setActiveFilter] = useState("RegisteredVendors");
   const [error, setError] = useState(null);
 
@@ -18,14 +18,14 @@ const VendorDetails = () => {
     { id: "DisabledAccounts", text: "Disabled Accounts" },
   ];
 
-  const statusMap={
+  const statusMap = {
     RegisteredVendors: "approved",
     PendingRequests: "pending",
     DisabledAccounts: "blocked",
-  }
+  };
   // Fetch vendors on mount must be Registered vendors
   const fetchRegisteredVendors = async (status) => {
-    const response = await fetchAllVndors(page,status);
+    const response = await fetchAllVndors(page, status);
     if (!response.success) {
       setError(response.message);
       return;
@@ -33,14 +33,11 @@ const VendorDetails = () => {
     setTotalPages(response.totalPages);
     setPage(response.page);
     setOriginalVendors(response.vendors);
+    setFilteredVendors(response.vendors);
   };
   useEffect(() => {
-      fetchRegisteredVendors(statusMap[activeFilter]);
+    fetchRegisteredVendors(statusMap[activeFilter]);
   }, [page, activeFilter]);
-
-  useEffect(() => {
-    console.log(`page inside component`, page);
-  }, [page]);
 
   const handleFilterChange = (filterId) => {
     setActiveFilter(filterId);
@@ -76,7 +73,7 @@ const VendorDetails = () => {
             <button
               key={option.id}
               onClick={() => handleFilterChange(option.id)}
-              className={`px-5 py-2 rounded-xl text-sm font-medium shadow-sm transition ${
+              className={`px-5 py-2 rounded-xl text-sm font-medium shadow-sm transition cursor-pointer ${
                 activeFilter === option.id
                   ? "bg-green-600 text-white hover:bg-green-700"
                   : "bg-white text-gray-700 hover:bg-gray-100"
@@ -88,7 +85,14 @@ const VendorDetails = () => {
         </div>
       </div>
 
-      <VendorTable vendors={originalVendors} loading={loading} />
+      <VendorTable
+        vendors={filteredVendors}
+        loading={loading}
+        setFilteredVendors={setFilteredVendors}
+        activeFilter={activeFilter}
+        statusMap={statusMap}
+        fetchRegisteredVendors={fetchRegisteredVendors}
+      />
       <Pagination
         page={page}
         setPage={setPage}
