@@ -1,24 +1,28 @@
-import React from 'react'
-import { Route, Routes } from 'react-router-dom'
-import Adminlayout from '../layouts/Adminlayout'
-import ProtectedRoutes from './ProtectedRoutes'
-import AdminPage from '../admin/pages/AdminPage'
+import React from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import Adminlayout from "../layouts/Adminlayout";
+import ProtectedRoutes from "./ProtectedRoutes";
+import AdminDashboard from "../admin/pages/AdminDashboard";
+import Products from "../admin/pages/Products";
+import VendorDetails from "../admin/pages/VendorDetails";
 
 const AdminRoutes = () => {
   return (
-  <>
-  <Routes>
-    <Route element={
-    <ProtectedRoutes role='admin'>
-          <Adminlayout/>
-    </ProtectedRoutes>
-    }>
-    <Route index element={<AdminPage/>}/>
-    </Route>
+    <>
+      <Routes>
+        <Route element={<ProtectedRoutes role="admin" />}>
+          <Route element={<Adminlayout />}>
+            <Route index element={<Navigate to='admin-dashboard'/>}/>
+            <Route path="admin-dashboard" element={<AdminDashboard/>}/>
+            <Route path="products" element={<Products/>}/>
+            <Route path="vendors" element={<VendorDetails/>}/>
+          </Route>
+          {/* <Adminlayout/> */}
+          {/* <Route index element={<AdminPage/>}/> */}
+        </Route>
+      </Routes>
+    </>
+  );
+};
 
-  </Routes>
-  </>
-    )
-}
-
-export default AdminRoutes
+export default AdminRoutes;

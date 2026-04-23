@@ -6,7 +6,8 @@ import {
   approvePendingVendorController,
   disableVendorAccount,
   blockCustomerController,
-  unblockCustomerController
+  unblockCustomerController,
+  fetchVendorController
 } from "../Controllers/admin.controller.js";
 const adminRouter = express.Router();
 
@@ -45,4 +46,12 @@ adminRouter.patch(
   adminroleMiddleware,
   unblockCustomerController
 );
+
+//fetch all vendors for admin
+adminRouter.get(
+  '/fetch-vendors',
+  authMiddleware,
+  adminroleMiddleware,
+  fetchVendorController
+  )
 export default adminRouter;

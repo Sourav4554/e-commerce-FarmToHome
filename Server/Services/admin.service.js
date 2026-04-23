@@ -22,34 +22,67 @@ export const approvePendingVendorService = async (params) => {
     { isapproved: true },
     { returnDocument: "after" }
   );
-  return approve.toObject()
+  return approve.toObject();
 };
 
 //service for disable vendor account
-export const disableVendorAccountService=async(params)=>{
-      const approve = await usermodel.findByIdAndUpdate(
-        { _id: params.id },
-        { isapproved: false },
-        { returnDocument: "after" }
-      );
-      return approve.toObject()
-}
-
-export const blockCustomerService=async(params)=>{
+export const disableVendorAccountService = async (params) => {
   const approve = await usermodel.findByIdAndUpdate(
     { _id: params.id },
-    {  blockByAdmin: true },
+    { blockByAdmin: true },
     { returnDocument: "after" }
   );
-  return approve.toObject()
-}
+  return approve.toObject();
+};
+
+export const blockCustomerService = async (params) => {
+  const approve = await usermodel.findByIdAndUpdate(
+    { _id: params.id },
+    { blockByAdmin: true },
+    { returnDocument: "after" }
+  );
+  return approve.toObject();
+};
 
 //unblock customer service
-export const unblockCustomerService=async(params)=>{
+export const unblockCustomerService = async (params) => {
   const approve = await usermodel.findByIdAndUpdate(
     { _id: params.id },
-    {  blockByAdmin: false },
+    { blockByAdmin: false },
     { returnDocument: "after" }
   );
-  return approve.toObject()
-}
+  return approve.toObject();
+};
+//fetch vendors for user
+export const fetchVendorService = async (query) => {
+  
+  const limit = Number(query.limit) || 4;
+  const page = Number(query.page) || 1;
+  const status=query.status
+  const filter={
+    role:'vendor'
+  }
+  if (status === "approved") {
+    filter.isapproved = true;
+    filter.blockByAdmin = false;
+  } else if (status === "pending") {
+    filter.isapproved = false;
+  } else if (status === "blocked") {
+    filter.blockByAdmin = true;
+  }
+  const skip = (page - 1) * limit;
+  const totalPages = await usermodel.countDocuments(filter);
+
+
+
+  const vendors = await usermodel
+    .find(filter)
+    .limit(limit)
+    .skip(skip)
+    .sort({ createdAt: -1 });
+
+
+
+
+  return { vendors, page, totalPages: Math.ceil(totalPages / limit) };
+};

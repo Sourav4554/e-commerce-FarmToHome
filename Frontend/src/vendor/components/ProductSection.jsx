@@ -10,7 +10,7 @@ const ProductSection = () => {
     <div className=" bg-linear-to-br p-8 grid grid-cols-1 lg:grid-cols-3 gap-3 mx-auto">
       <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-5 w-72 hover:shadow-md transition duration-300">
         <div className="flex items-center justify-between">
-          <p className="text-sm font-medium text-gray-500">Total Stock</p>
+          <p className="text-sm font-medium text-gray-500">Total Products</p>
 
           <div className="bg-green-100 text-green-600 p-2 rounded-lg">📦</div>
         </div>

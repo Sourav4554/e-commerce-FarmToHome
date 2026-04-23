@@ -3,7 +3,8 @@ import {
   approvePendingVendorService,
   disableVendorAccountService,
   blockCustomerService,
-  unblockCustomerService
+  unblockCustomerService,
+  fetchVendorService
 } from "../Services/admin.service.js";
 import AppError from "../Utilities/AppError.js";
 
@@ -90,10 +91,26 @@ const unblockCustomerController = async (req, res, next) => {
     next(error);
   }
 };
+
+//controller for fetch vendor 
+const  fetchVendorController=async(req,res,next)=>{
+try {
+  const vendors=await fetchVendorService(req.query);
+  return res.status(200).json({
+  success:true,
+  vendors:vendors.vendors,
+  pages:vendors.page ,
+  totalPages:vendors.totalPages,
+  })
+} catch (error) {
+  next(error)
+}
+}
 export {
   fetchPendingRequestController,
   approvePendingVendorController,
   disableVendorAccount,
   blockCustomerController,
   unblockCustomerController,
+  fetchVendorController
 };

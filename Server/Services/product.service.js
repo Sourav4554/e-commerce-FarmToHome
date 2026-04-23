@@ -1,5 +1,6 @@
 import { cloudinary } from "../Config/cloudinary.config.js";
 import { productModel } from "../Models/product.model.js";
+import usermodel from "../Models/usermodel.js";
 import AppError from "../Utilities/AppError.js";
 
 //service for add product
@@ -94,7 +95,7 @@ export const ProductsForCustomerService = async (query) => {
     throw new AppError("query not provided", 401);
   }
   const skip = (page - 1) * limit;
-  const totalPages = await productModel.countDocuments();
+  const totalPages = await productModel.countDocuments({isDelete:false});
   const products = await productModel
     .find({isDelete:false})
     .limit(limit)
