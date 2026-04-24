@@ -12,7 +12,7 @@ import ProductDisplay from '../customer/pages/ProductDisplay'
 import Cart from '../customer/pages/Cart'
 import Order from '../customer/pages/Order'
 import PlaceOrder from '../customer/pages/PlaceOrder'
-
+import VendorShop from '../customer/pages/VendorShop'
 const CustomerRoutes = () => {
   return (
     <>
@@ -28,6 +28,7 @@ const CustomerRoutes = () => {
      <Route path='cart' element={<Cart/>}/>
      <Route path='order' element={<Order/>}/>
      <Route path='placeorder' element={<PlaceOrder/>}/>
+     <Route path='/farmers/:id' element={<VendorShop/>}/>
      {/* </Route> */}
     
     </Route>

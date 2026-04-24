@@ -8,7 +8,8 @@ import {
   searchProductService,
   ProductsForCustomerService,
   fetchSingleProductDetailsService,
-  productCountService
+  productCountService,
+  fetchFarmerProductService
 } from "../Services/product.service.js";
 
 //controller for add product
@@ -142,6 +143,19 @@ try {
   next(error)
 }
 }
+//controller for fetch product based on farmer
+const fetchFarmerProductController=async(req,res,next)=>{
+try {
+  const products=await fetchFarmerProductService(req.params)
+  return res.status(200).json({
+  success:true,
+  products:products
+  })
+} catch (error) {
+  next(error)
+}
+}
+
 export {
   addProductController,
   fetchProductController,
@@ -151,5 +165,6 @@ export {
   createSignedUrlController,
   ProductsForCustomerController,
   fetchSingleProductDetailsController,
-  productCountController
+  productCountController,
+  fetchFarmerProductController
 };

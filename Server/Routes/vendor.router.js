@@ -1,11 +1,11 @@
 import express from "express";
-import { authMiddleware } from "../Middlewares/auth.middleware.js";
 import {
   fetchvendorController,
   filterController,
-  fetchvendorFiltersController
+  fetchvendorFiltersController,
+  fetchVendorDetailsController
 } from "../Controllers/vendor.controller.js";
-import { customerroleMiddleware } from "../Middlewares/customerrole.middleware.js";
+
 const vendorRouter = express.Router();
 
 //fetch vendors for admin and customer
@@ -19,4 +19,10 @@ vendorRouter.get(
   "/filter",
   filterController
 );
+
+//route for fetch vendor Details for customer
+vendorRouter.get(
+  '/fetchvendor-details/:id',
+  fetchVendorDetailsController
+  )
 export default vendorRouter;

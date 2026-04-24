@@ -1,12 +1,14 @@
 import {
   deleteProduct,
   fetchProductDetails,
+  fetchProductsFarmerBased,
   fetchSignedUrl,
   listVendorProducts,
   paginatedProducts,
   productCount,
   submitProduct,
   updateProduct,
+  
 } from "../../services/productService";
 import { useState } from "react";
 
@@ -161,6 +163,25 @@ export const productCustomHook = () => {
     }
   };
 
+  //fetch farmer filter products
+  const fetchFarmerProducts=async(id)=>{
+  try {
+    setLoading(true)
+    const {data}=await fetchProductsFarmerBased(id)
+    return {
+    success:data?.success,
+    products:data?.products
+    }
+  } catch (err) {
+    console.log(`fetch farmer products error `,err);
+    const message =
+      err?.response?.data?.message || "Something wromg try again later";
+    return { success: false, message: message };
+  } finally {
+    setLoading(false);
+  }
+  }
+
   return {
     loading,
     signedUrlFun,
@@ -171,5 +192,6 @@ export const productCustomHook = () => {
     deleteSellerProduct,
     updateSellerProduct,
     productStockCount,
+    fetchFarmerProducts
   };
 };

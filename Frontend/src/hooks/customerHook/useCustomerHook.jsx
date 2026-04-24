@@ -3,6 +3,7 @@ import {
   fetchFilteredFarmers,
   fetchFilters,
   fetchNearbyFarmers,
+  fetchVendorDetails,
 } from "../../services/customerService";
 import { useState } from "react";
 
@@ -66,13 +67,12 @@ const useCustomerHook = () => {
 
   //method for fetch filtered Farmers
   const filterFarmers = async (filteredData) => {
-   
     try {
       setLoading(true);
       const { data } = await fetchFilteredFarmers(filteredData);
       return {
         success: data?.success,
-        farmers:data?.data
+        farmers: data?.data,
       };
     } catch (err) {
       const message =
@@ -83,7 +83,32 @@ const useCustomerHook = () => {
     }
   };
 
-  return { fetchNearestFarmers, fetchFarmers, filterDetails,filterFarmers, loading };
+  //method for fetch farmer details
+  const farmerDetails = async(id) => {
+  try {
+    setLoading(true)
+    const {data}=await fetchVendorDetails(id)
+    return {
+    success:data.success,
+    vendor:data.vendor,
+    }
+  } catch (err) {
+    const message =
+        err?.response?.data?.message || "Something wromg try again later";
+      return { success: false, message: message };
+  }finally{
+    setLoading(false)
+  }
+  };
+
+  return {
+    fetchNearestFarmers,
+    fetchFarmers,
+    filterDetails,
+    filterFarmers,
+    farmerDetails,
+    loading,
+  };
 };
 
 export default useCustomerHook;

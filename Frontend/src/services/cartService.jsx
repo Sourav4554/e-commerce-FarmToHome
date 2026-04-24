@@ -1,5 +1,4 @@
 import axios from "../api/axios";
-
 //function to fetch cartData
 export const fetchCart = () => {
   return axios.get("/cart/fetch");

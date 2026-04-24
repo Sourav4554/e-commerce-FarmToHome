@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import usermodel from "../Models/usermodel.js";
 import AppError from "../Utilities/AppError.js";
 
@@ -65,3 +66,15 @@ export const fetchvendorFiltersService = async () => {
   }
   return result;
 };
+
+
+//service for fetch vendor details
+export const fetchVendorDetailsService=(params)=>{
+     const Id=new mongoose.Types.ObjectId(params.id)
+     const vendorDeatail=usermodel.findOne(Id)
+     if(!vendorDeatail){
+     throw new AppError('no vendor found',404)
+     }
+
+  return vendorDeatail
+}

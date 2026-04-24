@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import VendorCard from "./VendorCard";
 import useCustomerHook from "../../hooks/customerHook/useCustomerHook";
+
 import { AuthContextProvide } from "../../context/AuthContext";
 import Loader from "../../components/Loader";
 import VendorCardSkeleton from "../../components/VendorCardSkenlton";
@@ -50,13 +51,13 @@ const VendorCardSection = () => {
         {nearbyVendors.length > 0
           ? nearbyVendors.map((item, _) => (
               <VendorCard
-                key={item._id}
+                id={item._id}
                 name={item.name}
                 district={item.district}
                 panchayth={item.panchayth}
                 ward={item.ward}
                 image={item.image}
-                createAt={item.createdAt}
+                createdAt={item.createdAt}
               />
             ))
           : Array.from({ length: 4 }).map((_, key) => {

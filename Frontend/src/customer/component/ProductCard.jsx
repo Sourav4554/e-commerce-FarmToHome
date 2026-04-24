@@ -1,12 +1,20 @@
 import React from "react";
-import { replace, useNavigate } from "react-router-dom";
+import {  useLocation, useNavigate } from "react-router-dom";
 
 const ProductCard = ({ id, name, price, image, unit, stock }) => {
   const navigate = useNavigate();
+  const location=useLocation()
+  const handleNavigation=(id)=>{
+  if(location.pathname.startsWith('/products')){
+    navigate(id)
+   }else{
+    navigate(`/products/${id}`)
+   }
+  }
   return (
     <div
       className="bg-white  cursor-pointer rounded-xl overflow-hidden shadow-2xl hover:shadow-lg transition duration-300"
-      onClick={() => navigate(`${id}`)}
+      onClick={() => handleNavigation(id)}
     >
       {/* Image + Stock Badge */}
       <div className="relative h-44 overflow-hidden">

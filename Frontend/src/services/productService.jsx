@@ -40,3 +40,8 @@ return axios.patch(`/product/update-product/${id}`,product)
 export const productCount=()=>{
 return axios.get(`/product/count-stock`)
 }
+
+//api call for farmer based products
+export const fetchProductsFarmerBased=(id)=>{
+return axios.get(`/product/vendor-products/${id}`)
+}

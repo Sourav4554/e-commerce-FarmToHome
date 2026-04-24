@@ -17,3 +17,7 @@ export const fetchFilteredFarmers = (data) => {
     `/vendor/filter?ward=${data?.ward}&district=${data?.district}&panchayth=${data?.panchayth}&search=${data?.search}`
   );
 };
+
+export const fetchVendorDetails=(id)=>{
+ return api.get(`/vendor/fetchvendor-details/${id}`)
+}

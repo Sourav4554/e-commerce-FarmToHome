@@ -1,15 +1,29 @@
 import { FaLocationDot, FaHashtag } from "react-icons/fa6";
 import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
 import noProfileLogo from '../../asscets/Starter pfp.jpeg'
-const VendorCard = ({ name, district, ward, panchayth, createdAt,image }) => {
-
-  //date convert to dd/mm/yy formal
-  const newDate=new Date(createdAt)
-  const date = `${String(newDate.getDate())}-${newDate.getMonth()}-${newDate.getFullYear()}`
-
+import {  useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+const VendorCard = ({id, name, district, ward, panchayth, createdAt,image }) => {
+const navigate=useNavigate()
+const location=useLocation()
+  
+  const date = new Date(createdAt).toLocaleDateString("en-IN", {
+    day: "numeric",   
+    month: "short",
+    year: "numeric",
+  });
+  const handleNavigation=(id)=>{
+  if(location.pathname.startsWith('/farmers')){
+     navigate(`${id}`)
+  }else{
+    navigate(`/farmers/${id}`)
+  }
+  console.log(location)
+  }
 
   return (
     <section
+    key={id}
       className="flex flex-col sm:flex-row bg-white rounded-2xl 
     shadow-[0_0_15px_rgba(0,0,0,0.1)] overflow-hidden p-3.5
     hover:shadow-[0_0_20px_rgba(0,0,0,0.15)] transition duration-300"
@@ -65,6 +79,7 @@ const VendorCard = ({ name, district, ward, panchayth, createdAt,image }) => {
           <button
             className="w-full sm:w-auto bg-primary hover:bg-green-800 
           transition-colors text-white px-4 py-2 rounded-lg text-sm font-medium"
+          onClick={()=>handleNavigation(id)}
           >
             View Shop
           </button>

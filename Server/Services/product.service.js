@@ -1,7 +1,7 @@
 import { cloudinary } from "../Config/cloudinary.config.js";
 import { productModel } from "../Models/product.model.js";
-import usermodel from "../Models/usermodel.js";
 import AppError from "../Utilities/AppError.js";
+import mongoose from "mongoose";
 
 //service for add product
 export const addProductService = async (body, user) => {
@@ -87,7 +87,6 @@ export const createSignedUrlService = () => {
 };
 
 //service for fetch paginated products for customer
-
 export const ProductsForCustomerService = async (query) => {
   const limit = query.limit || 12;
   const page = Number(query.page) || 1;
@@ -137,3 +136,13 @@ export const productCountService = async (user) => {
 
   return { total, inStock, outStock };
 };
+
+//service for fetch farmers products for customer
+export const fetchFarmerProductService=async(params)=>{
+  const Id=new mongoose.Types.ObjectId(params.id)
+  const vendorProducts=await productModel.find({VendorId:Id,isDelete:false})
+  if(!vendorProducts.length){
+    throw new AppError(`No products`,404)
+  }
+  return vendorProducts;
+}
