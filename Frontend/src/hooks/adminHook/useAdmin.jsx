@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
   acceptVendorRequest,
   blockVendorAccount,
-  fetchAllVendorsForAdmin,
+  fetchAllUsersForAdmin,
   unblockUser
 } from "../../services/adminService";
 
@@ -10,11 +10,11 @@ const useAdmin = () => {
   const [loading, setLoading] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
   //fetch filtered vendors for admin
-  const fetchAllVndors = async (page, status) => {
+  const fetchUsers = async (page, status,role) => {
     try {
       setLoading(true);
 
-      const { data } = await fetchAllVendorsForAdmin(page, status);
+      const { data } = await fetchAllUsersForAdmin(page, status,role);
       return {
         success: data.success,
         vendors: data.vendors,
@@ -89,7 +89,7 @@ const useAdmin = () => {
     }
   };
   return {
-    fetchAllVndors,
+    fetchUsers,
     loading,
     acceptRequest,
     buttonLoading,

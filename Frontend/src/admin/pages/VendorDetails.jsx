@@ -3,7 +3,7 @@ import VendorTable from "../component/VendorTable";
 import useAdmin from "../../hooks/adminHook/useAdmin";
 import Pagination from "../../components/Pagination";
 const VendorDetails = () => {
-  const { fetchAllVndors, loading } = useAdmin();
+  const { fetchUsers, loading } = useAdmin();
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   // Keep original data separate from filtered data
@@ -25,7 +25,7 @@ const VendorDetails = () => {
   };
   // Fetch vendors on mount must be Registered vendors
   const fetchRegisteredVendors = async (status) => {
-    const response = await fetchAllVndors(page, status);
+    const response = await fetchUsers(page, status);
     if (!response.success) {
       setError(response.message);
       return;

@@ -59,8 +59,9 @@ export const fetchVendorService = async (query) => {
   const limit = Number(query.limit) || 4;
   const page = Number(query.page) || 1;
   const status=query.status
+  const role=query.role
   const filter={
-    role:'vendor'
+    role:role || 'vendor'
   }
   if (status === "approved") {
     filter.isapproved = true;
@@ -80,7 +81,6 @@ export const fetchVendorService = async (query) => {
     .limit(limit)
     .skip(skip)
     .sort({ createdAt: -1 });
-
 
 
 

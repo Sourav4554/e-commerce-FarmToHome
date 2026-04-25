@@ -1,12 +1,13 @@
 
 import api from "../api/axios";
 
-export const fetchAllVendorsForAdmin = (page, status) => {
+export const fetchAllUsersForAdmin = (page, status,role) => {
   return api.get(`/admin/fetch-vendors`, {
     params: {
       page,
       limit: 5,
       status,
+      role
     },
   });
 };

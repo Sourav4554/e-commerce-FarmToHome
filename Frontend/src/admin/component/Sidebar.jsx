@@ -25,7 +25,7 @@ const Sidebar = () => {
       { name: 'Products', icon: Package, path: '/admin/products' },
       { name: 'Orders', icon: ShoppingBag, path: '/orders' },
       { name: 'Vendors', icon: Users, path: '/admin/vendors' },
-      { name: 'Customers', icon: UserCircle, path: '/customers' },
+      { name: 'Customers', icon: UserCircle, path: '/admin/customers' },
     ];
   return (
     <>
