@@ -47,9 +47,10 @@ export const userLoginService = async (email, password) => {
     throw new AppError("user doesnt exist please register", 401);
   }
 
-  if (user.blockByAdmin && user.role === "customer") {
+  if (user.blockByAdmin ) {
     throw new AppError("cant login your account is blocked by admin", 401);
   }
+ 
   if (user.provider === "google") {
     throw new AppError("Please Login with google", 401);
   }

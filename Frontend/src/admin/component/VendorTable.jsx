@@ -2,9 +2,15 @@ import React, { useState } from "react";
 import useAdmin from "../../hooks/adminHook/useAdmin";
 import toast from "react-hot-toast";
 
-const VendorTable = ({ vendors = [], loading=false,activeFilter,statusMap,fetchRegisteredVendors }) => {
-  const {acceptRequest}=useAdmin()
-  const [loadingId,setLoadingId]=useState(null)
+const VendorTable = ({
+  vendors = [],
+  loading = false,
+  activeFilter,
+  statusMap,
+  fetchRegisteredVendors,
+}) => {
+  const { acceptRequest, blockVendorAc ,unblockMethod} = useAdmin();
+  const [loadingId, setLoadingId] = useState(null);
   const tableHeadings = [
     "Name",
     "Email",
@@ -15,18 +21,36 @@ const VendorTable = ({ vendors = [], loading=false,activeFilter,statusMap,fetchR
     "Ward",
     "Actions",
   ];
- //function for approve vendor request
- const approveRequest=async(id)=>{
-  setLoadingId(id)
-  const response=await acceptRequest(id)
-  if(!response.success){
-  toast.error(response.message)
-  return
-  }
-  toast.success(response.message)
-  fetchRegisteredVendors(statusMap[activeFilter])
- }
+  //function for approve vendor request
+  const approveRequest = async (id) => {
+    setLoadingId(id);
+    const response = await acceptRequest(id);
+    if (!response.success) {
+      toast.error(response.message);
+      return;
+    }
+    toast.success(response.message);
+    setLoadingId(null);
+    fetchRegisteredVendors(statusMap[activeFilter]);
+  };
 
+  //method for block vendor
+  const handleBlock = async (vendor) => {
+    setLoadingId(vendor._id);
+    let response;
+    if (!vendor?.blockByAdmin) {
+      response = await blockVendorAc(vendor._id);
+    } else {
+      response=await unblockMethod(vendor._id)
+    }
+    if (!response.success) {
+      toast.error(response.message);
+      return;
+    }
+    toast.success(response.message);
+    setLoadingId(null);
+    fetchRegisteredVendors(statusMap[activeFilter]);
+  };
 
   if (loading) {
     return (
@@ -98,31 +122,39 @@ const VendorTable = ({ vendors = [], loading=false,activeFilter,statusMap,fetchR
                   <td className="px-6 py-4 text-right flex flex-col sm:flex-row gap-3">
                     <button
                       className={`font-medium py-2 px-4 rounded-lg transition-colors bg-green-600 text-white cursor-pointer`}
-                      onClick={()=>approveRequest(vendor._id)}
+                      onClick={() => approveRequest(vendor._id)}
                     >
-                      {vendor._id===loadingId?'Accepting...':'Accept'}
+                      {vendor._id === loadingId ? "Accepting..." : "Accept"}
                     </button>
 
-                    <button
+                    {/* <button
                       className={`font-medium py-2 px-4 rounded-lg transition-colors bg-red-600 text-white cursor-pointer`}
+                      onClick={()=>handleBlock(vendor)}
                     >
-                      Reject
-                    </button>
+                     {vendor._id===loading?'Rejecting...':'Reject'}
+                    </button> */}
                   </td>
                 ) : (
                   <td className="px-6 py-4 text-right">
-                  <button 
-                    className={`font-medium py-2 px-4 rounded-lg transition-colors cursor-pointer ${
-                      vendor.blockByAdmin 
-                        ? 'bg-green-600 hover:bg-green-700 text-white' 
-                        : 'bg-red-600 hover:bg-red-700 text-white'
-                    }`}
-                  >
-                    {vendor.blockByAdmin ? 'Unblock' : 'Block'}
-                  </button>
-                </td> 
+                    <button
+                      className={`font-medium py-2 px-4 rounded-lg transition-colors cursor-pointer ${
+                        vendor.blockByAdmin
+                          ? "bg-green-600 hover:bg-green-700 text-white"
+                          : "bg-red-600 hover:bg-red-700 text-white"
+                      }`}
+                      onClick={() => handleBlock(vendor)}
+                    >
+                      {/* {vendor.blockByAdmin && vendor._id===loading?'Blocking...': 'Unblock' : 'Block'} */}
+                      {vendor._id === loadingId
+                        ? vendor.blockByAdmin
+                          ? "unblocking..."
+                          : "Blocking..."
+                        : vendor.blockByAdmin
+                        ? "Unblock"
+                        : "Block"}
+                    </button>
+                  </td>
                 )}
-
               </tr>
             ))
           )}
