@@ -5,6 +5,7 @@ import {
   fetchAdminOrders,
   fetchAllUsersForAdmin,
   unblockUser,
+  updateStatus,
 } from "../../services/adminService";
 
 const useAdmin = () => {
@@ -96,11 +97,11 @@ const useAdmin = () => {
       setLoading(true);
       const { data } = await fetchAdminOrders(page);
       return {
-      success:data.success,
-      page:data.page,
-      totalPages:data.totalPages,
-      orders:data.orders
-      }
+        success: data.success,
+        page: data.page,
+        totalPages: data.totalPages,
+        orders: data.orders,
+      };
     } catch (err) {
       console.log(err);
       const message =
@@ -110,6 +111,22 @@ const useAdmin = () => {
       setLoading(false);
     }
   };
+
+  //method for update order status
+  const updateOrderStatuss = async (id, status) => {
+    try {
+      const {data}=await updateStatus(id,status)
+      return {
+      success:data.success,
+      message:data.message
+      }
+    } catch (err) {
+      const message =
+        err?.response?.data?.message || "Something wromg try again later";
+      return { success: false, message: message };
+    } finally {
+    }
+  };
   return {
     fetchUsers,
     loading,
@@ -117,7 +134,8 @@ const useAdmin = () => {
     buttonLoading,
     blockVendorAc,
     unblockMethod,
-    fetchAOrders
+    fetchAOrders,
+    updateOrderStatuss,
   };
 };
 

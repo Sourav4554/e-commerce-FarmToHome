@@ -12,9 +12,10 @@ import {
 import useAdmin from "../../hooks/adminHook/useAdmin";
 import Pagination from "../../components/Pagination";
 import DeliveryStatus from "../component/DeliveryStatus";
+import toast from "react-hot-toast";
 
 const AdminOrder = () => {
-  const { fetchAOrders ,loading} = useAdmin();
+  const { fetchAOrders ,loading ,updateOrderStatuss} = useAdmin();
 
   const [orders, setOrders] = useState([]);
   const [activeFilter, setActiveFilter] = useState("all");
@@ -91,13 +92,22 @@ const AdminOrder = () => {
   const toggleExpanded = (id) =>
     setExpandedOrderId((prev) => (prev === id ? null : id));
 
-  const updateOrderStatus = (orderId, newStatus) =>
+  const updateOrderStatus = async(orderId, newStatus) =>{
+
+  const response=await updateOrderStatuss(orderId,newStatus)
+  
+  if(!response.success){
+  toast.error(response.message)
+  return;
+  }
+  toast.success(response.message)
     setOrders((prev) =>
       prev.map((o) =>
         o._id === orderId ? { ...o, orderStatus: newStatus } : o
       )
     );
-
+    await fetchAdminOrder();
+  }
   // ─── Data fetching ────────────────────────────────────────────────────────
   const fetchAdminOrder = async () => {
     const response = await fetchAOrders(page);

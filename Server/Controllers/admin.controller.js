@@ -5,7 +5,8 @@ import {
   blockCustomerService,
   unblockCustomerService,
   fetchVendorService,
-  fetchOrderService
+  fetchOrderService,
+  updateOrderStatusService
 } from "../Services/admin.service.js";
 import AppError from "../Utilities/AppError.js";
 
@@ -122,6 +123,19 @@ try {
   next(error)
 }
 }
+
+//controller for update order status
+const updateOrderStatusController=async(req,res,next)=>{
+try {
+  await updateOrderStatusService(req.params,req.body)
+  return res.status(201).json({
+  message:'order status updated',
+  success:true
+  })
+} catch (error) {
+  next(error)
+}
+}
 export {
   fetchPendingRequestController,
   approvePendingVendorController,
@@ -129,5 +143,6 @@ export {
   blockCustomerController,
   unblockCustomerController,
   fetchVendorController,
-  fetchOrderController
+  fetchOrderController,
+  updateOrderStatusController
 };

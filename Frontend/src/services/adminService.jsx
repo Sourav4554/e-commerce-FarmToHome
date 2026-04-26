@@ -27,3 +27,7 @@ return api.patch(`/admin/unblock-customer/${id}`)
 export const fetchAdminOrders=(page)=>{
 return api.get(`/admin/fetch-orders?page=${page}&limit=${4}`)
 }
+
+export const updateStatus=(id,status)=>{
+return api.patch(`/admin/update-status/${id}`,{status:status})
+}

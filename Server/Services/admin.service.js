@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { orderModel } from "../Models/order.model.js";
 import usermodel from "../Models/usermodel.js";
 import AppError from "../Utilities/AppError.js";
@@ -98,5 +99,19 @@ export const fetchOrderService = async (query) => {
   if (!orders.length) {
     throw new AppError("Order not found", 404);
   }
-  return {orders,page,totalPages:Math.ceil(totalPages/limit)};
+  return { orders, page, totalPages: Math.ceil(totalPages / limit) };
+};
+
+//service for update order status
+export const updateOrderStatusService = async (params, body) => {
+  const { id } = params;
+  const { status } = body;
+  const orderId = new mongoose.Types.ObjectId(id);
+  await orderModel.findByIdAndUpdate(
+    orderId,
+    {
+      orderStatus: status,
+    },
+    { runValidators: true }
+  );
 };

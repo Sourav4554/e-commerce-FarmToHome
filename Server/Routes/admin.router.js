@@ -8,7 +8,8 @@ import {
   blockCustomerController,
   unblockCustomerController,
   fetchVendorController,
-  fetchOrderController
+  fetchOrderController,
+  updateOrderStatusController
 } from "../Controllers/admin.controller.js";
 const adminRouter = express.Router();
 
@@ -63,5 +64,12 @@ adminRouter.get(
   authMiddleware,
   adminroleMiddleware,
   fetchOrderController
+  )
+
+adminRouter.patch(
+  '/update-status/:id',
+  authMiddleware,
+  adminroleMiddleware,
+  updateOrderStatusController
   )
 export default adminRouter;
