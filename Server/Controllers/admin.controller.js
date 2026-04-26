@@ -4,7 +4,8 @@ import {
   disableVendorAccountService,
   blockCustomerService,
   unblockCustomerService,
-  fetchVendorService
+  fetchVendorService,
+  fetchOrderService
 } from "../Services/admin.service.js";
 import AppError from "../Utilities/AppError.js";
 
@@ -106,11 +107,27 @@ try {
   next(error)
 }
 }
+
+//controller for fetch Order for Admin
+const fetchOrderController=async(req,res,next)=>{
+try {
+  const orders=await fetchOrderService(req.query)
+  return res.status(200).json({
+  success:true,
+  orders:orders.orders,
+  page:orders.page,
+  totalPages:orders.totalPages
+  })
+} catch (error) {
+  next(error)
+}
+}
 export {
   fetchPendingRequestController,
   approvePendingVendorController,
   disableVendorAccount,
   blockCustomerController,
   unblockCustomerController,
-  fetchVendorController
+  fetchVendorController,
+  fetchOrderController
 };

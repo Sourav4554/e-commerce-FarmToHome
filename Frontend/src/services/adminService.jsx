@@ -23,3 +23,7 @@ return api.patch(`/admin/disable-account/${id}`)
 export const unblockUser=(id)=>{
 return api.patch(`/admin/unblock-customer/${id}`)
 }
+
+export const fetchAdminOrders=(page)=>{
+return api.get(`/admin/fetch-orders?page=${page}&limit=${4}`)
+}

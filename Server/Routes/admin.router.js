@@ -7,7 +7,8 @@ import {
   disableVendorAccount,
   blockCustomerController,
   unblockCustomerController,
-  fetchVendorController
+  fetchVendorController,
+  fetchOrderController
 } from "../Controllers/admin.controller.js";
 const adminRouter = express.Router();
 
@@ -54,5 +55,13 @@ adminRouter.get(
   authMiddleware,
   adminroleMiddleware,
   fetchVendorController
+  )
+
+//fetch All Orders for Admin
+adminRouter.get(
+  '/fetch-orders',
+  authMiddleware,
+  adminroleMiddleware,
+  fetchOrderController
   )
 export default adminRouter;

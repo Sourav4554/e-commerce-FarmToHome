@@ -23,7 +23,7 @@ const Sidebar = () => {
     const menuItems = [
       { name: 'Dashboard', icon: LayoutDashboard, path: '/admin/admin-dashboard' },
       { name: 'Products', icon: Package, path: '/admin/products' },
-      { name: 'Orders', icon: ShoppingBag, path: '/orders' },
+      { name: 'Orders', icon: ShoppingBag, path: '/admin/orders' },
       { name: 'Vendors', icon: Users, path: '/admin/vendors' },
       { name: 'Customers', icon: UserCircle, path: '/admin/customers' },
     ];
