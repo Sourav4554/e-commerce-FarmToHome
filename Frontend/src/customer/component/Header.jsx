@@ -1,6 +1,7 @@
 import React from "react";
-
+import {useNavigate} from 'react-router-dom'
 const Header = () => {
+  const navigate=useNavigate()
   return (
     <div className="flex justify-center  p-4">
       <section className="z-0 relative w-full h-[70vh] md:h-[80vh] rounded-xl overflow-hidden">
@@ -24,7 +25,9 @@ const Header = () => {
             Bring home nutrient-rich vegetables while empowering local farmers.
           </p>
 
-          <button className="mt-6 ml-[8%] md:ml-0 px-6 py-3 bg-primary rounded-lg font-medium transition duration-300 hover:bg-green-700 hover:-translate-y-1 cursor-pointer">
+          <button className="mt-6 ml-[8%] md:ml-0 px-6 py-3 bg-primary rounded-lg font-medium transition duration-300 hover:bg-green-700 hover:-translate-y-1 cursor-pointer"
+          onClick={()=>navigate(`/farmers`)}
+          >
             Explore Farmers
           </button>
         </div>

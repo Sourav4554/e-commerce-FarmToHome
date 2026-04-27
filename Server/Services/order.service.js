@@ -145,7 +145,6 @@ export const paymentVerificationSevice = async (body, user) => {
     throw new AppError("Invalid Signature", 400);
   }
   const orderInfo = await RazorpayInstance.orders.fetch(razorpay_order_id);
-  console.log(orderInfo.id);
   if (orderInfo.status === "paid") {
     await orderModel.updateOne(
       { razorpayOrderId: orderInfo.id },
@@ -181,7 +180,7 @@ export const paymentVerificationSevice = async (body, user) => {
 
 //service for fetch customer orders
 export const fetchCustomerOrdersService = async (user) => {
-  const customerOrders = await orderModel.find({ customerId: user._id }).lean();
+  const customerOrders = await orderModel.find({ customerId: user._id }).sort({createdAt:-1});
   if (customerOrders.length === 0) {
     throw new AppError("orders didnt available", 404);
   }
