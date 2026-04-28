@@ -3,17 +3,18 @@ import {
   cashOnDelivery,
   fetchUserOrder,
   fetchVendorOrder,
+  paymentFailure,
   razorpayOrder,
   razorpayVerify,
 } from "../../services/orderService";
 
 const useOrder = () => {
   const [loading, setLoading] = useState(false);
-  const [buttonLoad,setButtonLoad]=useState(false)
+  const [buttonLoad, setButtonLoad] = useState(false);
   //method for place order
   const placeOrder = async (address) => {
     try {
-    setButtonLoad(true);
+      setButtonLoad(true);
       const { data } = await cashOnDelivery(address);
       return {
         success: data.success,
@@ -68,14 +69,14 @@ const useOrder = () => {
     }
   };
   //method for razorpay order
-  const onlinePayment = async(address) => {
+  const onlinePayment = async (address) => {
     try {
       setButtonLoad(true);
-      const {data}=await razorpayOrder(address)
+      const { data } = await razorpayOrder(address);
       return {
-      success:data.success,
-      order:data.order
-      }
+        success: data.success,
+        order: data.order,
+      };
     } catch (err) {
       console.log(err);
       const message =
@@ -86,23 +87,38 @@ const useOrder = () => {
     }
   };
 
-    //verify razorpay payment
-  const verifyRazorpayPayment=async(response)=>{
+  //verify razorpay payment
+  const verifyRazorpayPayment = async (response) => {
     try {
-      setLoading(true)
-      const {data}=await razorpayVerify(response)
+      setLoading(true);
+      const { data } = await razorpayVerify(response);
       return {
-      success:data.success,
-      message:data.message
-      }
+        success: data.success,
+        message: data.message,
+      };
     } catch (err) {
       const message =
-      err?.response?.data?.message || "Something wromg try again later";
-    return { success: false, message: message };
-    }finally{
-    setLoading(false)
+        err?.response?.data?.message || "Something wromg try again later";
+      return { success: false, message: message };
+    } finally {
+      setLoading(false);
     }
+  };
+
+  //method for cancell payments
+  const cancelRazorpayPayment = async (response) => {
+    try {
+      const { data } = await paymentFailure(response);
+      return {
+        success: data.success,
+        message: data.message,
+      };
+    } catch (err) {
+      const message =
+        err?.response?.data?.message || "Something wromg try again later";
+      return { success: false, message: message };
     }
+  };
   return {
     loading,
     buttonLoad,
@@ -110,7 +126,8 @@ const useOrder = () => {
     fetchCustomerOrder,
     fetchVendorUserOrder,
     onlinePayment,
-    verifyRazorpayPayment
+    verifyRazorpayPayment,
+    cancelRazorpayPayment
   };
 };
 

@@ -1,4 +1,4 @@
-import { codOrderService,paymentVerificationSevice,fetchCustomerOrdersService,fetchVendorOrderService,razorpayService} from "../Services/order.service.js"
+import { codOrderService,paymentVerificationSevice,fetchCustomerOrdersService,paymentFailureService,fetchVendorOrderService,razorpayService} from "../Services/order.service.js"
 
 
 //controller for cash on delivery
@@ -68,10 +68,23 @@ try {
 }
 }
 
+//controller for handling payment failure 
+const paymentFailureController=async(req,res,next)=>{
+try {
+    await paymentFailureService(req.body)
+    return res.status(400).json({
+    success:true,
+    message:'Payment failed'
+    })
+} catch (error) {
+    next(error)
+}
+}
 export {
     codOrderController,
     fetchCustomerOrdersController,
     fetchVendorOrderController,
     razorpayController,
-    paymentVerificationController
+    paymentVerificationController,
+    paymentFailureController
 }

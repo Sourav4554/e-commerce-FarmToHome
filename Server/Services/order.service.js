@@ -178,9 +178,22 @@ export const paymentVerificationSevice = async (body, user) => {
   }
 };
 
+//srvice to handling payment failure
+export const paymentFailureService = async (body) => {
+  const {orderId} = body;
+  if(!orderId){
+  throw new AppError('Razorpay id required',404)
+  }
+  await orderModel.deleteOne({
+    razorpayOrderId:orderId,
+  });
+};
+
 //service for fetch customer orders
 export const fetchCustomerOrdersService = async (user) => {
-  const customerOrders = await orderModel.find({ customerId: user._id }).sort({createdAt:-1});
+  const customerOrders = await orderModel
+    .find({ customerId: user._id })
+    .sort({ createdAt: -1 });
   if (customerOrders.length === 0) {
     throw new AppError("orders didnt available", 404);
   }

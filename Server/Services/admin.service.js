@@ -107,11 +107,11 @@ export const updateOrderStatusService = async (params, body) => {
   const { id } = params;
   const { status } = body;
   const orderId = new mongoose.Types.ObjectId(id);
-  await orderModel.findByIdAndUpdate(
-    orderId,
-    {
-      orderStatus: status,
-    },
-    { runValidators: true }
-  );
+ const order= await orderModel.findById(orderId);
+ if(status==='delivered' && order.paymentMethod==='COD'){
+     order.paymentStatus=true
+   }
+  order.orderStatus=status
+
+  await order.save()
 };

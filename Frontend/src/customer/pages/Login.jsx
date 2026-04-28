@@ -255,14 +255,7 @@ const Login = () => {
           ) : (
             <LoaderButton />
           )}
-          {loginHandle && (
-            <p className="flex gap-3">
-              <span>Do you forgotten Password:</span>
-              <span className="text-green-600 underline cursor-pointer">
-                Reset Password
-              </span>
-            </p>
-          )}
+         
         </form>
       </div>
     </section>
