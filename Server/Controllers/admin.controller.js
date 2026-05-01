@@ -6,7 +6,8 @@ import {
   unblockCustomerService,
   fetchVendorService,
   fetchOrderService,
-  updateOrderStatusService
+  updateOrderStatusService,
+  fetchProductsServices
 } from "../Services/admin.service.js";
 import AppError from "../Utilities/AppError.js";
 
@@ -136,6 +137,21 @@ try {
   next(error)
 }
 }
+
+//controller for fetch all products 
+const fetchProductsController=async(req,res,next)=>{
+try {
+  const products=await fetchProductsServices(req.params,req.user)
+  return res.status(200).json({
+  success:true,
+  products:products.products,
+  page:products.page,
+  totalPages:products.totalPages
+  })
+} catch (error) {
+  next(error)
+}
+}
 export {
   fetchPendingRequestController,
   approvePendingVendorController,
@@ -144,5 +160,6 @@ export {
   unblockCustomerController,
   fetchVendorController,
   fetchOrderController,
-  updateOrderStatusController
+  updateOrderStatusController,
+  fetchProductsController
 };

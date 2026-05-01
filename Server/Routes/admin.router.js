@@ -9,7 +9,8 @@ import {
   unblockCustomerController,
   fetchVendorController,
   fetchOrderController,
-  updateOrderStatusController
+  updateOrderStatusController,
+  fetchProductsController
 } from "../Controllers/admin.controller.js";
 const adminRouter = express.Router();
 
@@ -66,10 +67,18 @@ adminRouter.get(
   fetchOrderController
   )
 
+//update order status 
 adminRouter.patch(
   '/update-status/:id',
   authMiddleware,
   adminroleMiddleware,
   updateOrderStatusController
+  )
+//fetch products for admin 
+adminRouter.get(
+  '/fetch-products',
+  authMiddleware,
+  adminroleMiddleware,
+  fetchProductsController
   )
 export default adminRouter;

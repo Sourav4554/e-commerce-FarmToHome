@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { orderModel } from "../Models/order.model.js";
 import usermodel from "../Models/usermodel.js";
 import AppError from "../Utilities/AppError.js";
+import { productModel } from "../Models/product.model.js";
 
 //fetch pending vendor request service
 export const fetchPendingRequestService = async () => {
@@ -107,11 +108,29 @@ export const updateOrderStatusService = async (params, body) => {
   const { id } = params;
   const { status } = body;
   const orderId = new mongoose.Types.ObjectId(id);
- const order= await orderModel.findById(orderId);
- if(status==='delivered' && order.paymentMethod==='COD'){
-     order.paymentStatus=true
-   }
-  order.orderStatus=status
+  const order = await orderModel.findById(orderId);
+  if (status === "delivered" && order.paymentMethod === "COD") {
+    order.paymentStatus = true;
+  }
+  order.orderStatus = status;
 
-  await order.save()
+  await order.save();
+};
+
+//service to fetch products for admin
+export const fetchProductsServices = async (params,user) => {
+  const limit = Number(params.limit) || 6;
+  const page = Number(params.page) || 1;
+  const skip = (page - 1) * limit;
+  const totalCount = await productModel.countDocuments({ isDelete: false });
+  const products = await productModel
+    .find({ isDelete: false })
+    .populate('VendorId')
+    .limit(limit)
+    .skip(skip)
+    .sort({ createdAt: -1 });
+  if (!products.length) {
+    throw new AppError("product not found ", 404);
+  }
+  return { products, page, totalPages: Math.ceil(totalCount / limit) };
 };

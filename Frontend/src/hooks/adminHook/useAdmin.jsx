@@ -4,6 +4,7 @@ import {
   blockVendorAccount,
   fetchAdminOrders,
   fetchAllUsersForAdmin,
+  fetchProducts,
   unblockUser,
   updateStatus,
 } from "../../services/adminService";
@@ -12,11 +13,11 @@ const useAdmin = () => {
   const [loading, setLoading] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
   //fetch filtered vendors for admin
-  const fetchUsers = async (page, status, role) => {
+  const fetchUsers = async (page, status) => {
     try {
       setLoading(true);
 
-      const { data } = await fetchAllUsersForAdmin(page, status, role);
+      const { data } = await fetchAllUsersForAdmin(page, status);
       return {
         success: data.success,
         vendors: data.vendors,
@@ -115,16 +116,36 @@ const useAdmin = () => {
   //method for update order status
   const updateOrderStatuss = async (id, status) => {
     try {
-      const {data}=await updateStatus(id,status)
+      const { data } = await updateStatus(id, status);
       return {
-      success:data.success,
-      message:data.message
-      }
+        success: data.success,
+        message: data.message,
+      };
     } catch (err) {
       const message =
         err?.response?.data?.message || "Something wromg try again later";
       return { success: false, message: message };
     } finally {
+    }
+  };
+
+  //method for fetch all products for admin
+  const fetchAdminProducts = async (page) => {
+    try {
+      setLoading(true);
+      const { data } = await fetchProducts(page);
+      return {
+        success: data.success,
+        page: data.page,
+        totalPages: data.totalPages,
+        products: data.products,
+      };
+    } catch (err) {
+      const message =
+        err?.response?.data?.message || "Something wromg try again later";
+      return { success: false, message: message };
+    } finally {
+      setLoading(false);
     }
   };
   return {
@@ -136,6 +157,7 @@ const useAdmin = () => {
     unblockMethod,
     fetchAOrders,
     updateOrderStatuss,
+    fetchAdminProducts,
   };
 };
 

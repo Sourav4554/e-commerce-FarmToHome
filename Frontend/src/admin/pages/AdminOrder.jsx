@@ -108,7 +108,7 @@ const AdminOrder = () => {
     );
     await fetchAdminOrder();
   }
-  // ─── Data fetching ────────────────────────────────────────────────────────
+//data fetching...
   const fetchAdminOrder = async () => {
     const response = await fetchAOrders(page);
     if (!response.success) {
@@ -302,7 +302,7 @@ const AdminOrder = () => {
                         <td className="py-4 px-6">
                           <button
                             onClick={() => toggleExpanded(order._id)}
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-all hover:shadow-lg font-semibold"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 transition-all hover:shadow-lg font-semibold"
                           >
                             {expandedOrderId === order._id ? (
                               <>
@@ -575,7 +575,7 @@ const AdminOrder = () => {
                   <div className="p-4 pt-0">
                     <button
                       onClick={() => toggleExpanded(order._id)}
-                      className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-all font-semibold"
+                      className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-green-700 text-white rounded-lg hover:bg-green-800 transition-all font-semibold"
                     >
                       {expandedOrderId === order._id ? (
                         <>

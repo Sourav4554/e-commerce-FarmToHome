@@ -88,6 +88,9 @@ export default function PlaceOrder() {
     razorpay.open();
   };
 
+
+  
+
   //method for Order product
   const placeOrderMethod = async () => {
     if (cartDetail.length <= 0) {
