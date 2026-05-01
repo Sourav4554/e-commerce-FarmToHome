@@ -7,12 +7,12 @@ const ProductsHero = () => {
           Farm2Home Products
         </h1>
 
-        {/* Search */}
+        {/* Search
         <input
           type="text"
           placeholder="Search products..."
           className="w-full md:w-80 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-        />
+        /> */}
       </div>
 
   )

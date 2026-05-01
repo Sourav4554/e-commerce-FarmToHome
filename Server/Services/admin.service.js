@@ -56,7 +56,7 @@ export const unblockCustomerService = async (params) => {
   );
   return approve.toObject();
 };
-//fetch vendors for user
+//fetch vendors for admin
 export const fetchVendorService = async (query) => {
   const limit = Number(query.limit) || 4;
   const page = Number(query.page) || 1;

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import { PiShoppingCartFill } from "react-icons/pi";
 import { TfiPackage } from "react-icons/tfi";
-import { NavLink } from "react-router-dom";
+import { NavLink,Link } from "react-router-dom";
 import { AuthContextProvide } from "../../context/AuthContext";
 
 const Navbar = () => {
@@ -44,7 +44,10 @@ const Navbar = () => {
   return (
     <nav className="flex justify-between items-center p-4 md:py-0 ">
       {/* Logo */}
-      <h1 className="w-full font-bold md:text-xl text-primary">Farm2Home</h1>
+      <Link to='/'>
+      <h1 className="w-full font-bold md:text-xl text-primary cursor-pointer">Farm2Home</h1>
+
+      </Link>
 
       {/* Desktop Navigation */}
       <ul className="hidden md:flex ">

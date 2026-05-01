@@ -7,9 +7,10 @@ import Loader from "../../components/Loader";
 import VendorCardSkeleton from "../../components/VendorCardSkenlton";
 
 import { useNavigate } from "react-router-dom";
+import NoVendor from "../../components/NoVendor";
 
 const VendorCardSection = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const [nearbyVendors, setNearbyVendors] = useState([]);
   const { fetchNearestFarmers, loading } = useCustomerHook();
   const { userInfo } = useContext(AuthContextProvide);
@@ -29,7 +30,7 @@ const VendorCardSection = () => {
   // useEffect(() => {
   //   console.log(nearbyVendors);
   // }, [nearbyVendors]);
-  
+
   return (
     <section className="w-full p-4 mx-auto">
       <div className="mb-6">
@@ -46,23 +47,33 @@ const VendorCardSection = () => {
             : `Please Login to explore nearby farmers`}
         </p>
       </div>
-   
-      <div className=" grid  grid-cols-1 md:grid-cols-2 gap-10">
-        {nearbyVendors.length > 0
-          ? nearbyVendors.map((item, _) => (
-              <VendorCard
-                id={item._id}
-                name={item.name}
-                district={item.district}
-                panchayth={item.panchayth}
-                ward={item.ward}
-                image={item.image}
-                createdAt={item.createdAt}
-              />
-            ))
-          : Array.from({ length: 4 }).map((_, key) => {
-              return <VendorCardSkeleton key={key} />;
-            })}
+
+      <div
+        className={
+          nearbyVendors.length > 0
+            ? " grid  grid-cols-1 md:grid-cols-2 gap-10 "
+            : ""
+        }
+      >
+        {nearbyVendors.length > 0 ? (
+          nearbyVendors.map((item, _) => (
+            <VendorCard
+              id={item._id}
+              name={item.name}
+              district={item.district}
+              panchayth={item.panchayth}
+              ward={item.ward}
+              image={item.image}
+              createdAt={item.createdAt}
+            />
+          ))
+        ) : loading ? (
+          Array.from({ length: 4 }).map((_, index) => (
+            <VendorCardSkeleton key={index} />
+          ))
+        ) : (
+          <NoVendor />
+        )}
 
         {/* <VendorCard />
         <VendorCard />
@@ -71,8 +82,9 @@ const VendorCardSection = () => {
         <VendorCard /> */}
       </div>
       <div className="flex py-5 items-center justify-center">
-        <button className="mt-6 ml-[8%] md:ml-0 px-6 py-3 text-white bg-primary rounded-lg font-medium transition duration-300 hover:bg-green-700 hover:-translate-y-1 cursor-pointer"
-        onClick={()=>navigate('/farmers')}
+        <button
+          className="mt-6 ml-[8%] md:ml-0 px-6 py-3 text-white bg-primary rounded-lg font-medium transition duration-300 hover:bg-green-700 hover:-translate-y-1 cursor-pointer"
+          onClick={() => navigate("/farmers")}
         >
           Explore Farmers
         </button>

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import CartQuantityButton from "./CartQuantityButton";
 import { cartContextProvider } from "../../context/CartContext";
-import useCart from "../../hooks/cartHook/useCart";
+
 
 const CartSection = () => {
   const { cartDetail, clearCart, removeLoad } =
