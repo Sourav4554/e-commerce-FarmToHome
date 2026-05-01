@@ -180,12 +180,12 @@ export const paymentVerificationSevice = async (body, user) => {
 
 //srvice to handling payment failure
 export const paymentFailureService = async (body) => {
-  const {orderId} = body;
-  if(!orderId){
-  throw new AppError('Razorpay id required',404)
+  const { orderId } = body;
+  if (!orderId) {
+    throw new AppError("Razorpay id required", 404);
   }
   await orderModel.deleteOne({
-    razorpayOrderId:orderId,
+    razorpayOrderId: orderId,
   });
 };
 
@@ -230,4 +230,22 @@ export const fetchVendorOrderService = async (user) => {
     },
   ]);
   return vendorOrders;
+};
+
+//service for cancell  order
+export const cancelOrderService = async (params, user) => {
+  const { id } = params;
+  if (!id) {
+    throw new AppError("Orderid is required", 400);
+  }
+ const result= await orderModel.updateOne(
+    { _id: id, customerId: user._id },
+
+    {
+      $set: { orderStatus: "cancelled" },
+    }
+  );
+  if (result.modifiedCount === 0) {
+    throw new AppError('Order is already cancelled', 400);
+  }
 };

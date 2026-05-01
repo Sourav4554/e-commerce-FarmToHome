@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  cancelOrder,
   cashOnDelivery,
   fetchUserOrder,
   fetchVendorOrder,
@@ -119,6 +120,24 @@ const useOrder = () => {
       return { success: false, message: message };
     }
   };
+
+  //method for cancell order 
+  const cancelCustomerOrder = async (id) => {
+    setButtonLoad(true)
+    try {
+      const { data } = await cancelOrder(id);
+      return {
+        success: data.success,
+        message: data.message,
+      };
+    } catch (err) {
+      const message =
+        err?.response?.data?.message || "Something wromg try again later";
+      return { success: false, message: message };
+    }finally{
+      setButtonLoad(false)
+    }
+  };
   return {
     loading,
     buttonLoad,
@@ -127,7 +146,8 @@ const useOrder = () => {
     fetchVendorUserOrder,
     onlinePayment,
     verifyRazorpayPayment,
-    cancelRazorpayPayment
+    cancelRazorpayPayment,
+    cancelCustomerOrder
   };
 };
 

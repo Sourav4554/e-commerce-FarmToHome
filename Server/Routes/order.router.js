@@ -7,7 +7,8 @@ import {
   fetchCustomerOrdersController,
   fetchVendorOrderController,
   razorpayController,
-  paymentFailureController
+  paymentFailureController,
+  cancelOrderController
 } from "../Controllers/order.controller.js";
 import { validateOrder } from "../Middlewares/Validators/order.validator.js";
 import { validationErrors } from "../Middlewares/Validators/validationerror.js";
@@ -49,13 +50,28 @@ orderRouter.post(
   customerroleMiddleware,
   razorpayController
 );
-export default orderRouter;
 
-orderRouter.delete("/payment-failure", authMiddleware, customerroleMiddleware,paymentFailureController);
+//handle payment failure
+orderRouter.delete(
+  "/payment-failure",
+  authMiddleware,
+  customerroleMiddleware,
+  paymentFailureController
+);
 
+//handle payment verification
 orderRouter.post(
   "/verify-payment",
   authMiddleware,
   customerroleMiddleware,
   paymentVerificationController
 );
+
+//handling cancel order
+orderRouter.patch(
+  '/cancel-order/:id',
+  authMiddleware,
+  customerroleMiddleware,
+  cancelOrderController
+  )
+export default orderRouter;

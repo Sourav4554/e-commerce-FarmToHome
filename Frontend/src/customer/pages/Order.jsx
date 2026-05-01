@@ -142,9 +142,6 @@ export default function Order() {
                   <UpcomingOrderCard
                     key={order._id}
                     order={order}
-                    onCancel={(id) => {
-                      console.log("Cancel order:", id);
-                    }}
                     shortId={shortId}
                     formatDate={formatDate}
                     rupee={rupee}

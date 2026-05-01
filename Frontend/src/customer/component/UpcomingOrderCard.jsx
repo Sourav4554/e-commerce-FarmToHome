@@ -1,10 +1,30 @@
 import React from "react";
-import { useState } from "react";
+import { useState,useContext } from "react";
 import StatusBadge from "./StatusBadge";
 import OrderTimeLine from "./OrderTimeLine";
-const UpcomingOrderCard = ({ order, onCancel, shortId, formatDate, rupee ,STATUS_META,STATUS_STEPS}) => {
+import useOrder from "../../hooks/orderHook/useOrder";
+import { orderContextProvider } from "../../context/OrderContext";
+import toast from "react-hot-toast";
+const UpcomingOrderCard = ({ order, shortId, formatDate, rupee ,STATUS_META,STATUS_STEPS}) => {
+  const {fetchOrders}=useContext(orderContextProvider)
+  const {buttonLoad,cancelCustomerOrder}=useOrder()
   const [expanded, setExpanded] = useState(false);
+
+ //function for cancell order
+ const cancelOrder=async(id)=>{
+  const response=await cancelCustomerOrder(id)
+  if(!response.success){
+    toast.error(response.message)
+    return;
+  }
+  toast.success(response.message)
+  await fetchOrders()
+}
+
   const canCancel = (status) => ["placed", "confirmed"].includes(status);
+
+
+
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
       {/* Card Header */}
@@ -129,7 +149,7 @@ const UpcomingOrderCard = ({ order, onCancel, shortId, formatDate, rupee ,STATUS
 
         {canCancel(order.orderStatus) && (
           <button
-            onClick={() => onCancel(order._id)}
+            onClick={() => cancelOrder(order._id)}
             className="flex-1 min-w-27.5 inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl border border-red-200 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
           >
             <svg
@@ -145,7 +165,7 @@ const UpcomingOrderCard = ({ order, onCancel, shortId, formatDate, rupee ,STATUS
                 d="M6 18L18 6M6 6l12 12"
               />
             </svg>
-            Cancel Order
+            {buttonLoad?'Canceling...':'Cancel Order'}
           </button>
         )}
       </div>
