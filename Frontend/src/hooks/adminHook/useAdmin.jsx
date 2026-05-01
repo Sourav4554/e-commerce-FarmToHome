@@ -13,11 +13,11 @@ const useAdmin = () => {
   const [loading, setLoading] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
   //fetch filtered vendors for admin
-  const fetchUsers = async (page, status) => {
+  const fetchUsers = async (page, status,role) => {
     try {
       setLoading(true);
 
-      const { data } = await fetchAllUsersForAdmin(page, status);
+      const { data } = await fetchAllUsersForAdmin(page, status,role);
       return {
         success: data.success,
         vendors: data.vendors,
