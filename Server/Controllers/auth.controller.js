@@ -2,6 +2,7 @@ import {
   userRegisterService,
   userLoginService,
   completeProfileService,
+  updateProfileService
 } from "../Services/userAuth.service.js";
 import AppError from "../Utilities/AppError.js";
 import { generateToken } from "../Utilities/jsonToken.js";
@@ -80,7 +81,6 @@ const googleAuthController = async (req, res, next) => {
 
 //complete profile after authentication
 const completeProfileController = async (req, res, next) => {
-  console.log('hitting controller')
   try {
    const updatedUser = await completeProfileService(req.body,req.user);
     if(updatedUser.role==='vendor'){
@@ -105,10 +105,25 @@ message:'sucessfully logout',
 success:true
 })
 }
+
+//update profile controller
+const updateProfileController=async(req,res,next)=>{
+try {
+  const user=await updateProfileService(req.body,req.user);
+  return res.status(201).json({
+  success:true,
+  message:'profile updated',
+  user:user
+  })
+} catch (error) {
+   next(error)
+}
+}
 export {
   userRegistration,
   userLogin,
   googleAuthController,
   completeProfileController,
-  logoutController
+  logoutController,
+  updateProfileController
 };

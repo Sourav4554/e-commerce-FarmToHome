@@ -17,17 +17,15 @@ const App = () => {
       <CartContext>
         <OrderContext>
           <ProductContext>
-        <ToastProvide />
-        <Routes>
-          <Route path="/*" element={<CustomerRoutes />} />
-          <Route path="/admin/*" element={<AdminRoutes />} />
-          <Route path="/vendor/*" element={<VendorRoutes />} />
-          <Route path="/pending" element={<PendingPage />} />
-          {/* <Route path="/register" element={<Login />} /> */}
+            <ToastProvide />
+            <Routes>
+              <Route path="/*" element={<CustomerRoutes />} />
+              <Route path="/admin/*" element={<AdminRoutes />} />
+              <Route path="/vendor/*" element={<VendorRoutes />} />
+              <Route path="/pending" element={<PendingPage />} />
 
-          {/* <Route path="/customer/*" element={<CustomerDashboard />} /> */}
-        </Routes>
-        </ProductContext>
+            </Routes>
+          </ProductContext>
         </OrderContext>
       </CartContext>
     </AuthContext>

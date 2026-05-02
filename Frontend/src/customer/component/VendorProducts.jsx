@@ -22,9 +22,7 @@ const VendorProducts = () => {
     fetchProducts();
   }, []);
 
-  useEffect(() => {
-    console.log(`farmer products`,farmerProducts);
-  }, [farmerProducts]);
+
   return (
     <div className="mb-12 lg:mb-16">
       <div className="flex items-center justify-between mb-6 lg:mb-8">

@@ -115,3 +115,24 @@ export const completeProfileService = async (body, olduser) => {
   const newUser = await user.save();
   return newUser.toObject();
 };
+
+
+//service for update profile
+
+export const updateProfileService=async(body,olduser)=>{
+  const { phone, whatsapp, district, panchayth, ward ,avatar,role} = body;
+  if (!phone || !whatsapp ||  !district || !panchayth || !ward ) {
+    throw new AppError("Fill all fields", 400);
+  }
+  const user = await usermodel.findById(olduser._id);
+  user.phone = phone;
+  user.whatsapp = whatsapp;
+  user.district = district;
+  user.panchayth = panchayth;
+  user.ward = ward;
+  user.avatar = avatar
+
+ const updatedUser=await user.save()
+
+ return updatedUser.toObject()
+}

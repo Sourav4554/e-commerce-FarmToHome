@@ -160,7 +160,7 @@ const VendorShop = () => {
 
           {/* Review Form */}
           {showReviewForm && (
-            <div className="animate-slide-in mb-8 bg-gradient-to-br from-emerald-50 to-white rounded-2xl p-6 border border-emerald-100">
+            <div className="animate-slide-in mb-8 bg-linear-to-br from-emerald-50 to-white rounded-2xl p-6 border border-emerald-100">
               <h3 className="text-xl font-bold text-gray-900 mb-4">
                 Share Your Experience
               </h3>
@@ -225,9 +225,9 @@ const VendorShop = () => {
                     <img
                       src={review.avatar}
                       alt={review.userName}
-                      className="w-12 h-12 rounded-full object-cover ring-2 ring-white shadow-md flex-shrink-0"
+                      className="w-12 h-12 rounded-full object-cover ring-2 ring-white shadow-md shrink-0"
                     />
-                    <div className="flex-grow">
+                    <div className="grow">
                       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
                         <h4 className="font-semibold text-gray-900 text-lg">
                           {review.userName}

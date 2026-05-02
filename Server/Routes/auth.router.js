@@ -5,11 +5,13 @@ import {
   userRegistration,
   userLogin,
   completeProfileController,
-  logoutController
+  logoutController,
+  updateProfileController
 } from "../Controllers/auth.controller.js";
 import { authvalidationResult } from "../Middlewares/Validators/auth.validater.js";
 import { validationErrors } from "../Middlewares/Validators/validationerror.js";
 import { authMiddleware } from "../Middlewares/auth.middleware.js";
+import { profileUpdateValidation } from "../Middlewares/Validators/profileUpdate.validator.js";
 
 const authRouter = express.Router();
 
@@ -40,6 +42,15 @@ authRouter.get(
 //profile completion after googleauth
 authRouter.patch("/completeprofile", authMiddleware, completeProfileController);
 
-//logout 
-authRouter.post('/logout',logoutController)
+//logout
+authRouter.post("/logout", logoutController);
+
+//profile updtae
+authRouter.patch(
+  "/update-profile",
+  profileUpdateValidation,
+  validationErrors,
+  authMiddleware,
+  updateProfileController
+);
 export default authRouter;

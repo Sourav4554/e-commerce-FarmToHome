@@ -3,7 +3,8 @@ import {
   loginUser,
   registration,
   userLogOut,
-  profileCompletion
+  profileCompletion,
+  updateProfile
 } from "../../services/authService";
 const useLogin = () => {
   const [loading, setLoading] = useState(false);
@@ -91,7 +92,28 @@ const useLogin = () => {
       setLoading(false);
     }
   };
-  return { login, register, logOut, completeProfile, loading, error };
+
+  //method for handling update profile 
+  const updateUserProfile=async(formdata)=>{
+  try {
+    setLoading(true)
+    const {data}=await updateProfile(formdata)
+    return {
+      success: data.success,
+      message: data.message,
+      user: data.user,
+    };
+  } catch (err) {
+    console.log(err)
+    const message =
+      err?.response?.data?.message || "Something wromg try again later";
+    setError(message);
+    return { success: false, message: message };
+  }finally{
+   setLoading(false)
+  }
+  }
+  return { login, register, logOut, completeProfile,updateUserProfile, loading, error };
 };
 
 export default useLogin;

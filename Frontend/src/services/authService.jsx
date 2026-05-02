@@ -19,3 +19,9 @@ return api.post('/auth/logout')
 export const profileCompletion=(data)=>{
 return api.patch('/auth/completeprofile',data)
 }
+
+//update profile
+export const updateProfile=(data)=>{
+  
+return api.patch(`/auth/update-profile`,data)
+}

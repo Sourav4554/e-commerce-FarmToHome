@@ -6,6 +6,10 @@ body('name')
 .trim()
 .withMessage('Name is required'),
 
+body('avatar')
+.trim(),
+
+
 body('email')
 .notEmpty()
 .trim()

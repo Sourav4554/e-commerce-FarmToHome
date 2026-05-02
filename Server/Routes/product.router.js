@@ -24,8 +24,8 @@ const productRouter = express.Router();
 productRouter.get(
   "/signed-url",
   authMiddleware,
-  vendorRoleMiddleware,
-  vendorApproveMiddleware,
+  // vendorRoleMiddleware,
+  // vendorApproveMiddleware,
   createSignedUrlController
 );
 

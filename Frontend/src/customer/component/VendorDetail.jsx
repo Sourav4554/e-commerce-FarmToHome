@@ -85,7 +85,7 @@ const VendorDetail = () => {
         <div className="shrink-0">
           <div className="relative">
             <img
-              src={farmerStorage.image || noProfileLogo}
+              src={farmerStorage?.avatar || noProfileLogo}
               alt={"kk"}
               className="w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 rounded-2xl object-cover shadow-md ring-4 ring-emerald-50"
             />

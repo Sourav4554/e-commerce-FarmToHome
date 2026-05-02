@@ -1,7 +1,16 @@
 import React from 'react'
 import Logout from "./Logout";
 import noProfileLogo from '../asscets/Starter pfp.jpeg'
+import { useNavigate } from 'react-router-dom';
 const ProfileComponent = ({userInfo}) => {
+  const navigate=useNavigate()
+  const handleNavigation=(role)=>{
+  if(role==='customer'){
+   navigate('/update-profile')
+  }else{
+    navigate('/vendor/update-profile')
+  }
+  }
   return (
     <div className="min-h-screen bg-linear-to-br from-green-50 via-white to-green-100 p-4 md:p-8">
       <div className="max-w-4xl mx-auto bg-white/80 backdrop-blur-md rounded-3xl shadow-lg border border-green-100 p-6 md:p-8">
@@ -12,7 +21,9 @@ const ProfileComponent = ({userInfo}) => {
           </h1>
 
           <div className="flex gap-2">
-            <button className="px-4 py-1.5 text-sm border border-green-300 rounded-lg text-green-700 hover:bg-green-100">
+            <button className="px-4 py-1.5 text-sm border border-green-300 rounded-lg text-green-700 hover:bg-green-100"
+            onClick={()=>handleNavigation(userInfo.role)}
+            >
               Update Profile
             </button>
 
@@ -25,7 +36,7 @@ const ProfileComponent = ({userInfo}) => {
           {/* Avatar with ring */}
           <div className="relative">
             <img
-              src={userInfo.avatar ?? noProfileLogo}
+              src={userInfo?.avatar ?? noProfileLogo}
               alt="profile"
               className="w-20 h-20 rounded-full object-cover border-4 border-green-200"
             />
@@ -34,15 +45,15 @@ const ProfileComponent = ({userInfo}) => {
 
           {/* Info */}
           <div className="text-center md:text-left">
-            <h2 className="text-lg font-semibold text-gray-800">{userInfo.info}</h2>
+            <h2 className="text-lg font-semibold text-gray-800">{userInfo?.info}</h2>
 
             {/* Role Badge */}
             <span className="inline-block mt-1 px-3 py-0.5 text-xs bg-green-100 text-green-700 rounded-full capitalize">
-              {userInfo.role}
+              {userInfo?.role}
             </span>
 
             <p className="text-xs text-gray-500 mt-1">
-               {userInfo.district}, {userInfo.panchayth}
+               {userInfo?.district}, {userInfo?.panchayth}
             </p>
           </div>
         </div>
@@ -50,13 +61,13 @@ const ProfileComponent = ({userInfo}) => {
         {/* Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
           {[
-            { label: "Full Name", value: userInfo.name },
-            { label: "Email", value: userInfo.email },
-            { label: "Phone", value: userInfo.phone },
-            { label: "WhatsApp", value: userInfo.whatsapp },
-            { label: "District", value: userInfo.district },
-            { label: "Panchayath", value: userInfo.panchayth },
-            { label: "Ward", value: userInfo.ward },
+            { label: "Full Name", value: userInfo?.name },
+            { label: "Email", value: userInfo?.email },
+            { label: "Phone", value: userInfo?.phone },
+            { label: "WhatsApp", value: userInfo?.whatsapp },
+            { label: "District", value: userInfo?.district },
+            { label: "Panchayath", value: userInfo?.panchayth },
+            { label: "Ward", value: userInfo?.ward },
           ].map((item, i) => (
             <div
               key={i}

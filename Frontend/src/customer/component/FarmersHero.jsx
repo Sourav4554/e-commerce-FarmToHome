@@ -51,6 +51,7 @@ const FarmersHero = ({ vendors,filteredData,setFilteredData }) => {
               panchayth={item.panchayth}
               ward={item.ward}
               createdAt={item.createdAt}
+              image={item.avatar}
             />
           ))
           ):(
