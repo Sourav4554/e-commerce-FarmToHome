@@ -10,7 +10,8 @@ import {
   fetchVendorController,
   fetchOrderController,
   updateOrderStatusController,
-  fetchProductsController
+  fetchProductsController,
+  deleteProductController
 } from "../Controllers/admin.controller.js";
 const adminRouter = express.Router();
 
@@ -80,5 +81,13 @@ adminRouter.get(
   authMiddleware,
   adminroleMiddleware,
   fetchProductsController
+  )
+
+//delete product 
+adminRouter.delete(
+  '/delete-product/:id',
+  authMiddleware,
+  adminroleMiddleware,
+  deleteProductController
   )
 export default adminRouter;

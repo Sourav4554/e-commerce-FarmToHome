@@ -7,17 +7,18 @@ import {
   fetchProducts,
   unblockUser,
   updateStatus,
+  deleteProduct,
 } from "../../services/adminService";
 
 const useAdmin = () => {
   const [loading, setLoading] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
   //fetch filtered vendors for admin
-  const fetchUsers = async (page, status,role) => {
+  const fetchUsers = async (page, status, role) => {
     try {
       setLoading(true);
 
-      const { data } = await fetchAllUsersForAdmin(page, status,role);
+      const { data } = await fetchAllUsersForAdmin(page, status, role);
       return {
         success: data.success,
         vendors: data.vendors,
@@ -148,6 +149,20 @@ const useAdmin = () => {
       setLoading(false);
     }
   };
+  //delete product method
+  const deleteWrongProduct = async (id) => {
+    try {
+      const { data } = await deleteProduct(id);
+      return {
+        success: data.success,
+        message: data.message,
+      };
+    } catch (err) {
+      const message =
+        err?.response?.data?.message || "Something wromg try again later";
+      return { success: false, message: message };
+    }
+  };
   return {
     fetchUsers,
     loading,
@@ -158,6 +173,7 @@ const useAdmin = () => {
     fetchAOrders,
     updateOrderStatuss,
     fetchAdminProducts,
+    deleteWrongProduct,
   };
 };
 

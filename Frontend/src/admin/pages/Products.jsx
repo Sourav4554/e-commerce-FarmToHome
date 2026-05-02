@@ -66,6 +66,7 @@ const Products = () => {
           products={products}
           expandedId={expandedId}
           onToggle={handleToggle}
+          fetchProductsForAdmin={ fetchProductsForAdmin}
           // onDelete={handleDeleteRequest}
         />
       </main>

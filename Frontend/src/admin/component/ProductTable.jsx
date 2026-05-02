@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ProductRow from './ProductRow';
+import useAdmin from '../../hooks/adminHook/useAdmin';
+import toast from 'react-hot-toast';
 
 const COLUMNS = [
     { label: "Image", className: "w-16" },
@@ -10,7 +12,24 @@ const COLUMNS = [
     { label: "Actions", className: "min-w-[140px]" },
   ];
 
-const ProductTable = ({products,expandedId,onToggle}) => {
+const ProductTable = ({products,expandedId,onToggle, fetchProductsForAdmin}) => {
+  const {deleteWrongProduct}=useAdmin()
+  const[bLoad,setBload]=useState(null)
+    //method for delete product
+    const deleteProductAdmin = async(id) => {
+      setBload(id)
+      
+      const response = await deleteWrongProduct(id);
+  
+      if(!response.success){
+      toast.error(response.message);
+      return;
+      }
+      toast.success(response.message)
+      setBload(null)
+      await fetchProductsForAdmin()
+    };
+
     if (products.length === 0) {
         return (
           <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -46,7 +65,8 @@ const ProductTable = ({products,expandedId,onToggle}) => {
                 product={product}
                 isExpanded={expandedId === product._id}
                 onToggle={onToggle}
-                // onDelete={onDelete}
+                deleteProductAdmin={deleteProductAdmin}
+                bLoad={bLoad}
               />
             ))}
           </tbody>

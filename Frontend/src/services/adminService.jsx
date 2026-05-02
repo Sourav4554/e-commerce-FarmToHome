@@ -39,3 +39,7 @@ export const fetchProducts = (page) => {
     },
   });
 };
+
+export const deleteProduct=(id)=>{
+return api.delete(`/admin/delete-product/${id}`)
+}

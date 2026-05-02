@@ -1,5 +1,6 @@
-import React from "react";
+
 import VendorDetails from "./VendorDetails";
+
 const CATEGORY_STYLES = {
   "Food & Grocery": "bg-amber-400/10 text-amber-400 border-amber-400/30",
   Handicrafts: "bg-indigo-400/10 text-indigo-400 border-indigo-400/30",
@@ -11,8 +12,15 @@ const CATEGORY_STYLES = {
 const getCategoryStyle = (category) =>
   CATEGORY_STYLES[category] ||
   "bg-slate-400/10 text-slate-400 border-slate-400/30";
-const ProductRow = ({ product, isExpanded, onToggle }) => {
+
+const ProductRow = ({ product, isExpanded, onToggle ,deleteProductAdmin,bLoad}) => {
+
+
   const isOutOfStock = product.stock === 0;
+
+
+
+
   return (
     <>
       <tr
@@ -102,14 +110,14 @@ const ProductRow = ({ product, isExpanded, onToggle }) => {
 
             {/* Delete Button */}
             <button
-              //   onClick={() => onDelete(product)}
+              onClick={() => deleteProductAdmin(product._id)}
               className="flex items-center justify-center w-8 h-8 rounded-lg
                          bg-red-500/10 border border-red-500/25 text-red-400
                          hover:bg-red-500/25 hover:border-red-500/50
                          transition-colors text-sm"
               title="Delete product"
             >
-              ✕
+              {bLoad===product._id?'...':'x'}
             </button>
           </div>
         </td>

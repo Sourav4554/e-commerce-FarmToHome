@@ -7,7 +7,8 @@ import {
   fetchVendorService,
   fetchOrderService,
   updateOrderStatusService,
-  fetchProductsServices
+  fetchProductsServices,
+  deleteProductService
 } from "../Services/admin.service.js";
 import AppError from "../Utilities/AppError.js";
 
@@ -152,6 +153,21 @@ try {
   next(error)
 }
 }
+
+//controller for delete product
+const deleteProductController=async(req,res,next)=>{
+try {
+  const deleteProduct=await deleteProductService(req.params)
+
+  return res.status(200).json({
+  message:'product deleted',
+  success:true,
+  product:deleteProduct
+  })
+} catch (error) {
+ next(error) 
+}
+}
 export {
   fetchPendingRequestController,
   approvePendingVendorController,
@@ -161,5 +177,6 @@ export {
   fetchVendorController,
   fetchOrderController,
   updateOrderStatusController,
-  fetchProductsController
+  fetchProductsController,
+  deleteProductController
 };

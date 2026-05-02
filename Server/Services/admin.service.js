@@ -134,3 +134,12 @@ export const fetchProductsServices = async (params,user) => {
   }
   return { products, page, totalPages: Math.ceil(totalCount / limit) };
 };
+
+//service for delete product 
+export const deleteProductService=async(params)=>{
+  const id=new mongoose.Types.ObjectId(params.id)
+  const product = await productModel.findById({ _id: id });
+  product.isDelete = true;
+  const updatedProduct = await product.save();
+  return updatedProduct;
+}
