@@ -9,6 +9,7 @@ import adminRouter from './Routes/admin.router.js'
 import productRouter from './Routes/product.router.js'
 import cartRouter from './Routes/cart.router.js'
 import orderRouter from './Routes/order.router.js'
+import reviewRouter from './Routes/review.router.js'
 const app=express()
 
 //json middleware
@@ -20,7 +21,8 @@ app.use(cors({
 origin:'http://localhost:5173',
 credentials: true
 }))
-
+//review handler
+app.use('/api/v1/review',reviewRouter)
 //order endpoint
 app.use('/api/v1/order',orderRouter)
 //cart endpoint

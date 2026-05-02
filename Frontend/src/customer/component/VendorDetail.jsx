@@ -4,15 +4,13 @@ import {
   MapPin,
   Calendar,
   MessageCircle,
-  ShoppingCart,
-  StarIcon,
 } from "lucide-react";
 import noProfileLogo from "../../asscets/Starter pfp.jpeg";
 import useCustomerHook from "../../hooks/customerHook/useCustomerHook";
 import { useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
 
-const VendorDetail = () => {
+const VendorDetail = ({totalReviews,average}) => {
   const { farmerDetails, loading } = useCustomerHook();
   const { id } = useParams();
   const [farmerStorage, setFarmerStorage] = useState({});
@@ -63,20 +61,7 @@ const VendorDetail = () => {
     year: "numeric",
   });
   // Sample vendor data
-  const vendor = {
-    name: "Green Valley Organic Store",
-    image:
-      "https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=400&h=400&fit=crop",
-    location: {
-      district: "Ernakulam",
-      panchayat: "Kanayannur",
-      ward: "Ward 12",
-    },
-    rating: 4.8,
-    reviewCount: 156,
-    registeredDate: "Jan 2023",
-    totalProducts: 48,
-  };
+  
 
   return (
     <div className="vendor-card bg-white rounded-3xl shadow-lg p-6 sm:p-8 lg:p-10 mb-8 lg:mb-12">
@@ -122,12 +107,12 @@ const VendorDetail = () => {
           {/* Stats Row */}
           <div className="flex flex-wrap gap-3 sm:gap-4 mb-4">
             <div className="stat-badge rounded-xl px-4 py-2.5 flex items-center gap-2">
-              <StarRating rating={Math.floor(vendor.rating)} size="md" />
-              <span className="font-semibold text-gray-900 text-lg">
-                {vendor.rating}
-              </span>
+              <StarRating rating={Math.floor(average)} size="md" />
+              {/* <span className="font-semibold text-gray-900 text-lg">
+                
+              </span> */}
               <span className="text-gray-600 text-sm">
-                ({vendor.reviewCount} reviews)
+                ({totalReviews} reviews)
               </span>
             </div>
 
