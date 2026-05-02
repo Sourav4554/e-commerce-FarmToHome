@@ -43,3 +43,9 @@ export const fetchProducts = (page) => {
 export const deleteProduct=(id)=>{
 return api.delete(`/admin/delete-product/${id}`)
 }
+
+
+//service for fetch DashboardDetails
+export const fetchDashBoardDetails=()=>{
+  return api.get(`/admin/dashboard`)
+  }  

@@ -8,6 +8,7 @@ import {
   unblockUser,
   updateStatus,
   deleteProduct,
+  fetchDashBoardDetails,
 } from "../../services/adminService";
 
 const useAdmin = () => {
@@ -163,6 +164,21 @@ const useAdmin = () => {
       return { success: false, message: message };
     }
   };
+  //method for fetch dashbaord
+  const fetchDashboard = async () => {
+    try {
+      const { data } = await fetchDashBoardDetails();
+      return {
+        success: data.success,
+        message: data.message,
+        stats:data.stats
+      };
+    } catch (err) {
+      const message =
+        err?.response?.data?.message || "Something wromg try again later";
+      return { success: false, message: message };
+    }
+  };
   return {
     fetchUsers,
     loading,
@@ -174,6 +190,7 @@ const useAdmin = () => {
     updateOrderStatuss,
     fetchAdminProducts,
     deleteWrongProduct,
+    fetchDashboard,
   };
 };
 

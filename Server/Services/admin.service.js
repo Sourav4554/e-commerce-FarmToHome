@@ -118,14 +118,14 @@ export const updateOrderStatusService = async (params, body) => {
 };
 
 //service to fetch products for admin
-export const fetchProductsServices = async (params,user) => {
+export const fetchProductsServices = async (params, user) => {
   const limit = Number(params.limit) || 6;
   const page = Number(params.page) || 1;
   const skip = (page - 1) * limit;
   const totalCount = await productModel.countDocuments({ isDelete: false });
   const products = await productModel
     .find({ isDelete: false })
-    .populate('VendorId')
+    .populate("VendorId")
     .limit(limit)
     .skip(skip)
     .sort({ createdAt: -1 });
@@ -135,11 +135,92 @@ export const fetchProductsServices = async (params,user) => {
   return { products, page, totalPages: Math.ceil(totalCount / limit) };
 };
 
-//service for delete product 
-export const deleteProductService=async(params)=>{
-  const id=new mongoose.Types.ObjectId(params.id)
+//service for delete product
+export const deleteProductService = async (params) => {
+  const id = new mongoose.Types.ObjectId(params.id);
   const product = await productModel.findById({ _id: id });
   product.isDelete = true;
   const updatedProduct = await product.save();
   return updatedProduct;
-}
+};
+
+//service for fetch admin dashbord
+export const fetchAdminDashboardService = async () => {
+  const [productStats, orderStats, userStats] = await Promise.all([
+   
+
+    productModel.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalProducts: { $sum: 1 },
+          totalStock: { $sum: "$stock" },
+          inStock: {
+            $sum: { $cond: [{ $gt: ["$stock", 0] }, 1, 0] },
+          },
+          outOfStock: {
+            $sum: { $cond: [{ $eq: ["$stock", 0] }, 1, 0] },
+          },
+        },
+      },
+    ]),
+
+
+    // 🧾 Order stats
+    orderModel.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalOrders: { $sum: 1 },
+
+          delivered: {
+            $sum: {
+              $cond: [{ $eq: ["$orderStatus", "delivered"] }, 1, 0]
+            }
+          },
+
+          pending: {
+            $sum: {
+              $cond: [{ $eq: ["$orderStatus", "pending"] }, 1, 0]
+            }
+          },
+
+          cancelled: {
+            $sum: {
+              $cond: [{ $eq: ["$orderStatus", "cancelled"] }, 1, 0]
+            }
+          }
+        }
+      }
+    ]),
+
+    // 👤 User stats
+    usermodel.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalUsers: { $sum: 1 },
+
+          customers: {
+            $sum: {
+              $cond: [{ $eq: ["$role", "customer"] }, 1, 0]
+            }
+          },
+
+          vendors: {
+            $sum: {
+              $cond: [{ $eq: ["$role", "vendor"] }, 1, 0]
+            }
+          }
+        }
+      }
+    ])
+
+  ]);
+
+  return {
+    products: productStats[0] || {},
+    orders: orderStats[0] || {},
+    users: userStats[0] || {},
+  };
+};

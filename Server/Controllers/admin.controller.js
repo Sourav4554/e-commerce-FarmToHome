@@ -8,7 +8,8 @@ import {
   fetchOrderService,
   updateOrderStatusService,
   fetchProductsServices,
-  deleteProductService
+  deleteProductService,
+  fetchAdminDashboardService
 } from "../Services/admin.service.js";
 import AppError from "../Utilities/AppError.js";
 
@@ -168,6 +169,20 @@ try {
  next(error) 
 }
 }
+
+//controller for fetch DashboardDetails
+const fetchAdminDashboardController=async(req,res,next)=>{
+try {
+  const result=await fetchAdminDashboardService()
+  return res.status(200).json({
+    success: true,
+    message: "Dashboard stats fetched successfully",
+    stats: result
+  })
+} catch (error) {
+  next(error)
+}
+}
 export {
   fetchPendingRequestController,
   approvePendingVendorController,
@@ -178,5 +193,6 @@ export {
   fetchOrderController,
   updateOrderStatusController,
   fetchProductsController,
-  deleteProductController
+  deleteProductController,
+  fetchAdminDashboardController
 };
