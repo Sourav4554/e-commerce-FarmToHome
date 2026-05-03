@@ -126,7 +126,6 @@ export const razorpayService = async (user, body) => {
     receipt: createOrder._id,
   };
   const order = await RazorpayInstance.orders.create(options);
-  console.log(order.id);
   createOrder.razorpayOrderId = order.id;
   await createOrder.save();
   return order;

@@ -80,7 +80,7 @@ const Login = () => {
 
   //method for handling google Authentication
   const handleGoogleAuth=()=>{
-  window.location.href=`http://localhost:3000/api/v1/auth/google`
+  window.location.href=`${import.meta.env.VITE_API_URL}/auth/google` || `http://localhost:3000/api/v1/auth/google`
   }
   return (
     <section className="flex flex-col md:flex-row p-2 mx-auto w-full max-w-5xl min-h-1/2 h-auto shadow">
@@ -115,7 +115,8 @@ const Login = () => {
           {/*continue with google */}
 
           {/* Google Icon */}
-          <button className=" mx-auto block p-2 rouded-full shadow cursor-pointer duration-200 transition-all hover:scale-105"
+          <button className=" mx-auto block p-2 rounded-full shadow cursor-pointer duration-200 transition-all hover:scale-105"
+          type="button"
           onClick={handleGoogleAuth}
           >
             <img

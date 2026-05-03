@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import Loader from '../../components/Loader'
+import Loader from "../../components/Loader";
 import FarmersHero from "../component/FarmersHero";
 import Pagination from "../../components/Pagination";
 import useCustomerHook from "../../hooks/customerHook/useCustomerHook";
 
 const Farmers = () => {
-  const { fetchFarmers, filterFarmers,loading } = useCustomerHook();
+  const { fetchFarmers, filterFarmers } = useCustomerHook();
+  const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [vendors, setVendors] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
@@ -32,14 +33,12 @@ const Farmers = () => {
     setVendors(response.farmers);
   };
 
-
   //method for fetch filtered farmers
   const fetchFilteredFarmers = async (filteredData) => {
     const response = await filterFarmers(filteredData);
-    console.log(`response inside filtered farmers`,response)
     if (!response.success) {
       console.log(response.message);
-      setVendors([])
+      setVendors([]);
       return;
     }
     setVendors(response.farmers);
@@ -54,14 +53,21 @@ const Farmers = () => {
   }, [page, filteredData]);
 
 
+
   return (
     <>
       <FarmersHero
         vendors={vendors}
         filteredData={filteredData}
         setFilteredData={setFilteredData}
+        loading={loading}
       />
-      <Pagination page={page} setPage={setPage} totalPages={totalPages} loading={loading} />
+      <Pagination
+        page={page}
+        setPage={setPage}
+        totalPages={totalPages}
+        loading={loading}
+      />
     </>
   );
 };
