@@ -8,12 +8,12 @@ import AppError from "../Utilities/AppError.js";
 import { generateToken } from "../Utilities/jsonToken.js";
 
 //cookie option
-const isProduction = process.env.NODE_ENV === "production";
+const isProduction = process.env.NODE_ENV || 'production' === "production";
 const FrontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
 const cookieOptions = {
   httpOnly: true,
   secure: isProduction,
-  sameSite: isProduction ? "none" : "lax",
+  sameSite: isProduction ? "None" : "Lax",
   priority: "high",
   path: "/",
 };
