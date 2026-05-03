@@ -65,7 +65,7 @@ const Login = () => {
         return;
       }
       toast.success(response.message);
-      setUserInfo(response.data);
+      setUserInfo(response.userdata);
       fetchUserInfo();
     } else {
       //user registration method
