@@ -8,7 +8,7 @@ import AppError from "../Utilities/AppError.js";
 import { generateToken } from "../Utilities/jsonToken.js";
 
 //cookie option
-const isProduction = process.env.NODE_ENV || 'production' === "production";
+const isProduction = process.env.NODE_ENV === "production";
 const FrontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
 const cookieOptions = {
   httpOnly: true,
