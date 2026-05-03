@@ -2,14 +2,14 @@ import {
   userRegisterService,
   userLoginService,
   completeProfileService,
-  updateProfileService
+  updateProfileService,
 } from "../Services/userAuth.service.js";
 import AppError from "../Utilities/AppError.js";
 import { generateToken } from "../Utilities/jsonToken.js";
 
 //cookie option
 const isProduction = process.env.NODE_ENV === "production";
-const FrontendUrl=process.env.FRONTENDURL
+const FrontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
 const cookieOptions = {
   httpOnly: true,
   secure: isProduction,
@@ -30,30 +30,29 @@ const userRegistration = async (req, res, next) => {
       });
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     next(error);
   }
 };
 
 //user login controller
 const userLogin = async (req, res, next) => {
-
   const { email, password } = req.body;
   if (!email || !password) {
     return next(new AppError("Please fill both field", 400));
   }
   try {
-    const {token,details} = await userLoginService(email, password);
+    const { token, details } = await userLoginService(email, password);
     res.cookie("token", token, {
       ...cookieOptions,
       maxAge: 24 * 60 * 60 * 1000,
     });
     return res
       .status(200)
-      .json({ message: "sucessfully Login",userdata:details, success: true });
+      .json({ message: "sucessfully Login", userdata: details, success: true });
   } catch (error) {
     next(error);
-    console.log(error)
+    console.log(error);
   }
 };
 
@@ -70,10 +69,16 @@ const googleAuthController = async (req, res, next) => {
       ...cookieOptions,
       maxAge: 24 * 60 * 60 * 1000,
     });
-    if(!user.profilecomplete){
-     return  res.redirect(`${FrontendUrl}/complete-profile`)
+    if (!user.profilecomplete) {
+      return res.redirect(
+        `${
+          process.env.FRONTEND_URL || "http://localhost:5173"
+        }/complete-profile`
+      );
     }
-    return res.redirect(`${FrontendUrl}/vendor`)
+    return res.redirect(
+      `${process.env.FRONTEND_URL || "http://localhost:5173"}/vendor`
+    );
   } catch (error) {
     next(error);
   }
@@ -82,48 +87,48 @@ const googleAuthController = async (req, res, next) => {
 //complete profile after authentication
 const completeProfileController = async (req, res, next) => {
   try {
-   const updatedUser = await completeProfileService(req.body,req.user);
-    if(updatedUser.role==='vendor'){
+    const updatedUser = await completeProfileService(req.body, req.user);
+    if (updatedUser.role === "vendor") {
       const token = generateToken(updatedUser);
-    //console.log(token)
-    res.cookie("token", token, {
-      ...cookieOptions,
-      maxAge: 24 * 60 * 60 * 1000,
-    });
+      //console.log(token)
+      res.cookie("token", token, {
+        ...cookieOptions,
+        maxAge: 24 * 60 * 60 * 1000,
+      });
     }
-    return res.status(200).json({success:true,data:updatedUser})
+    return res.status(200).json({ success: true, data: updatedUser });
   } catch (error) {
     next(error);
   }
 };
 
 //logout controller
-const logoutController=(_,res)=>{
-res.clearCookie('token',cookieOptions)
-return res.status(200).json({
-message:'sucessfully logout',
-success:true
-})
-}
+const logoutController = (_, res) => {
+  res.clearCookie("token", cookieOptions);
+  return res.status(200).json({
+    message: "sucessfully logout",
+    success: true,
+  });
+};
 
 //update profile controller
-const updateProfileController=async(req,res,next)=>{
-try {
-  const user=await updateProfileService(req.body,req.user);
-  return res.status(201).json({
-  success:true,
-  message:'profile updated',
-  user:user
-  })
-} catch (error) {
-   next(error)
-}
-}
+const updateProfileController = async (req, res, next) => {
+  try {
+    const user = await updateProfileService(req.body, req.user);
+    return res.status(201).json({
+      success: true,
+      message: "profile updated",
+      user: user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 export {
   userRegistration,
   userLogin,
   googleAuthController,
   completeProfileController,
   logoutController,
-  updateProfileController
+  updateProfileController,
 };
