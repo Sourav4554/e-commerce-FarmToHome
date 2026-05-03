@@ -12,6 +12,7 @@ import orderRouter from './Routes/order.router.js'
 import reviewRouter from './Routes/review.router.js'
 const app=express()
 
+app.set('trust proxy',1)
 //json middleware
 app.use(express.json())
 //cookie parser middlewaer
