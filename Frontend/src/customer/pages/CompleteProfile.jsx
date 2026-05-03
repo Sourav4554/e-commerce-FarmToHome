@@ -43,7 +43,6 @@ const CompleteProfile = () => {
     }
     if (response?.profile?.role?.includes("customer") && response.success) {
       setUserInfo(response.profile)
-
       navigate("/");
       return;
     } else if (response?.profile?.role?.includes("vendor") && response.success) {
