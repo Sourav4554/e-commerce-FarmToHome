@@ -19,7 +19,11 @@ const useLogin = () => {
         setError(data.message);
         return { success: data.success, message: data.message };
       }
-      return data;
+      return {
+      success:data.success,
+      userdata:data.userdata,
+      message:data.message
+      };
     } catch (err) {
       const message =
         err?.response?.data?.message || "Something went wrong,try again later";
@@ -37,10 +41,12 @@ const useLogin = () => {
       setLoading(true);
       setError(null);
       const { data } = await registration(formdata);
+     
       if (!data.success) {
         setError(data.message);
         return { success: data.success, message: data.message };
       }
+    
       return data;
     } catch (err) {
       const message =
