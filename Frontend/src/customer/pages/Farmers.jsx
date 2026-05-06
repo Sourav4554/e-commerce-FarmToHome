@@ -23,24 +23,30 @@ const Farmers = () => {
     filteredData.search;
   //method for fetch paginated farmers
   const fetchPaginatedFarmers = async (page) => {
+    setLoading(true)
     const response = await fetchFarmers(page);
     if (!response.success) {
       console.log(response.message);
+      setLoading(false)
       return;
     }
     setTotalPages(response.totalPages);
     setPage(response.page);
     setVendors(response.farmers);
+    setLoading(true)
   };
 
   //method for fetch filtered farmers
   const fetchFilteredFarmers = async (filteredData) => {
+    setLoading(true)
     const response = await filterFarmers(filteredData);
     if (!response.success) {
       console.log(response.message);
       setVendors([]);
+      setLoading(false)
       return;
     }
+    setLoading(false)
     setVendors(response.farmers);
   };
   useEffect(() => {
