@@ -37,7 +37,7 @@ const VendorCard = ({
     hover:shadow-[0_0_20px_rgba(0,0,0,0.15)] transition duration-300"
     >
       {/* Image */}
-      <div className="w-full h-48 sm:w-40 sm:h-auto shrink-0">
+      <div className="w-full h-48 sm:w-40  shrink-0">
         <img
           className="w-full h-full object-cover"
           src={image || noProfileLogo}

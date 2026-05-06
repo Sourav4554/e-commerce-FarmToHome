@@ -7,6 +7,7 @@ import LoaderButton from "../../components/LoaderButton";
 import toast from "react-hot-toast";
 import { Navigate, useNavigate } from "react-router-dom";
 const CompleteProfile = () => {
+  const [btnLoad,setBtnLoad]=useState(false)
   const { userInfo, loading ,setUserInfo} = useContext(AuthContextProvide);
   const { completeProfile } = useLogin();
   const navigate = useNavigate();
@@ -36,11 +37,14 @@ const CompleteProfile = () => {
   //method for handling form submission
   const submitHandler = async (e) => {
     e.preventDefault();
+    setBtnLoad(true)
     const response = await completeProfile(formData);
     if (!response.success) {
       toast.error(response?.message);
+      setBtnLoad(false)
       return;
     }
+    setBtnLoad(false)
     if (response?.profile?.role?.includes("customer") && response.success) {
       setUserInfo(response.profile)
       navigate("/");
@@ -176,7 +180,7 @@ const CompleteProfile = () => {
                 type="submit"
                 className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-300"
               >
-                Profile Completed
+                {btnLoad?'Submitting...':'Submit Profile'}
               </button>
             ) : (
               <LoaderButton />

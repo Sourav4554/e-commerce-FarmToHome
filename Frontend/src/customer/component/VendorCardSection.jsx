@@ -71,9 +71,11 @@ const VendorCardSection = () => {
           Array.from({ length: 4 }).map((_, index) => (
             <VendorCardSkeleton key={index} />
           ))
-        ) : (
+        ) :!userInfo? (
           <NoVendor />
-        )}
+        ):(
+           <h1>No Vendors Near you</h1>
+          )}
 
         {/* <VendorCard />
         <VendorCard />

@@ -45,6 +45,9 @@ export const filterService = async (query) => {
 export const fetchvendorFiltersService = async () => {
   const result = await usermodel.aggregate([
     {
+      $match: { role: "vendor" }  
+    },
+    {
       $group: {
         _id: null,
         district: { $addToSet: "$district" },

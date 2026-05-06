@@ -160,7 +160,7 @@ export default function UpdateProfile() {
             <div className="bg-gray-50 border rounded-lg px-3.5 py-2.5">
               <label className="text-[11px]">Phone</label>
               <input
-                type="text"
+                type="tel"
                 name="phone"
                 value={updatedData.phone}
                 onChange={handleData}
@@ -174,7 +174,7 @@ export default function UpdateProfile() {
             <div className="bg-gray-50 border rounded-lg px-3.5 py-2.5">
               <label className="text-[11px]">WhatsApp</label>
               <input
-                type="text"
+                type="tel"
                 name="whatsapp"
                 value={updatedData.whatsapp}
                 onChange={handleData}
