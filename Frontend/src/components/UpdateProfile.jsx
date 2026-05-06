@@ -76,7 +76,12 @@ export default function UpdateProfile() {
       }
       setUserInfo(response.user)
       toast.success(response.message)
-      navigate('/profile')
+      if(response.user?.role==='customer'){
+        navigate('/profile')
+      }else{
+        navigate('/vendor/profile')
+      }
+      
     
   };
 

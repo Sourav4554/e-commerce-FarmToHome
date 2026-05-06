@@ -8,11 +8,13 @@ import { ProductContextProvide } from "../../context/ProductContext";
 const ListProduct = () => {
   const navigate = useNavigate();
  
-  const {storeProducts}=useContext(ProductContextProvide)
+  const {storeProducts,fetchProducts}=useContext(ProductContextProvide)
   const [showPopup, setShowPoPUp] = useState(false);
   const { fetchVendorProducts, loading } = productCustomHook();
 
- 
+ useEffect(()=>{
+  fetchProducts()
+ },[])
 
   if (loading) {
     return <Loader />;
