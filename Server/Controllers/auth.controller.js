@@ -15,7 +15,7 @@ const cookieOptions = {
   secure: isProduction,
   sameSite: isProduction ? "none" : "lax",
   priority: "high",
-  partitioned:isProduction,
+  // partitioned:isProduction,
   path: "/",
 };
 
