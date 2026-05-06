@@ -33,7 +33,7 @@ const Farmers = () => {
     setTotalPages(response.totalPages);
     setPage(response.page);
     setVendors(response.farmers);
-    setLoading(true)
+    setLoading(false)
   };
 
   //method for fetch filtered farmers
