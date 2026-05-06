@@ -6,6 +6,7 @@ import { AuthContextProvide } from '../../context/AuthContext'
 import Loader from '../../components/Loader'
 
 const Home = () => {
+  console.log("API URL:", import.meta.env.VITE_API_URL);
   //const {loading}=useContext(AuthContextProvide)
   // if(loading){
   //   return <Loader/>
