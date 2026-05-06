@@ -64,6 +64,7 @@ const VendorNavbar = () => {
         {navItems.map((item) => (
           <NavLink
             key={item.id}
+            onClick={handleNav}
             to={item.path}
             className={({ isActive }) =>
               `p-4 duration-300 hover:text-primary cursor-pointer block ${
