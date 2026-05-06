@@ -8,7 +8,6 @@ const Products = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [expandedId, setExpandedId] = useState(null);
-  const [deleteTarget, setDeleteTarget] = useState(null);
   const { fetchAdminProducts,loading } = useAdmin();
 
   //fetch products details
@@ -45,7 +44,7 @@ const Products = () => {
 
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen z-0">
       {/* ── Top Nav Bar ── */}
       <header className="   px-6 py-4 flex items-center justify-between flex-wrap gap-3 sticky top-0 z-40">
         <div>
